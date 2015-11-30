@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        link(rel="stylesheet" href="/css/userGlobal.css")
+        link(href='https://fonts.googleapis.com/css?family=Open Sans:400,100,300' rel='stylesheet')
+
+        link(href='https://fonts.googleapis.com/css?family=Raleway:400,300,100',rel='stylesheet')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+        script(src='/js/global.js')
+        title="Schedular.io | Reset Password"
+    body
+        div(id="loginContainer")
+            img(style="display:none;" src="/images/loginAjax.gif")
+            div(class="u-largeLogoContainer")
+                span(class="u-largeLogoText") Reset 
+                img(class="u-largeLogoImage" src="/images/mainLogo.png") 
+            div(id="notificationContainer")
+            input(class="u-signInput" id="u-student" placeholder="Your Student Number")
+            br
+            a(class="u-forgotLink" href="/u/login") Login
+            br
+            a(class="u-forgotLink" href="/u/signup") Signup
+            br
+            br
+            input(class="u-signInput" id="u-signSubmit" value="Reset My Password" type="submit")
+            
+    script(src='/js/user/forgot.js')
+        

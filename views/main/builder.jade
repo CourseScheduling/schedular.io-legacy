@@ -1,0 +1,26 @@
+extends ../MainTemplate
+
+block headContent
+    link(rel="stylesheet",href="/css/builder.main.css")
+    title="Schedule Builder"
+
+block bodyContent
+    div(id="crnBar-wrap")
+        ul( id="crnBar")
+            li
+                span(style="padding:4px;float:left;") CRNs: 
+                span(style="border:1px solid #DDD;padding:4px;float:right;cursor:pointer;box-sizing:border-box;margin-left:10px;") Add +
+            br
+            br
+    p(style="font-family:Raleway;font-size:20px;text-align:center;font-weight:300;margin-top:80px;") Your Schedule
+    div(class="b-scheduleWrap" data-crn="" style="float:left;margin-left:-350px;position:absolute;top:123px;left:50%;")
+        div(class="b-dayLabelWrap")
+            each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+                div(class="b-dayLabel")=day
+        br
+        div(class="b-timeLabelWrap")
+            each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
+                div(class="b-timeLabel" style="top:"+((index*40)-1)+'px')=time
+
+        div(class="b-timeBlockWrap")
+    script(src="/js/builder.main.js")

@@ -1,0 +1,97 @@
+extends ../MainTemplate
+
+block headContent
+    script.
+        var RAW_COURSE_DATA = !{JSON.stringify(courseData)}
+    link(rel="stylesheet",href="/css/show.main.css")
+    title="Possible Schedules"
+block bodyContent
+    //Gear 
+    div#main-loadingGear(style="height:100px;width:100px;background:url(/images/gears.gif) center center no-repeat;background-size:100px 100px;z-index:100000;position:absolute;top:50%;margin-top:-50px;left:50%;margin-left:-50px;padding:40px;")
+        p(style="position:absolute;bottom:0px;left:0px;font-family:Open Sans;font-size:12px;font-weight:100;text-align:center;width:100%;") This may take some time...
+    // tool tip styling
+    div#t-toolTipWrap(style="display:none;")
+        div#t-toolTipImage
+        div#t-toolTipCourseInfo
+            div#t-toolTipCourseName 
+                | CHEM 114
+                label(style="float:right") CH4
+            br
+            div.t-toolTipText#t-toolTipCRN(style="font-weight:600;") CRN: 128398
+            div.t-toolTipText#t-toolTipRating(style="font-weight:400;") Rating: 4.4
+            div.t-toolTipText#t-toolTipInstructor Peter Mulhern
+        div#t-toolTipTimes.t-toolTipText(style="margin-top:10px;margin-left:10px;position:relative;left:0px;")
+        br(clear="all")
+    
+    //  Controls for filtering
+    div#c-controlBlock
+        // Control Course Filter
+        
+        div(id="sort-dropDownContainer")
+            div(id="sort-dropDownButton" class="sort-dropDown-active") Sort By 
+                label(style="font-weight:100") | 
+                label(style="font-weight:300;") Starting Time
+            div(id="sort-dropDownList")
+                div(class="sort-dropDownItem" data-value="Teacher Rating") Teacher Rating
+                div(class="sort-dropDownItem sort-dropDownItem-active" data-value="Starting Time") Starting Time
+        //Control Course Start Time
+        div(id="timeSort-wrap")
+            div(id="timeSort-upper")
+            div(id="timeSort-lower")
+                div(class="timeSort-ball" data-value="Mornings")
+                div(class="timeSort-connector")
+                div(class="timeSort-ball" data-value="Noon")
+                div(class="timeSort-connector")
+                div(class="timeSort-ball" data-value="Evenings")
+                
+        //Filter by Campus
+        table(id="campusList" style="float:right")
+            tr
+                td(class="campusFilter-box") Abby
+                td(class="campusFilter-box") Chilliwack
+                td(class="campusFilter-box") Hope
+                td(class="campusFilter-box") Clearbrook
+                td(class="campusFilter-box") Mission
+                td(class="campusFilter-box") Online
+            tr
+                td(class="campusFilter-box")
+                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
+                td(class="campusFilter-box")
+                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
+                td(class="campusFilter-box") 
+                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
+                td(class="campusFilter-box")
+                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
+                td(class="campusFilter-box")
+                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
+                td(class="campusFilter-box") 
+                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
+                    
+                    
+    //  Main part
+    div#main-scheduleContainer
+    div#yo
+    //Okay, if you're reading this HTML looking for hacks or something I suggest you look at the file below.
+    script(src='/js/show.main.js')
+    //Yea, I'm talking about ^ that file. It contains all the scripts for the page you see in front of you.
+    
+    //--Templates--
+    div(class="possibleContainer" id="scheduleWrapTemplate" )
+        //This below is the template for ratings
+        div(class="r-ratingWrap")
+            div(class="r-averageRatingTitle") Average Rating:
+            div(class="r-ratingContainer")
+            button(data-crn="11257" class="s-useMeButton" title="Use This Schedule") Use This Schedule
+
+        //This is the template for the actual schedule
+        div(class="s-scheduleWrap" data-crn="")
+            div(class="s-dayLabelWrap")
+                each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+                    div(class="s-dayLabel")=day
+            br
+            div(class="s-timeLabelWrap")
+                each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
+                    div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
+
+            div(class="s-timeBlockWrap")
+        

@@ -1,0 +1,53 @@
+doctype html
+html
+    head
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+        script(src="https://cdn.socket.io/socket.io-1.3.7.js")
+        script(src="/js/global.js")
+        script.
+              var socket = io('http://localhost:8080');
+              socket.on('news', function (data) {
+                console.log(data);
+                socket.emit('my other event', { my: 'data' });
+              });
+        link(href='https://fonts.googleapis.com/css?family=Open Sans:600,400,100,300' rel='stylesheet')
+        link(href='https://fonts.googleapis.com/css?family=Raleway:400,300,100',rel='stylesheet')
+        link(href='/css/templateCSS.css' rel='stylesheet')
+        block headContent
+    body     
+    
+        nav#navbar
+            #innerNavbar
+                a(href="/")
+                    #logoWrap
+                        #logo
+                        span(style="height:50px;line-height:50px;font-size:14px;font-family:Open Sans;font-weight:300;color:#444;") Schedular
+                #accountWrap
+                    div#accountName=((firstname+lastname).length===0?student:(firstname+' '+lastname))
+                    #menuDrop
+                            
+                #menuContainer
+                    #menuNub
+                    ul#menuItems-list
+                        //
+                            a(href="/create" title="Create Timetable")
+                                li.menuItems-listItem.clearfix
+                                    img(src="/images/calendarPlus.png" height="30px" style="display:inline;float:left;")   
+                                    span(style="display:inline;padding:5px;margin-left:10px;float:right;") Create Timetable
+                            a(href="/manage" title="Manage Timetable")
+                                li.menuItems-listItem.clearfix
+                                    img(src="/images/calendarWork.png" height="30px" style="display:inline;float:left;")
+                                    span(style="display:inline;padding:5px;margin-left:10px;float:right;") Manage Timetable
+                            a(href="/directory" title="Course Directory")
+                                li.menuItems-listItem.clearfix
+                                    img(src="/images/directory.png" height="30px" style="display:inline;float:left;")
+                                    span(style="display:inline;padding:5px;margin-left:10px;float:right;") Course Directory
+                            a(href="/info" title="My Info")
+                                li.menuItems-listItem(style="padding-left:20px;") My Info
+                        a(href="/u/logout" title="Logout")
+                            li.menuItems-listItem(style="padding-left:20px;") Logout
+        script.
+            
+            navbarMenu.init();
+            
+        block bodyContent

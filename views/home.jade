@@ -1,0 +1,40 @@
+doctype html
+html
+    head
+        script(src="/js/global.js")
+        script(src="/js/home.js")
+        link(rel="stylesheet" href="/css/home.css")
+        link(href='https://fonts.googleapis.com/css?family=Raleway:400,100,300' rel='stylesheet')
+        link(href='https://fonts.googleapis.com/css?family=Open Sans:400,100,300' rel='stylesheet')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+        title="Schedular.io"
+    body
+        div(style="min-width:1000px;position:absolute;top:0px;left:50%;margin-left:-500px;margin-top:20px;font-family:Open Sans;font-size:12px;")
+            a(href="/contact")
+                div(href="/contact" id="contactButton" style="color:#000;float:left;font-family:Open Sans;font-weight:300;font-size:12px;margin-top:25px;cursor:pointer;") Contact
+            div(href="/u/login" id="loginMain")
+                div(style="font-family:Open Sans;font-size:12px;font-weight:300;")
+                a(href="/u/login")
+                    span(class="subTitle" style="float:right;padding:10px;border:1px solid #999;margin-top:20px;") Login
+        div(id="mainContainer" )
+            p(class="mainTitle")
+                img(src="/images/mainLogo.png" style="float:left;margin-top:5px;" height="50px")
+                |Schedular.
+            p(class="subTitle") a clean, easy to use, course registration platform
+            a(href="/u/signup")
+                button(id="callToAction") Sign Me Up!
+        a(href="http://www.facebook.com/schedular")
+            div(style="font-family:Open Sans;color:#9b59b6;font-weight:600;font-size:12px;position:absolute;bottom:0px;left:0px;text-align:center;width:100%;margin-bottom:10px;cursor:pointer") Like us on Facebook!
+    script.
+        var mainContent =   document.getElementById('mainContainer');
+        
+        function centerAlign(e){
+            e.style.display='block';
+            e.style.top=(window.innerHeight-e.offsetHeight)/2+'px';
+            e.style.left=(window.innerWidth-e.offsetWidth)/2+'px';
+        }
+        
+        
+        window.onresize = function() {centerAlign(mainContent);}
+        window.onload   = function() {centerAlign(mainContent);}
+        

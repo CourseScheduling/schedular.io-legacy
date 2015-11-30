@@ -1,0 +1,144 @@
+<html>
+    <head>
+        
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js'></script>
+        <style>
+            #sort-dropDownContainer{
+                display:inline-block;
+            }
+                #sort-dropDownButton{
+                    font-family:Open Sans;
+                    font-weight:400;
+                    font-size:12px;
+                    border:1px solid #999;
+                    display:inline-block;
+                    padding:5px;
+                    width:150px;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    padding-left: 30px;
+                    background:url(../images/downArrow.png) center left 5px no-repeat;
+                    background-size:20px;
+                    cursor: pointer;
+                    -webkit-user-select: none; /* Chrome/Safari */        
+                    -moz-user-select: none; /* Firefox */
+                    -ms-user-select: none; /* IE10+ */
+
+                    /* Rules below not implemented in browsers yet */
+                    -o-user-select: none;
+                    user-select: none;
+                }
+                #sort-dropDownButton *{
+                    cursor: pointer;
+                }
+                #sort-dropDownList{
+                    width:183;
+                    border:1px solid #999;
+                    border-top:0;
+                    margin-left:1px;
+                        display: none;
+                }
+                    .sort-dropDownItem{
+                        font-family:Open Sans;
+                        font-size:12px;
+                        font-weight:400;
+                        padding:7px;
+                        transition:background-color .1s;
+                        border-top:1px solid #DDD;
+                    }
+                    .sort-dropDownItem:hover{
+                        background-color:#C39DD2;
+                        transition:background-color .1s;
+                        cursor: pointer;
+                        color:#FFF;
+                        font-weight:400;
+                        
+                    }
+                        .sort-dropDownItem-active{
+                            display: none;
+                        }
+        </style>
+    </head>
+    <body>
+        <div id="sort-dropDownContainer">
+            <div id="sort-dropDownButton" class="sort-dropDown-active">Sort By 
+                <label style="font-weight:100">|</label>
+                <label style="font-weight:300;  "> Starting Time
+                    
+                </label>
+            </div>
+            <div id="sort-dropDownList">
+                <div class="sort-dropDownItem" data-value="Teacher Rating" >Teacher Rating</div>
+                <div class="sort-dropDownItem sort-dropDownItem-active" data-value="Starting Time">Starting Time</div>
+            </div>
+        </div>
+        <script>
+
+    
+            CORE    =   {
+                view:{
+                    controlPanel:{
+                        sortDrop:{
+                            down:false
+                        }
+                    }
+                }
+            }
+            
+            
+            
+            CORE.view.controlPanel.sortDrop   =   (function(CORE){
+                var dropDown    =   document.getElementById('sort-dropDownList');
+                var dropDownButton  =   document.getElementById('sort-dropDownButton');
+                document.addEventListener('click',function(e){
+                    if(CORE.view.controlPanel.sortDrop.down&&!e.target.classList.contains('sort-dropDownItem'))
+                        CORE.view.controlPanel.sortDrop.move.up();
+                    else if(e.target.classList.contains('sort-dropDownItem')){
+                        document.querySelectorAll('[data-value="'+CORE.view.controlPanel.sortDrop.currentValue+'"]')[0].style.display='block';
+                        e.target.style.display  =   'none';
+                        CORE.view.controlPanel.sortDrop.move.up();
+                        CORE.view.controlPanel.sortDrop.setWords(e.target.getAttribute('data-value'));
+                        
+                    }else
+                        return;
+                });
+                dropDownButton.addEventListener('click',function(e){
+                    e.stopPropagation();
+                    var down    =   CORE.view.controlPanel.sortDrop.down;
+                    if(down){
+                        dropDownButton.style.backgroundImage  =   '';
+                        CORE.view.controlPanel.sortDrop.down  =   false;
+                        Velocity(dropDown,'slideUp',100);
+                    }else{
+                        dropDownButton.style.backgroundImage  =   'url(../images/upArrow.png)';
+                        CORE.view.controlPanel.sortDrop.down  =   true;
+                        Velocity(dropDown,'slideDown',100);
+                    }
+                });
+                return {
+                    setWords:function(words){
+                        dropDownButton.innerHTML    =   'Sort By <label style="font-weight:100">|</label><label style="font-weight:300;"> '+words+'</label>';
+                        CORE.view.controlPanel.sortDrop.currentValue=words;
+                    },
+                    down:false,
+                    currentValue:"Starting Time",
+                    move:{
+                        down:function(){
+                            dropDownButton.style.backgroundImage  =   'url(../images/upArrow.png)';
+                            CORE.view.controlPanel.sortDrop.down  =   true;
+                            Velocity(dropDown,'slideDown',100);
+                        },
+                        up:function(){
+                            dropDownButton.style.backgroundImage  =   '';
+                            CORE.view.controlPanel.sortDrop.down  =   false;
+                            Velocity(dropDown,'slideUp',100);
+                        }
+                    }
+                }
+            })(CORE);
+
+
+
+        </script>
+    </body>
+</html>

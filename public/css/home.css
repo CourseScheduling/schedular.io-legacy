@@ -1,0 +1,49 @@
+.mainTitle{
+    font-size:50px;
+    font-family:Raleway;
+    font-weight:100;
+    color:#444;
+    text-align: center;
+    margin-top:0;
+    padding-top: 0;
+    line-height:60px;
+}
+    .subTitle{
+        font-size:14px;
+        font-family:Open Sans;
+        font-weight:100;
+        color:#444;
+        text-align: center;
+    }
+
+#callToAction{
+    padding:15px;
+    border:3px solid rgba(255,255,255,0.1);
+    color:#FFF;
+    font-size:14px;
+    font-family:Open Sans;
+    width:150px;
+    background:#3498db;
+    margin-top:50px;
+    font-weight:300;
+    border-radius:2px;
+    cursor:pointer;
+    position:relative;
+    left:50%;
+    margin-left:-75px;
+}
+    #callToAction:hover{
+        border-color:transparent;
+    }
+    #callToAction:active{
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.2) inset; 
+    }
+
+    #mainContainer{
+        position:absolute;
+        display:none;
+    }
+
+#loginMain{
+    cursor: pointer;
+}

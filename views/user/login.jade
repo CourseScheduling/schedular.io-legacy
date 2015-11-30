@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        link(rel="stylesheet" href="/css/userGlobal.css")
+        link(href='https://fonts.googleapis.com/css?family=Open Sans:400,100,300' rel='stylesheet')
+
+        link(href='https://fonts.googleapis.com/css?family=Raleway:400,300,100',rel='stylesheet')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+        script(src='/js/global.js')
+        title="Schedular.io | Login"
+    body
+        div(id="loginContainer")
+            img(style="display:none;" src="/images/loginAjax.gif")
+            div(class="u-largeLogoContainer")
+                span(class="u-largeLogoText") Login 
+                img(class="u-largeLogoImage" src="/images/mainLogo.png") 
+            div(id="notificationContainer")
+            input(class="u-signInput" id="u-username" placeholder="Username")
+            br
+            input(class="u-signInput" id="u-password" placeholder="Password" type="password")
+            br
+            a(class="u-forgotLink" href="/u/forgot") Forgot Your Password?
+            br
+            a(class="u-forgotLink" href="/u/signup") No Account?
+            br
+            br
+            br
+            input(class="u-signInput" id="u-signSubmit" value="Login" type="submit")
+            
+    script(src='/js/user/login.js')
+        

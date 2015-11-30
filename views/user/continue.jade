@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        script(src="/js/global.js")
+        script(src="/js/home.js")
+        link(rel="stylesheet" href="/css/home.css")
+        link(href='https://fonts.googleapis.com/css?family=Raleway:400,100,300' rel='stylesheet')
+        link(href='https://fonts.googleapis.com/css?family=Open Sans:400,100,300' rel='stylesheet')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+        title="Schedular.io"
+    body
+        div(style="font-size:40px;font-weight:100;text-align:center;font-family:Raleway;margin-top:100px;") Cool! your account has been activated.
+        div(style="font-size:20px;font-weight:100;text-align:center;font-family:Raleway;margin-top:30px;") You will be redirected shortly.
+        script.
+            setTimeout(function(){
+                document.location   =   '/';
+            },2000);
