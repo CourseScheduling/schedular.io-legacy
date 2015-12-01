@@ -12,7 +12,7 @@
     "express": "~4.13.1",
     "express-session": "^1.12.1",
     "jade": "~1.11.0",
-    "memjs": "^0.8.7",
+    "memcached": "^2.2.1",
     "morgan": "~1.6.1",
     "mysql": "^2.9.0",
     "nodalytics": "^1.1.0",

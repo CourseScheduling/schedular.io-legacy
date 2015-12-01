@@ -7,11 +7,10 @@
 var app = require('../app');
 var debug = require('debug')('www:server');
 var http = require('http');
-var memjs   =   require('memjs');
-
+var mem = require('memcached');
 //var mem =   new memcached('schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211');
 
-var mc = memjs.Client.create('10.0.2.15:11211');    
+var memcached=new mem('127.0.0.1:11211');
 
 /**
  * Get port from environment and store in Express.
@@ -25,10 +24,11 @@ app.set('port', port);
 *   
 */
 console.log('Starting the Memcache Sync...');
-mc.get('foo', function (err, value, key) {
-    if (value != null) {
-        console.log(value.toString());
-    }
+memcached.set('foo','bar',1000,function(er){
+if(er) throw er;
+});
+memcached.get('foo',function(err,data){
+console.log(data);
 });
 global.socketStore  =   {};
 
