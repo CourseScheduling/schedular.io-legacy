@@ -9,7 +9,7 @@ var SignupMod   =   {
         var username   =   _this.usernameInput.value,
             password   =   _this.passwordInput.value,
             studentNumber   =   _this.studentNumberInput.value,
-            accountType =   accountType.getValue();
+            accountType =   AccountType.getValue();
         
         return {
             u   :   username,
@@ -94,10 +94,10 @@ var NotificationMod =   {
     }
 }
 
-var accountType =   {
+var AccountType =   {
     active:document.getElementsByClassName('aT-selectionCircle')[0],
     getValue:function(){
-        return accountType.active.getAttribute('data-accountType');
+        return AccountType.active.getAttribute('data-accountType');
     },
     onClick:function(e){
         var currentActive=document.getElementById('active-aT-selectionCircle');
@@ -108,11 +108,11 @@ var accountType =   {
         currentActive.id='';
         //Make clicked element active
         e.target.id='active-aT-selectionCircle';
-        accountType.active   =   e.target;
+        AccountType.active   =   e.target;
 
     }
 };
 //Go through all the selection possibilities and add a click listener
 [].forEach.call(document.getElementsByClassName('aT-selectionCircle'),function(v,i,a){
-    v.addEventListener('click',accountType.onClick);
+    v.addEventListener('click',AccountType.onClick);
 });
