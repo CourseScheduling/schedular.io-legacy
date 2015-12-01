@@ -208,10 +208,6 @@ CORE.schedule   =   (function(CORE){
 })(CORE);
 
 var josephisAwesome=true;
-//YEs!s
-
-
-
 
 
 (function main(){
