@@ -19,10 +19,10 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /*
-*   Create a socket object to store socket io
-*   Also, make the memcached server
+* Start the socket thing and memcached stuff
 */
 
+liveCrn.init();
 
 /**
  * Create HTTP server.
