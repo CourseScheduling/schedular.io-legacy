@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('www:server');
 var http = require('http');
-var mem = require('memcached');
 //var mem =   new memcached('schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211');
 
 var memcached=new mem('127.0.0.1:11211');
@@ -21,18 +20,8 @@ app.set('port', port);
 
 /*
 *   Create a socket object to store socket io
-*   
+*   Also, make the memcached server
 */
-console.log('Starting the Memcache Sync...');
-memcached.set('foo','something',1000,function(er){
-    if(er) throw er;
-});
-memcached.get('foo',function(err,data){
-    console.log(data);
-});
-global.socketStore  =   {};
-
-
 
 
 /**
