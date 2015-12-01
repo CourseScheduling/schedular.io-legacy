@@ -207,6 +207,8 @@ CORE.schedule   =   (function(CORE){
     };
 })(CORE);
 
+var josephisAwesome=true;
+
 
 
 

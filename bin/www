@@ -24,7 +24,7 @@ app.set('port', port);
 *   
 */
 console.log('Starting the Memcache Sync...');
-memcached.set('foo','bar',1000,function(er){
+memcached.set('foo','something',1000,function(er){
     if(er) throw er;
 });
 memcached.get('foo',function(err,data){
