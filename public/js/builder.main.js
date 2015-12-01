@@ -25,7 +25,7 @@ CORE.main.fetch =   (function(CORE){
     return function(CRNarray){
         console.log('f');
         CORE.ajax.get({
-            url:'/s/fetch?crns='+JSON.stringify(CRNarray),
+            url:'/s/fetch?crns='+JSON.stringify(CRNarray).map(Number),
             done:function(data){
             
             }
