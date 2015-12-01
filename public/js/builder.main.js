@@ -23,7 +23,7 @@ CORE    =   {
 CORE.main.fetch =   (function(CORE){
         //Fetches the data that is needed
     return function(CRNarray){
-        
+        console.log('f');
         CORE.ajax.get({
             url:'/s/fetch?crns='+JSON.stringify(CRNarray),
             done:function(data){
@@ -31,7 +31,7 @@ CORE.main.fetch =   (function(CORE){
             }
         });
     };
-});
+})(CORE);
 
 CORE.main.parse =   (function(CORE){
     return {
