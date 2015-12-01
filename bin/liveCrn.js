@@ -7,7 +7,8 @@ var CRNPrefix   =   "crn_";
 
 var app =   {
     timeOut:{},
-    start:{}
+    init:{},
+    pushSockets:{}
 };
 
 app.init   =   function(){
@@ -37,9 +38,16 @@ app.timeOut =   function(){
             for(var crn in data){
                 global.fillData[crn.substr(CRNPrefix.length)]   =   data[crn];
             }
+            app.pushSockets();
         });
     });
+    setTimeout(app.timeOut,60000);
 }
+
+app.pushSockets =   function(){
+
+
+};
 
 
 
