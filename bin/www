@@ -25,6 +25,7 @@ app.set('port', port);
 *   
 */
 console.log('Starting the Memcache Sync...');
+mc.set('foo','bar'
 mc.get('foo', function (err, value, key) {
     if (value != null) {
         console.log(value.toString());
