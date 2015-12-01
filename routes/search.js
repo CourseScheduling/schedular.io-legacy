@@ -98,7 +98,7 @@ router.get('/fetch',function(req,res){
     }
     //Check if every crn is 5 digits long and only contains numbers
     if(!crns.every(function(v){
-        return (v.match(/[^\d]/g)==null&&v.length==5)
+        return (!isNaN(v)&&v.toString().length==5)
     })){
         res.setHeader('FOR-HACKERS','Nice try, you\'re just a script-kiddie. Or, you just entered something wrong, whoops.');
         res.send('[]');
