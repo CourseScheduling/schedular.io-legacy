@@ -41,7 +41,7 @@ var ValidateMod   =   {
         
     good:function(username,password,student,cb){
         var _this   =   this;
-        if(username.match(/[^a-zA-Z\d\s_-]/g)!==null)
+        if(username.match(/[^a-zA-Z\d_-]/g)!==null)
             return cb&&cb(false,'INVALID_USERNAME');
         if(username.length>40)
             return cb&&cb(false,'LONG_USERNAME');

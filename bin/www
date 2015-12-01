@@ -24,19 +24,11 @@ app.set('port', port);
 *   
 */
 console.log('Starting the Memcache Sync...');
-<<<<<<< HEAD
-mc.set('foo','bar'
-mc.get('foo', function (err, value, key) {
-    if (value != null) {
-        console.log(value.toString());
-    }
-=======
 memcached.set('foo','bar',1000,function(er){
-if(er) throw er;
+    if(er) throw er;
 });
 memcached.get('foo',function(err,data){
-console.log(data);
->>>>>>> 07393e45a0d3bacef5f151adf449634f87119c68
+    console.log(data);
 });
 global.socketStore  =   {};
 
