@@ -7,9 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('www:server');
 var http = require('http');
-//var mem =   new memcached('schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211');
 
-var memcached=new mem('127.0.0.1:11211');
+//The live crn module
+var liveCrn =   require('liveCrn');
 
 /**
  * Get port from environment and store in Express.
