@@ -15,6 +15,7 @@
     "memjs": "^0.8.7",
     "morgan": "~1.6.1",
     "mysql": "^2.9.0",
+    "nodalytics": "^1.1.0",
     "node-ses": "^1.1.0",
     "serve-favicon": "~2.3.0"
   }
