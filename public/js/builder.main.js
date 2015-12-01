@@ -22,12 +22,18 @@ CORE    =   {
 
 CORE.main.fetch =   (function(CORE){
         //Fetches the data that is needed
-    return function(CRNarray){
+    return function(CRNarray,cb){
         console.log('f');
         CORE.ajax.get({
             url:'/s/fetch?crns='+JSON.stringify(CRNarray.map(Number)),
             done:function(data){
-            
+                //put this data as the "raw data"
+                localStorage["RAW_COURSE_DATA"]=JSON.stringify(data);
+                CORE.raw_data=localStorage["RAW_COURSE_DATA"];
+                //make this the new localstorage stuff
+                localStorage["currentSchedule"] =   CRNarray.map(Number).join('.');
+                
+                cb&&cb();
             }
         });
     };
@@ -209,6 +215,7 @@ CORE.schedule   =   (function(CORE){
         generate:function(){
             var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
             CORE.currentCRNs.forEach(function(crn,index,array){
+                console.log(crn);
                 CORE.crnMap[crn].times.forEach(function(time,index,array){
                     time.day.forEach(function(day,index,array){
                         var a = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
@@ -227,25 +234,29 @@ var josephisAwesome=true;
 
 
 (function main(){
-    //Check Course Schedule Integrity
-    if(document.location.hash.substr(1)==localStorage["currentSchedule"]){
-        console.log('Raw Data is Good');
+    function rawExists(){
         CORE.main.parse.start();
         CORE.schedule.generate();
         
-            document.location.hash.substr(1).split('.').forEach(function(v,i,a){
-                CORE.currentCRNs.push(v);
-                var crnLabel    =   document.createElement('li');
-                crnLabel.className  =   'crnLabel';
-                crnLabel.innerHTML=v;
-                crnLabel.style.color  =   CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName);
-                document.getElementById('crnBar').appendChild(crnLabel);
-            });
-
+        document.location.hash.substr(1).split('.').forEach(function(v,i,a){
+            CORE.currentCRNs.push(v);
+            var crnLabel    =   document.createElement('li');
+            crnLabel.className  =   'crnLabel';
+            crnLabel.innerHTML=v;
+            crnLabel.style.color  =   CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName);
+            document.getElementById('crnBar').appendChild(crnLabel);
+        });
+    }
+    //Check Course Schedule Integrity
+    if(document.location.hash.substr(1)==localStorage["currentSchedule"]){
+        console.log('Raw Data is Good');
+        rawExists();
     }else{
         //Get the data from the server
         console.log('Raw Data is Corrupt');
-        CORE.main.fetch(document.location.hash.substr(1).split('.'));
+        CORE.main.fetch(document.location.hash.substr(1).split('.'),function(){
+            rawExists();
+        });
     }
 })();
 
