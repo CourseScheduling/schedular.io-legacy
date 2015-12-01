@@ -8,12 +8,14 @@ var SignupMod   =   {
         
         var username   =   _this.usernameInput.value,
             password   =   _this.passwordInput.value,
-            studentNumber   =   _this.studentNumberInput.value;
+            studentNumber   =   _this.studentNumberInput.value,
+            accountType =   accountType.getValue();
         
         return {
             u   :   username,
             p   :   password,
-            s   :   studentNumber
+            s   :   studentNumber,
+            aT  :   accountType
         };
     },
     go:function(){
