@@ -6,6 +6,9 @@ This is the Schedular.io README file.
 
 * Schedular.io is a website that allows students to easily create schedules.
 * We are currently working on the latest version
+### Pre-reqs ###
+* Nodejs and npm
+* Running memcached server
 
 ### How to get started ##
 * Clone this into a folder
