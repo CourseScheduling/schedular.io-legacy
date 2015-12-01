@@ -91,3 +91,26 @@ var NotificationMod =   {
         Velocity(_this.container,'fadeOut',300);
     }
 }
+
+var accountType =   {
+    active:document.getElementsByClassName('aT-selectionCircle')[0],
+    getValue:function(){
+        return accountType.active.getAttribute('data-accountType');
+    },
+    onClick:function(e){
+        var currentActive=document.getElementById('active-aT-selectionCircle');
+        //Return if clicked element and active element are the same
+        if(e.target==currentActive)
+            return;
+        //Remove the id from active element
+        currentActive.id='';
+        //Make clicked element active
+        e.target.id='active-aT-selectionCircle';
+        accountType.active   =   e.target;
+
+    }
+};
+//Go through all the selection possibilities and add a click listener
+[].forEach.call(document.getElementsByClassName('aT-selectionCircle'),function(v,i,a){
+    v.addEventListener('click',accountType.onClick);
+});

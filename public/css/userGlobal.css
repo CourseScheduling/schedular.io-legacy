@@ -79,3 +79,44 @@
         background-color:#1abc9c;
         display: none;
     }
+
+
+/* Account type selector for signup styling */
+
+    #accountType-wrap{
+        margin-top:20px;
+        width:200px;
+        height:60px;
+        margin-left:10px;
+    }
+        .aT-selectionCircle{
+            height:20px;
+            width:20px;
+            border:1px solid transparent;
+            border-radius:100px;
+            cursor: pointer;
+            transition: background-color .5s;
+            float:left;
+            box-sizing: border-box;
+            background:url(../images/radioCircle.png) center center no-repeat;
+            margin-top:-1px;
+        }
+            .aT-selectionLabel{
+                font-weight:300;
+                font-family: Open Sans;
+                font-size:12px;
+                margin-left:10px;
+            }
+                #active-aT-selectionCircle{
+                    background:url(../images/whiteDot.png) #1abc9c center center no-repeat;
+                    background-size:110%;
+                    transition: background-image 1s;
+                }
+        .aT-selectionConnector{
+            height:15px;
+            width:3px;
+            border:1px solid #DDD;
+            border-top:0;
+            border-bottom:0;
+            margin-left:7px;
+        }
