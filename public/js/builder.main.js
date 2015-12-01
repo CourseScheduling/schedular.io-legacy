@@ -209,6 +209,9 @@ CORE.schedule   =   (function(CORE){
 
 var josephisAwesome=true;
 
+//Some real change
+
+
 
 (function main(){
     //Check Course Schedule Integrity
