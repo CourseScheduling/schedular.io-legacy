@@ -42,7 +42,7 @@ var SignupMod   =   {
                                                        
         });
         
-        _this.passwordInput.addEventListener("keydown", function(e) {
+        _this.studentNumberInput.addEventListener("keydown", function(e) {
             if (!e) { var e = window.event; }
             if (e.keyCode == 13) { 
 
