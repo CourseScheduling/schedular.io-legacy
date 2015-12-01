@@ -9,7 +9,7 @@ var debug = require('debug')('www:server');
 var http = require('http');
 
 //The live crn module
-var liveCrn =   require('liveCrn');
+var liveCrn =   require('./liveCrn');
 
 /**
  * Get port from environment and store in Express.
