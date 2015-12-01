@@ -76,6 +76,9 @@ var NotificationMod =   {
             case    'INVALID_STUDENT':     
                 _this.show('Oh no. Your student number must be a 9 digit number, please double check it.');
             break;
+            case    'INVALID_ACCOUNT':     
+                _this.show('Nice try :P, the only accepted account types are Student, and Faculty. Please choose one from below.');
+            break;
             case    'SUCCESS':
                 _this.show('Alright! Your account has been created! Please check your student email to activate it.')    
             break;
