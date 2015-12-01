@@ -16,6 +16,9 @@ CORE    =   {
         time:{},
         color:{},
         element:{}
+    },
+    view:{
+        crnInput:{}
     }
 };
 
@@ -226,6 +229,21 @@ CORE.schedule   =   (function(CORE){
         }
     };
 })(CORE);
+
+CORE.view.crnInput  =   (function(CORE){
+    document.getElementById('b-crnAddButton').addEventListener('click',function(e){
+        //When that Add+ button is clicked
+        if(e.target.getAttribute('data-active')=='true'){
+            Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
+            e.target.setAttribute('data-active','false');
+        }else{
+            Velocity(document.getElementById('b-crnInput'),'fadeIn',300)
+            e.target.setAttribute('data-active','true');
+        }
+    });
+})(CORE);
+
+
 
 var josephisAwesome=true;
 
