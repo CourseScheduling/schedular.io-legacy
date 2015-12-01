@@ -108,9 +108,11 @@ router.get('/fetch',function(req,res){
     
     //Alright, find all the crns... I <3 SQL
     
-    var queryString = "SELECT time.startTime,time.endTime,time.days,time.instructor,courses.section,courses.subject,courses.code,courses.campus,courses.CRN FROM time INNER JOIN courses ON courses.id=time.courseId WHERE courses.CRN IN(?)";
+    var queryString = "SELECT time.startTime,time.endTime,time.days,time.instructor,courses.section,courses.subject,courses.code,courses.campus,courses.CRN FROM time INNER JOIN courses ON courses.id=time.courseId WHERE concat(courses.subject,courses.code) IN (SELECT concat(courses.subject,courses.code) as courseName FROM courses WHERE courses.CRN IN(?))";
+    console.log(crns.join(','));
     connection.query(queryString,crns.join(','),function(err,rows,fields){
         if (err) throw err;
+        console.log(rows);
         res.send(rows);
     });
     
