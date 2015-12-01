@@ -2,8 +2,8 @@ var Mem = require('memcached');
 //var mem =   new memcached('schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211');
 var memServer=new Mem('127.0.0.1:11211');
 //Variables for CRN and memcached
-var memCRNUpdateKey =   "CRN_UPDATE_KEY";
-var CRNPrefix   =   "CRN-";
+var memCRNUpdateKey =   "current_course_data_date";
+var CRNPrefix   =   "crn_";
 
 var app =   {
     timeOut:{},
