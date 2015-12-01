@@ -92,17 +92,28 @@ router.get('/fetch',function(req,res){
     try{
         var crns = JSON.parse(req.query.crns);
     }catch(e){
+        res.setHeader('FOR-HACKERS','Nice try, you\'re just a script-kiddie Or, you just entered something wrong, whoops.');
         res.send('[]');
         return;
     }
     //Check if every crn is 5 digits long and only contains numbers
     if(!crns.every(function(v){
-        return (v.match([^\d])==null&&v.length==5)
+        return (v.match(/[^\d]/g)==null&&v.length==5)
     })){
+        res.setHeader('FOR-HACKERS','Nice try, you\'re just a script-kiddie. Or, you just entered something wrong, whoops.');
         res.send('[]');
         return;
     }
-        
+    
+    
+    //Alright, find all the crns... I <3 SQL
+    
+    var queryString = "SELECT time.startTime,time.endTime,time.days,time.instructor,courses.section,courses.subject,courses.code,courses.campus,courses.CRN FROM time INNER JOIN courses ON courses.id=time.courseId WHERE courses.CRN IN(?)";
+    connection.query(queryString,crns.join(',',function(err,row,fields){
+        if (err) throw err;
+        res.send(rows);
+    });
+    
     
     
 });
