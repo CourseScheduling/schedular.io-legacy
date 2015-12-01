@@ -88,5 +88,25 @@ router.get('/getTeacher',function(req,res){
     });
 });
 
+router.get('/fetch',function(req,res){
+    try{
+        var crns = JSON.parse(req.query.crns);
+    }catch(e){
+        res.send('[]');
+        return;
+    }
+    //Check if every crn is 5 digits long and only contains numbers
+    if(!crns.every(function(v){
+        return (v.match([^\d])==null&&v.length==5)
+    })){
+        res.send('[]');
+        return;
+    }
+        
+    
+    
+});
+
+
 module.exports = router;
 

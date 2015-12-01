@@ -1,12 +1,12 @@
 
 
 CORE    =   {
+    ajax:$,
     currentCRNs:[],
     raw_data:localStorage["RAW_COURSE_DATA"],
     main:{
-        parse:{
-            
-        },
+        fetch:{},
+        parse:{},
     },
     schedule:{
         generate:{}
@@ -19,6 +19,19 @@ CORE    =   {
     }
 };
 
+
+CORE.main.fetch =   (function(CORE){
+        //Fetches the data that is needed
+    return function(CRNarray){
+        
+        CORE.ajax.get({
+            url:'/s/fetch?crns='+JSON.stringify(CRNarray),
+            done:function(data){
+            
+            }
+        });
+    };
+});
 
 CORE.main.parse =   (function(CORE){
     return {
@@ -232,6 +245,7 @@ var josephisAwesome=true;
     }else{
         //Get the data from the server
         console.log('Raw Data is Corrupt');
+        CORE.main.fetch(document.location.hash.substr(1).split('.'));
     }
 })();
 
