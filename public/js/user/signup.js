@@ -8,12 +8,14 @@ var SignupMod   =   {
         
         var username   =   _this.usernameInput.value,
             password   =   _this.passwordInput.value,
-            studentNumber   =   _this.studentNumberInput.value;
+            studentNumber   =   _this.studentNumberInput.value,
+            accountType =   AccountType.getValue();
         
         return {
             u   :   username,
             p   :   password,
-            s   :   studentNumber
+            s   :   studentNumber,
+            aT  :   accountType
         };
     },
     go:function(){
@@ -74,6 +76,9 @@ var NotificationMod =   {
             case    'INVALID_STUDENT':     
                 _this.show('Oh no. Your student number must be a 9 digit number, please double check it.');
             break;
+            case    'INVALID_ACCOUNT':     
+                _this.show('Nice try :P, the only accepted account types are Student, and Faculty. Please choose one from below.');
+            break;
             case    'SUCCESS':
                 _this.show('Alright! Your account has been created! Please check your student email to activate it.')    
             break;
@@ -92,10 +97,10 @@ var NotificationMod =   {
     }
 }
 
-var accountType =   {
+var AccountType =   {
     active:document.getElementsByClassName('aT-selectionCircle')[0],
     getValue:function(){
-        return accountType.active.getAttribute('data-accountType');
+        return AccountType.active.getAttribute('data-accountType');
     },
     onClick:function(e){
         var currentActive=document.getElementById('active-aT-selectionCircle');
@@ -106,11 +111,11 @@ var accountType =   {
         currentActive.id='';
         //Make clicked element active
         e.target.id='active-aT-selectionCircle';
-        accountType.active   =   e.target;
+        AccountType.active   =   e.target;
 
     }
 };
 //Go through all the selection possibilities and add a click listener
 [].forEach.call(document.getElementsByClassName('aT-selectionCircle'),function(v,i,a){
-    v.addEventListener('click',accountType.onClick);
+    v.addEventListener('click',AccountType.onClick);
 });
