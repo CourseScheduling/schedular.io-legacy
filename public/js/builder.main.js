@@ -229,10 +229,24 @@ CORE.schedule   =   (function(CORE){
                     v.parentNode.removeChild(v);
                 });
                 element.setAttribute('data-possibleActive','false');
-                document.removeEventListener('click',killNodes);
+                document.removeEventListener('mousedown',killNodes);
             }
-            document.addEventListener('click',killNodes);
+            document.addEventListener('mousedown',killNodes);
             
+        },
+        blockOver:function(e){
+            var section = e.target.getAttribute('data-sectionId');
+            [].forEach.call(document.querySelectorAll('[data-sectionID="'+section+'"]'),function(possible,i,a){
+                possible.style.boxShadow    =   '0px 0px 3px #000';
+                possible.style.opacity      =   1;
+            });
+        },
+        blockOut:function(e){
+            var section = e.target.getAttribute('data-sectionId');
+            [].forEach.call(document.querySelectorAll('[data-sectionID="'+section+'"]'),function(possible,i,a){
+                possible.style.boxShadow    =   '';
+                possible.style.opacity      =   .3;
+            });
         },
         blockClick:function(e){
             if(e.target.getAttribute('data-possibleActive')=='true')
@@ -260,6 +274,7 @@ CORE.schedule   =   (function(CORE){
             //Go through all the matched sections
             courseMatch.forEach(function(section,index,array){
                 if(!CORE.search.matchCurrent(section)){
+                    var sectionUniq =   Math.random();
                     section.times.forEach(function(time,index,array){
                         time.day.forEach(function(day,index,array){
                             
@@ -268,7 +283,11 @@ CORE.schedule   =   (function(CORE){
                             CORE.helper.element.changeStyle(block,{
                                 opacity:.3
                             });
-                            block.setAttribute('data-possibleID',uniq);
+                            block.addEventListener('mouseover',CORE.schedule.blockOver);
+                            block.addEventListener('mouseout',CORE.schedule.blockOut);
+                            block.setAttribute('data-crn',section.crn);
+                            block.setAttribute('data-possibleId',uniq);
+                            block.setAttribute('data-sectionId',sectionUniq);
                             builderWrap.appendChild(block);
                         });
                     });
