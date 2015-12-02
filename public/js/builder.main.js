@@ -10,6 +10,8 @@ CORE    =   {
         parse:{},
     },
     schedule:{
+        blockClick:{},
+        makeBlock:{},
         generate:{}
     },
     crnMap:{},
@@ -194,14 +196,110 @@ CORE.helper.element =  (function(CORE){
 
 */
 
-
+CORE.search =   (function(CORE){
+    return {
+        matchCurrent:function(section){
+            var scheduleI   =   CORE.currentCRNs.length;
+            while(scheduleI--){
+                var timeCI =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times.length;
+                while(timeCI--){
+                    var timeSI =   section.times.length;
+                    while(timeSI--){
+                        var sSTime =   section.times[timeSI];
+                        var cSTime =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times[timeCI];
+                        //If any intersects exists between the times of sSTime or cSTime exit.
+                        if(CORE.helper.time.sameDay(sSTime.day,cSTime.day)&&CORE.helper.time.inTime(sSTime.startTime,sSTime.endTime,cSTime.startTime,cSTime.endTime))
+                            return true;
+                    }
+                }
+            }
+            return false;
+            
+        }
+    };
+})(CORE);
 CORE.schedule   =   (function(CORE){
     return {
+        blockBlur:function(element){
+            var possible = element.getAttribute('data-possibleUniq');
+            var killNodes   =   function(e){
+                if(e.target.getAttribute('data-possibleActive')=='true')
+                    return;
+                [].forEach.call(document.querySelectorAll('[data-possibleID="'+possible+'"]'),function(v,i,a){
+                    v.parentNode.removeChild(v);
+                });
+                element.setAttribute('data-possibleActive','false');
+                document.removeEventListener('mousedown',killNodes);
+            }
+            document.addEventListener('mousedown',killNodes);
+            
+        },
+        blockOver:function(e){
+            var section = e.target.getAttribute('data-sectionId');
+            [].forEach.call(document.querySelectorAll('[data-sectionID="'+section+'"]'),function(possible,i,a){
+                possible.style.boxShadow    =   '0px 0px 3px #000';
+                possible.style.opacity      =   1;
+            });
+        },
+        blockOut:function(e){
+            var section = e.target.getAttribute('data-sectionId');
+            [].forEach.call(document.querySelectorAll('[data-sectionID="'+section+'"]'),function(possible,i,a){
+                possible.style.boxShadow    =   '';
+                possible.style.opacity      =   .3;
+            });
+        },
+        blockClick:function(e){
+            if(e.target.getAttribute('data-possibleActive')=='true')
+                return;
+            //Make a courseMatch array
+            var courseMatch =   [];
+            //get current section
+            var currentSection  =   CORE.crnMap[e.target.getAttribute('data-crn')];
+            for(var crn in CORE.crnMap){
+                if(currentSection.courseName==CORE.crnMap[crn].courseName&&currentSection.lab==CORE.crnMap[crn].lab){
+                    // if the element has the same course name and lab as clicked element put it in array
+                    courseMatch.push(CORE.crnMap[crn]);
+                }
+            }
+            var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
+            
+            //Make a uniq id for the section
+            var uniq    =   Math.random();
+            
+            //Add uniq id to clicked element
+            e.target.setAttribute('data-possibleUniq',uniq);
+            //Set Attribute to true
+            e.target.setAttribute('data-possibleActive','true');
+            //This is last commit for the day
+            //Go through all the matched sections
+            courseMatch.forEach(function(section,index,array){
+                if(!CORE.search.matchCurrent(section)){
+                    var sectionUniq =   Math.random();
+                    section.times.forEach(function(time,index,array){
+                        time.day.forEach(function(day,index,array){
+                            
+                            //make translucent blocks and add them to the schedule all with a uniq id to the group.
+                            var block = CORE.schedule.makeBlock(section,time,day);
+                            CORE.helper.element.changeStyle(block,{
+                                opacity:.3
+                            });
+                            block.addEventListener('mouseover',CORE.schedule.blockOver);
+                            block.addEventListener('mouseout',CORE.schedule.blockOut);
+                            block.setAttribute('data-crn',section.crn);
+                            block.setAttribute('data-possibleId',uniq);
+                            block.setAttribute('data-sectionId',sectionUniq);
+                            builderWrap.appendChild(block);
+                        });
+                    });
+                }
+            });
+            CORE.schedule.blockBlur(e.target);
+        },
         makeBlock:function(section,time,day){
             if(day==-1)
                 return document.createElement('div');
             //Make a timeblock element
-            var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock'});
+            var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
             
             //Adjust its styles.
             CORE.helper.element.changeStyle(timeBlock,{
@@ -219,11 +317,11 @@ CORE.schedule   =   (function(CORE){
         generate:function(){
             var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
             CORE.currentCRNs.forEach(function(crn,index,array){
-                console.log(crn);
                 CORE.crnMap[crn].times.forEach(function(time,index,array){
                     time.day.forEach(function(day,index,array){
-                        var a = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
-                        builderWrap.appendChild(a);
+                        var timeBlock = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
+                        timeBlock.addEventListener('click',CORE.schedule.blockClick);
+                        builderWrap.appendChild(timeBlock);
                     });
                 });
             });
