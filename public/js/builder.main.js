@@ -200,12 +200,37 @@ CORE.helper.element =  (function(CORE){
 CORE.schedule   =   (function(CORE){
     return {
         blockClick:function(e){
+            console.log(e.target);
+            //Make a courseMatch array
+            var courseMatch =   [];
+            //get current section
+            console.log(e.target.getAttribute('data-crn'));
+            var currentSection  =   CORE.crnMap[e.target.getAttribute('data-crn')];
+            for(var crn in CORE.crnMap){
+                if(currentSection.courseName==CORE.crnMap[crn].courseName&&currentSection.lab==CORE.crnMap[crn].lab){
+                    // if the element has the same course name and lab as clicked element put it in array
+                    courseMatch.push(CORE.crnMap[crn]);
+                }
+            }
+            var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
+            //Go through all the matched sections
+            courseMatch.forEach(function(section,index,array){
+                section.times.forEach(function(time,index,array){
+                    time.day.forEach(function(day,index,array){
+                        var block = CORE.schedule.makeBlock(section,time,day);
+                        CORE.helper.element.changeStyle(block,{
+                            opacity:.3
+                        });
+                        builderWrap.appendChild(block);
+                    });
+                });
+            });
         },
         makeBlock:function(section,time,day){
             if(day==-1)
                 return document.createElement('div');
             //Make a timeblock element
-            var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock'});
+            var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
             
             //Adjust its styles.
             CORE.helper.element.changeStyle(timeBlock,{
