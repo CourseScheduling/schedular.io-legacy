@@ -60,7 +60,6 @@ router.get('/show',function(req,res){
     });
     queryString=queryString.slice(0,-2);
     queryString+='))';
-    console.log(queryString);
     connection.query(queryString,queryData,function(err,rows,fields){
         if(err) throw err;
         var jData    =   jadeData(req);
@@ -86,7 +85,10 @@ router.get('/show',function(req,res){
                 socket:socket,
                 crns:crnArray
             };
-            socket.emit('courseTimeData',crnData);
+            socket.emit('crnData',crnData);
+        });
+        req.io.on('disconnect',function(socket){
+            delete global.sockets[socket.id];
         });
         
         
@@ -135,12 +137,9 @@ router.get('/fetch',function(req,res){
     
     //Alright, find all the crns... I <3 SQL
     var questionMarks   =   Array(crns.length+1).join("?,").slice(0,-1);
-    console.log(questionMarks);
     var queryString = "SELECT time.startTime,time.endTime,time.days,time.instructor,courses.section,courses.subject,courses.code,courses.campus,courses.CRN FROM time INNER JOIN courses ON courses.id=time.courseId WHERE concat(courses.subject,courses.code) IN (SELECT concat(courses.subject,courses.code) as courseName FROM courses WHERE courses.CRN IN("+questionMarks+"))";
-    console.log(queryString);
     connection.query(queryString,crns,function(err,rows,fields){
         if (err) throw err;
-        console.log(rows.length);
         res.send(rows);
     });
     

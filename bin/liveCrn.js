@@ -28,7 +28,7 @@ app.init   =   function(){
         global.lastUpdateCRN    = 0;
         console.log(600-(parseInt(Date.now()/1000)-parseInt(data.substr(1))));
         //Set the timeout function to go off after 10min since last update on memcached side.
-        setTimeout(app.timeOut,(600-(parseInt(Date.now()/1000)-parseInt(data.substr(1)))));
+        setTimeout(app.timeOut,((600-(parseInt(Date.now()/1000)-parseInt(data.substr(1))))*1000));
     });
     
     memServer.getMulti(CRN_ARRAY, function (err, data) {
@@ -53,7 +53,7 @@ app.timeOut =   function(){
         });
     });
     //Do this again in 10 minutes
-    setTimeout(app.timeOut,60000);
+    setTimeout(app.timeOut,60000000);
 };
 
 app.pushSockets =   function(){
