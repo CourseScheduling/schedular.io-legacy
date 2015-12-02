@@ -270,7 +270,7 @@ CORE.schedule   =   (function(CORE){
             e.target.setAttribute('data-possibleUniq',uniq);
             //Set Attribute to true
             e.target.setAttribute('data-possibleActive','true');
-            
+            //This is last commit for the day
             //Go through all the matched sections
             courseMatch.forEach(function(section,index,array){
                 if(!CORE.search.matchCurrent(section)){
