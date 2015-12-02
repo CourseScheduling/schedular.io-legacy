@@ -576,11 +576,11 @@ CORE.main.teacher.functions   =   (function(CORE){
             data.forEach(function(v,i,a){
                     var courseLabel =   document.createElement('div');                                                
                     courseLabel.innerHTML+=[
-                    /*'<div style="float:left;border:1px solid #DDD;box-sizing:border-box;height:28px;margin-top:1px;padding-left:5px;padding-right:5px;line-height:28px;margin-right:10px;">',
+                    '<div style="float:left;border:1px solid #DDD;box-sizing:border-box;height:28px;margin-top:1px;padding-left:5px;padding-right:5px;line-height:28px;margin-right:10px;">',
                     '<strong style="text-shadow:0 0px 1px #999">',
                         (Math.random()*10).toFixed(0),    
                         '</strong>',
-                    ' seats left</div>',*/
+                    ' seats left</div>',
                     '<strong style="color:'+CORE.helper.color.getBackgroundColor(v.courseName)+'">',
                     v.courseName,
                     '</strong> ',
