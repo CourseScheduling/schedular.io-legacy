@@ -10,6 +10,8 @@ CORE    =   {
         parse:{},
     },
     schedule:{
+        blockClick:{},
+        makeBlock:{},
         generate:{}
     },
     crnMap:{},
@@ -197,6 +199,8 @@ CORE.helper.element =  (function(CORE){
 
 CORE.schedule   =   (function(CORE){
     return {
+        blockClick:function(e){
+        },
         makeBlock:function(section,time,day){
             if(day==-1)
                 return document.createElement('div');
@@ -214,6 +218,7 @@ CORE.schedule   =   (function(CORE){
             });
             timeBlock.innerHTML=section.courseName
             //return the timeblock
+            timeBlock.addEventListener('click',CORE.schedule.blockClick);
             return timeBlock;
         },
         generate:function(){
