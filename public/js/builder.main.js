@@ -1,12 +1,13 @@
 
 
 CORE    =   {
+    ajax:$,
     currentCRNs:[],
     raw_data:localStorage["RAW_COURSE_DATA"],
     main:{
-        parse:{
-            
-        },
+        fixUrl:{},
+        fetch:{},
+        parse:{},
     },
     schedule:{
         generate:{}
@@ -16,9 +17,31 @@ CORE    =   {
         time:{},
         color:{},
         element:{}
+    },
+    view:{
+        crnInput:{}
     }
 };
 
+
+CORE.main.fetch =   (function(CORE){
+        //Fetches the data that is needed
+    return function(CRNarray,cb){
+        console.log('f');
+        CORE.ajax.get({
+            url:'/s/fetch?crns='+JSON.stringify(CRNarray.map(Number)),
+            done:function(data){
+                //put this data as the "raw data"
+                localStorage["RAW_COURSE_DATA"]=JSON.stringify(data);
+                CORE.raw_data=localStorage["RAW_COURSE_DATA"];
+                //make this the new localstorage stuff
+                localStorage["currentSchedule"] =   CRNarray.map(Number).join('.');
+                
+                cb&&cb();
+            }
+        });
+    };
+})(CORE);
 
 CORE.main.parse =   (function(CORE){
     return {
@@ -196,6 +219,7 @@ CORE.schedule   =   (function(CORE){
         generate:function(){
             var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
             CORE.currentCRNs.forEach(function(crn,index,array){
+                console.log(crn);
                 CORE.crnMap[crn].times.forEach(function(time,index,array){
                     time.day.forEach(function(day,index,array){
                         var a = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
@@ -207,6 +231,46 @@ CORE.schedule   =   (function(CORE){
     };
 })(CORE);
 
+CORE.view.crnInput  =   (function(CORE){
+    document.getElementById('b-crnAddButton').addEventListener('click',function(e){
+        //When that Add+ button is clicked toggle the crnInput
+        if(e.target.getAttribute('data-active')=='true'){
+            Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
+            e.target.setAttribute('data-active','false');
+        }else{
+            Velocity(document.getElementById('b-crnInput'),'fadeIn',300)
+            e.target.setAttribute('data-active','true');
+        }
+    });
+    
+    document.getElementById('b-crnInput').addEventListener('keydown',function(e){
+        //execute if the enter key is pressed on the crn input thing
+        console.log(e.keyCode);
+        if (!e) { var e = window.event; }
+        if (e.keyCode == 13) { 
+            //Make an array of all the crns
+            var crnArray    =   e.target.value.match(/(\d\d\d\d\d)/g);
+            document.location.hash.substr(1).split('.').forEach(function(crn,index,array){
+                //remove any crns already in hash
+                if(crnArray.indexOf(crn)!==-1)
+                crnArray.splice(crnArray.indexOf(crn),1);
+            });
+            
+            //UnToggle the crnInput
+            Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
+            document.getElementById('b-crnAddButton').setAttribute('data-active','false');
+            //Refresh the page with new crns appended to hash if there are any crns left
+            if(crnArray.length>0){
+                document.location.hash=document.location.hash+'.'+crnArray.join('.');
+                location.reload();
+            }
+        }
+    });
+    
+})(CORE);
+
+
+
 var josephisAwesome=true;
 
 //Some real change
@@ -214,24 +278,32 @@ var josephisAwesome=true;
 
 
 (function main(){
-    //Check Course Schedule Integrity
-    if(document.location.hash.substr(1)==localStorage["currentSchedule"]){
-        console.log('Raw Data is Good');
+
+    function rawExists(){
         CORE.main.parse.start();
         CORE.schedule.generate();
         
-            document.location.hash.substr(1).split('.').forEach(function(v,i,a){
-                CORE.currentCRNs.push(v);
-                var crnLabel    =   document.createElement('li');
-                crnLabel.className  =   'crnLabel';
-                crnLabel.innerHTML=v;
-                crnLabel.style.color  =   CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName);
-                document.getElementById('crnBar').appendChild(crnLabel);
-            });
-
+        document.location.hash.substr(1).split('.').forEach(function(v,i,a){
+            CORE.currentCRNs.push(v);
+            var crnLabel    =   document.createElement('li');
+            crnLabel.className  =   'crnLabel';
+            crnLabel.innerHTML=v;
+            crnLabel.style.color  =   CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName);
+            document.getElementById('crnBar').appendChild(crnLabel);
+        });
+    }
+    //Fix the Url
+    document.location.hash='#'+document.location.hash.match(/(\d\d\d\d\d)/g).join('.');
+    //Check Course Schedule Integrity
+    if(document.location.hash.substr(1)==localStorage["currentSchedule"]){
+        console.log('Raw Data is Good');
+        rawExists();
     }else{
         //Get the data from the server
         console.log('Raw Data is Corrupt');
+        CORE.main.fetch(document.location.hash.substr(1).split('.'),function(){
+            rawExists();
+        });
     }
 })();
 

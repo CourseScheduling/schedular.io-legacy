@@ -88,5 +88,39 @@ router.get('/getTeacher',function(req,res){
     });
 });
 
+router.get('/fetch',function(req,res){
+    try{
+        var crns = JSON.parse(req.query.crns);
+    }catch(e){
+        res.setHeader('FOR-HACKERS','Nice try, you\'re just a script-kiddie Or, you just entered something wrong, whoops.');
+        res.send('[]');
+        return;
+    }
+    //Check if every crn is 5 digits long and only contains numbers
+    if(!crns.every(function(v){
+        return (!isNaN(v)&&v.toString().length==5)
+    })){
+        res.setHeader('FOR-HACKERS','Nice try, you\'re just a script-kiddie. Or, you just entered something wrong, whoops.');
+        res.send('[]');
+        return;
+    }
+    
+    
+    //Alright, find all the crns... I <3 SQL
+    var questionMarks   =   Array(crns.length+1).join("?,").slice(0,-1);
+    console.log(questionMarks);
+    var queryString = "SELECT time.startTime,time.endTime,time.days,time.instructor,courses.section,courses.subject,courses.code,courses.campus,courses.CRN FROM time INNER JOIN courses ON courses.id=time.courseId WHERE concat(courses.subject,courses.code) IN (SELECT concat(courses.subject,courses.code) as courseName FROM courses WHERE courses.CRN IN("+questionMarks+"))";
+    console.log(queryString);
+    connection.query(queryString,crns,function(err,rows,fields){
+        if (err) throw err;
+        console.log(rows.length);
+        res.send(rows);
+    });
+    
+    
+    
+});
+
+
 module.exports = router;
 
