@@ -56,6 +56,7 @@ app.use(session({
 
 var io  = require('socket.io').listen(app.listen(8080));
 io.on('connection', function (socket) {
+  global.sockets[socket.id] =   {socket:socket,CRNS:[]};
   socket.emit('news', { hello: 'world' });
 
     app.use(function(req,res,next){

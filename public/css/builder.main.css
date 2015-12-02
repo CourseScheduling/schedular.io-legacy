@@ -17,6 +17,14 @@
         list-style-type:none;
         float:left;
     }
+        #b-crnAddButton{
+            border:1px solid #999;
+            padding:4px;
+            float:right;
+            cursor:pointer;
+            box-sizing:border-box;
+            margin-left:10px;
+        }
         .crnLabel{
             min-width:50px;
             padding:3px;
@@ -35,8 +43,22 @@
     float:left;
     padding:10px;
 }
+    #b-crnInput{
+        margin-top:10px;
+        font-family:Open Sans;
+        font-weight:300;
+        font-size:12px;
+        width:704px;
+        outline:none;
+        padding:10px;
+        box-sizing:border-box;
+        border:1px solid #999;
+        display: none;
+    }
     .b-scheduleWrap{
-        border:1px solid #DDD;
+        width:704px;
+        box-sizing:border-box;
+        border:1px solid #999;
         display:inline-block;
         margin-top:10px;
         float:right;
