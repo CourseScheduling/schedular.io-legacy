@@ -45,6 +45,7 @@ app.timeOut =   function(){
         
         memServer.getMulti(CRN_ARRAY, function (err, data) {
             //Populate the global fillData object with crns and their corresponding data.
+            console.log('updated memcached');
             for(var crn in data){
                 global.fillData[crn.substr(CRN_PREFIX.length)]   =   data[crn];
             }
@@ -63,10 +64,10 @@ app.pushSockets =   function(){
         console.log(socketId,global.sockets[socketId]);
         global.sockets[socketId].crns.forEach(function(crn,index,array){
             //push all the necessary crn data to the array
-            crnJSON.push(crn);
+            crnData.push([crn,global.fillData[crn]]);
         });
         //Push that data to the socket
-        global.sockets[socketId].socket.emit(courseData,crnJSON);
+        global.sockets[socketId].socket.emit('crnData',crnData);
     }
 
 };

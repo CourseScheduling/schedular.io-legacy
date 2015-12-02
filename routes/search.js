@@ -65,10 +65,33 @@ router.get('/show',function(req,res){
         if(err) throw err;
         var jData    =   jadeData(req);
         jData.courseData =   rows;
-        req.io.on('connection',function(socket){
-            console.log(global.fillData);
-            socket.emit('courseTimeData',global.fillData['crn_'+rows[0].CRN]);
+        /* 
+        
+            Okay, this section is important.
+            Here we're going to update the user session to include an array of all the CRNs he may need, we're going to add him to the socket list with the CRN array and then we'll push all necessary data to him
+            
+        */
+        var crnMap  =   {};
+        var crnArray    =   [];
+        var crnData    =   [];
+        rows.forEach(function(v,i,a){
+            crnMap[v.CRN]   =   1;
         });
+        for(var crn in crnMap){
+            crnData.push([crn,fillData[crn]]);
+            crnArray.push(crn);
+        }
+        req.io.on('connection',function(socket){
+            global.sockets[socket.id]   =   {
+                socket:socket,
+                crns:crnArray
+            };
+            socket.emit('courseTimeData',crnData);
+        });
+        
+        
+        /* Important section ends here */
+        
         res.render('main/show',jData);                 
     });
 });
