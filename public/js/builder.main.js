@@ -207,8 +207,6 @@ CORE.search =   (function(CORE){
                     while(timeSI--){
                         var sSTime =   section.times[timeSI];
                         var cSTime =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times[timeCI];
-                        console.log(cSTime,sSTime);
-
                         //If any intersects exists between the times of sSTime or cSTime exit.
                         if(CORE.helper.time.sameDay(sSTime.day,cSTime.day)&&CORE.helper.time.inTime(sSTime.startTime,sSTime.endTime,cSTime.startTime,cSTime.endTime))
                             return true;
@@ -222,12 +220,26 @@ CORE.search =   (function(CORE){
 })(CORE);
 CORE.schedule   =   (function(CORE){
     return {
+        blockBlur:function(element){
+            var possible = element.getAttribute('data-possibleUniq');
+            var killNodes   =   function(e){
+                if(e.target.getAttribute('data-possibleActive')=='true')
+                    return;
+                [].forEach.call(document.querySelectorAll('[data-possibleID="'+possible+'"]'),function(v,i,a){
+                    v.parentNode.removeChild(v);
+                });
+                element.setAttribute('data-possibleActive','false');
+                document.removeEventListener('click',killNodes);
+            }
+            document.addEventListener('click',killNodes);
+            
+        },
         blockClick:function(e){
-            console.log(e.target);
+            if(e.target.getAttribute('data-possibleActive')=='true')
+                return;
             //Make a courseMatch array
             var courseMatch =   [];
             //get current section
-            console.log(e.target.getAttribute('data-crn'));
             var currentSection  =   CORE.crnMap[e.target.getAttribute('data-crn')];
             for(var crn in CORE.crnMap){
                 if(currentSection.courseName==CORE.crnMap[crn].courseName&&currentSection.lab==CORE.crnMap[crn].lab){
@@ -236,20 +248,33 @@ CORE.schedule   =   (function(CORE){
                 }
             }
             var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
+            
+            //Make a uniq id for the section
+            var uniq    =   Math.random();
+            
+            //Add uniq id to clicked element
+            e.target.setAttribute('data-possibleUniq',uniq);
+            //Set Attribute to true
+            e.target.setAttribute('data-possibleActive','true');
+            
             //Go through all the matched sections
             courseMatch.forEach(function(section,index,array){
                 if(!CORE.search.matchCurrent(section)){
                     section.times.forEach(function(time,index,array){
                         time.day.forEach(function(day,index,array){
+                            
+                            //make translucent blocks and add them to the schedule all with a uniq id to the group.
                             var block = CORE.schedule.makeBlock(section,time,day);
                             CORE.helper.element.changeStyle(block,{
                                 opacity:.3
                             });
+                            block.setAttribute('data-possibleID',uniq);
                             builderWrap.appendChild(block);
                         });
                     });
                 }
             });
+            CORE.schedule.blockBlur(e.target);
         },
         makeBlock:function(section,time,day){
             if(day==-1)
@@ -273,7 +298,6 @@ CORE.schedule   =   (function(CORE){
         generate:function(){
             var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
             CORE.currentCRNs.forEach(function(crn,index,array){
-                console.log(crn);
                 CORE.crnMap[crn].times.forEach(function(time,index,array){
                     time.day.forEach(function(day,index,array){
                         var timeBlock = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
