@@ -28,6 +28,7 @@ router.use(function(req,res,next){
     return;
 })
 
+
 router.get('/get', function(req, res, next) {
     
     
@@ -64,7 +65,10 @@ router.get('/show',function(req,res){
         if(err) throw err;
         var jData    =   jadeData(req);
         jData.courseData =   rows;
-        console.log(jadeData);
+        req.io.on('connection',function(socket){
+            console.log(global.fillData);
+            socket.emit('courseTimeData',global.fillData['crn_'+rows[0].CRN]);
+        });
         res.render('main/show',jData);                 
     });
 });
