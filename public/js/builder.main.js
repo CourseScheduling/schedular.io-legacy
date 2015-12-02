@@ -196,7 +196,30 @@ CORE.helper.element =  (function(CORE){
 
 */
 
+CORE.search =   (function(CORE){
+    return {
+        matchCurrent:function(section){
+            var scheduleI   =   CORE.currentCRNs.length;
+            while(scheduleI--){
+                var timeCI =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times.length;
+                while(timeCI--){
+                    var timeSI =   section.times.length;
+                    while(timeSI--){
+                        var sSTime =   section.times[timeSI];
+                        var cSTime =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times[timeCI];
+                        console.log(cSTime,sSTime);
 
+                        //If any intersects exists between the times of sSTime or cSTime exit.
+                        if(CORE.helper.time.sameDay(sSTime.day,cSTime.day)&&CORE.helper.time.inTime(sSTime.startTime,sSTime.endTime,cSTime.startTime,cSTime.endTime))
+                            return true;
+                    }
+                }
+            }
+            return false;
+            
+        }
+    };
+})(CORE);
 CORE.schedule   =   (function(CORE){
     return {
         blockClick:function(e){
@@ -215,15 +238,17 @@ CORE.schedule   =   (function(CORE){
             var builderWrap =   document.getElementsByClassName('b-timeBlockWrap')[0];
             //Go through all the matched sections
             courseMatch.forEach(function(section,index,array){
-                section.times.forEach(function(time,index,array){
-                    time.day.forEach(function(day,index,array){
-                        var block = CORE.schedule.makeBlock(section,time,day);
-                        CORE.helper.element.changeStyle(block,{
-                            opacity:.3
+                if(!CORE.search.matchCurrent(section)){
+                    section.times.forEach(function(time,index,array){
+                        time.day.forEach(function(day,index,array){
+                            var block = CORE.schedule.makeBlock(section,time,day);
+                            CORE.helper.element.changeStyle(block,{
+                                opacity:.3
+                            });
+                            builderWrap.appendChild(block);
                         });
-                        builderWrap.appendChild(block);
                     });
-                });
+                }
             });
         },
         makeBlock:function(section,time,day){
@@ -243,7 +268,6 @@ CORE.schedule   =   (function(CORE){
             });
             timeBlock.innerHTML=section.courseName
             //return the timeblock
-            timeBlock.addEventListener('click',CORE.schedule.blockClick);
             return timeBlock;
         },
         generate:function(){
@@ -252,8 +276,9 @@ CORE.schedule   =   (function(CORE){
                 console.log(crn);
                 CORE.crnMap[crn].times.forEach(function(time,index,array){
                     time.day.forEach(function(day,index,array){
-                        var a = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
-                        builderWrap.appendChild(a);
+                        var timeBlock = CORE.schedule.makeBlock(CORE.crnMap[crn],time,day);
+                        timeBlock.addEventListener('click',CORE.schedule.blockClick);
+                        builderWrap.appendChild(timeBlock);
                     });
                 });
             });
