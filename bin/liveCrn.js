@@ -2,7 +2,7 @@ var Mem = require('memcached');
 //var mem =   new memcached('schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211');
 var memServer=new Mem('127.0.0.1:11211');
 //Variables for CRN and memcached
-var CRN_UPDATE_KEY  =   "current_course_data_date";
+var CRN_UPDATE_KEY  =   "courseDataDate";
 var CRN_PREFIX   =   "crn_";
 var CRN_ARRAY    =   [];
 
@@ -24,7 +24,7 @@ app.init   =   function(){
     // Grab the last update time.
     memServer.get(CRN_UPDATE_KEY,function(e,data){
         //Set the lastUpdate variable
-        global.lastUpdateCRN    =   data;
+        global.lastUpdateCRN    =   parseInt(Date.now()/1000)-parseInt(data.substr(1));
         //Set the timeout function to go off after 10min since last update on memcached side.
         setTimeout(app.timeOut,(60000+Date.now())-data);
     });
