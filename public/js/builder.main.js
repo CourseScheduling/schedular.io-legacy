@@ -5,6 +5,7 @@ CORE    =   {
     currentCRNs:[],
     raw_data:localStorage["RAW_COURSE_DATA"],
     main:{
+        fixUrl:{},
         fetch:{},
         parse:{},
     },
@@ -232,7 +233,7 @@ CORE.schedule   =   (function(CORE){
 
 CORE.view.crnInput  =   (function(CORE){
     document.getElementById('b-crnAddButton').addEventListener('click',function(e){
-        //When that Add+ button is clicked
+        //When that Add+ button is clicked toggle the crnInput
         if(e.target.getAttribute('data-active')=='true'){
             Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
             e.target.setAttribute('data-active','false');
@@ -241,6 +242,31 @@ CORE.view.crnInput  =   (function(CORE){
             e.target.setAttribute('data-active','true');
         }
     });
+    
+    document.getElementById('b-crnInput').addEventListener('keydown',function(e){
+        //execute if the enter key is pressed on the crn input thing
+        console.log(e.keyCode);
+        if (!e) { var e = window.event; }
+        if (e.keyCode == 13) { 
+            //Make an array of all the crns
+            var crnArray    =   e.target.value.match(/(\d\d\d\d\d)/g);
+            document.location.hash.substr(1).split('.').forEach(function(crn,index,array){
+                //remove any crns already in hash
+                if(crnArray.indexOf(crn)!==-1)
+                crnArray.splice(crnArray.indexOf(crn),1);
+            });
+            
+            //UnToggle the crnInput
+            Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
+            document.getElementById('b-crnAddButton').setAttribute('data-active','false');
+            //Refresh the page with new crns appended to hash if there are any crns left
+            if(crnArray.length>0){
+                document.location.hash=document.location.hash+'.'+crnArray.join('.');
+                location.reload();
+            }
+        }
+    });
+    
 })(CORE);
 
 
@@ -252,6 +278,7 @@ var josephisAwesome=true;
 
 
 (function main(){
+
     function rawExists(){
         CORE.main.parse.start();
         CORE.schedule.generate();
@@ -265,6 +292,8 @@ var josephisAwesome=true;
             document.getElementById('crnBar').appendChild(crnLabel);
         });
     }
+    //Fix the Url
+    document.location.hash='#'+document.location.hash.match(/(\d\d\d\d\d)/g).join('.');
     //Check Course Schedule Integrity
     if(document.location.hash.substr(1)==localStorage["currentSchedule"]){
         console.log('Raw Data is Good');
