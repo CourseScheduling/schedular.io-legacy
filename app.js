@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 var sessionStore    =    new MemcachedStore({
-    hosts: ['schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211','localhost:11211']
+    hosts: [/*'schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211',*/'localhost:11211']
 });
 
 
