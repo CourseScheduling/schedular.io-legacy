@@ -1177,7 +1177,7 @@ CORE.socket =   (function(CORE){
             CORE.socket.seatMap[section[0]]=JSON.parse(section[1]);
             [].forEach.call(document.getElementsByClassName('crn_'+section[0]),function(v,i,a){
                 var sectionFullness =   (CORE.socket.seatMap[section[0]].m-CORE.socket.seatMap[section[0]].e);
-                    if(sectionFullness==0){
+                    if(sectionFullness<=0){
                         v.innerHTML=CORE.socket.seatMap[section[0]].w+' waitlisted';
                     }else{
                         v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
@@ -1193,7 +1193,7 @@ CORE.socket =   (function(CORE){
                 var data =   CORE.socket.seatMap[crn];
                 [].forEach.call(document.getElementsByClassName('crn_'+crn),function(v,i,a){
                     var sectionFullness = data.m-data.e;
-                    if(sectionFullness==0){
+                    if(sectionFullness<=0){
                         v.innerHTML=data.w+' waitlisted';
                     }else{
                         v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
