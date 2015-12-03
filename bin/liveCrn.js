@@ -61,7 +61,6 @@ app.pushSockets =   function(){
     for(var socketId in global.sockets){
         // Make an array for CRN data
         crnData =   [];
-        console.log(socketId);
         global.sockets[socketId].crns.forEach(function(crn,index,array){
             //push all the necessary crn data to the array
             crnData.push([crn,global.fillData[crn]]);

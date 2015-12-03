@@ -87,7 +87,6 @@ router.get('/show',function(req,res){
             };
             socket.emit('crnData',crnData);
             socket.on('disconnect',function(){
-                console.log(socket.id+'disconnected');
                 delete global.sockets[socket.id];
             });
         });

@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session =   require('express-session');
 var crypto  =   require('crypto');
-//var MemcachedStore = require('connect-memcached')(session);
+var MemcachedStore = require('connect-memcached')(session);
 var nodalytics = require('nodalytics')
 
 var routes = require('./routes/index');
@@ -24,16 +24,10 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-/*
-
-//UNCOMMENT BEFORE UPLOADING TO SERVER 
-    //this
-    //Meemcachedstore
-    //store variable v
 var sessionStore    =    new MemcachedStore({
-    hosts: ['schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211']
+    hosts: ['schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211','localhost:11211']
 });
-*/
+
 
 
 
@@ -49,8 +43,8 @@ app.use(session({
     cookie  : { maxAge : 7 * 24 * 60 * 60 * 1000 },
     resave  : true,
     secret  : 'Joseph1234567890',
-    proxy   : 'true'
-    //, store   : sessionStore
+    proxy   : 'true',
+    store   : sessionStore
 }));
 
 
