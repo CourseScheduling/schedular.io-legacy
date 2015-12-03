@@ -5,15 +5,15 @@ block headContent
     title="Schedule Builder"
 
 block bodyContent
-    div(id="crnBar-wrap")
-        ul( id="crnBar")
+    div(id="crnBar-wrap" )
+        ul( id="crnBar" style="float:left;padding-left:0;")
             li
                 span(style="padding:4px;float:left;") CRNs: 
                 span(id="b-crnAddButton") Add +
             br
             br
-    p(style="font-family:Raleway;font-size:20px;text-align:center;font-weight:300;margin-top:80px;") Your Schedule
-    div(id="b-builderWrap" style="float:left;margin-left:-200px;position:absolute;top:123px;left:50%;width:704px;")
+    div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:123px;left:50%;width:704px;")
+        p(style="font-family:Raleway;font-size:20px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
         input(id="b-crnInput" placeholder="Enter CRNs with a comma inbetween e.g. 10973,10981,10921")
         div(class="b-scheduleWrap" data-crn="" style="float:left;")
             div(class="b-dayLabelWrap")

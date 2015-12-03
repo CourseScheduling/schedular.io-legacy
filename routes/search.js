@@ -52,6 +52,10 @@ router.get('/show',function(req,res){
     }catch(e){
         res.redirect('/s');
     }
+    if(courseCodes.length>15){
+        res.redirect('/s');
+        return;
+    }
     var queryString =   'SELECT time.startTime,time.endTime,time.days,time.instructor,courses.section,courses.subject,courses.code,courses.campus,courses.CRN FROM time INNER JOIN courses ON courses.id=time.courseId WHERE (courses.status="Open" AND (';
     var queryData   =   []; 
     courseCodes.forEach(function(v,i,a){
@@ -123,6 +127,11 @@ router.get('/fetch',function(req,res){
     }catch(e){
         res.setHeader('FOR-HACKERS','Nice try, you\'re just a script-kiddie Or, you just entered something wrong, whoops.');
         res.send('[]');
+        return;
+    }
+    
+    if(crns.length>15){
+        res.send('');
         return;
     }
     //Check if every crn is 5 digits long and only contains numbers

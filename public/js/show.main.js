@@ -435,12 +435,12 @@ CORE.main.parse =   (function(CORE){
                         var aSum=0,bSum=0;
                         for(var i = a.length;i--;){
                             var aSeats  =   CORE.socket.seatMap[a[i].crn];
-                            aSum+=(((aSeats.m-aSeats.e)>0)*1000)-aSeats.w;
+                            aSum+=(((aSeats.m-aSeats.e)>0)*100000)-aSeats.w*100+(aSeats.m-aSeats.e);
 
                         }
                         for(var i = b.length;i--;){
                             var bSeats  =   CORE.socket.seatMap[b[i].crn];
-                            bSum+=(((bSeats.m-bSeats.e)>0)*1000)-bSeats.w;
+                            bSum+=(((bSeats.m-bSeats.e)>0)*100000)-bSeats.w*100+(aSeats.m-aSeats.e);
                         }
                         return bSum-aSum;
                     },
@@ -879,7 +879,7 @@ CORE.view.schedule  =   (function(CORE){
                             CORE.sort.functions.start()
                     },
                     disable:function(){
-                        CONTAINER.style.opacity='0.6';
+                        CONTAINER.style.opacity='0.4';
                         CORE.view.controlPanel.timeSort.disabled=true;
                     },
                     enable:function(){

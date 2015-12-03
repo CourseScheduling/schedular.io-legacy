@@ -21,7 +21,8 @@ CORE    =   {
         element:{}
     },
     view:{
-        crnInput:{}
+        crnInput:{},
+        crnBar:{}
     }
 };
 
@@ -37,7 +38,6 @@ CORE.main.fetch =   (function(CORE){
                 localStorage["RAW_COURSE_DATA"]=JSON.stringify(data);
                 CORE.raw_data=localStorage["RAW_COURSE_DATA"];
                 //make this the new localstorage stuff
-                localStorage["currentSchedule"] =   CRNarray.map(Number).join('.');
                 
                 cb&&cb();
             }
@@ -48,10 +48,7 @@ CORE.main.fetch =   (function(CORE){
 CORE.main.parse =   (function(CORE){
     return {
         start:function(){
-        
-            document.location.hash.substr(1).split('.').forEach(function(v,i,a){
-                CORE.currentCRNs.push(v);
-            });
+            
             CORE.raw_data   =   JSON.parse(CORE.raw_data);  
             CORE.raw_data.forEach(function(timeSection,index,raw_data){
             
@@ -256,6 +253,8 @@ CORE.schedule   =   (function(CORE){
             var courseMatch =   [];
             //get current section
             var currentSection  =   CORE.crnMap[e.target.getAttribute('data-crn')];
+            //get current crn
+            var currentCrn  =   e.target.getAttribute('data-crn');
             for(var crn in CORE.crnMap){
                 if(currentSection.courseName==CORE.crnMap[crn].courseName&&currentSection.lab==CORE.crnMap[crn].lab){
                     // if the element has the same course name and lab as clicked element put it in array
@@ -283,6 +282,13 @@ CORE.schedule   =   (function(CORE){
                             var block = CORE.schedule.makeBlock(section,time,day);
                             CORE.helper.element.changeStyle(block,{
                                 opacity:.3
+                            });
+                            block.addEventListener('mousedown',function(e){
+                                var urlCRNs =   document.location.hash.substr(1).split('.');
+                                urlCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
+                                document.location.hash  =   urlCRNs.join('.');
+                                document.body.innerHTML =   '';
+                                document.location.reload();
                             });
                             block.addEventListener('mouseover',CORE.schedule.blockOver);
                             block.addEventListener('mouseout',CORE.schedule.blockOut);
@@ -337,7 +343,10 @@ CORE.view.crnInput  =   (function(CORE){
             Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
             e.target.setAttribute('data-active','false');
         }else{
-            Velocity(document.getElementById('b-crnInput'),'fadeIn',300)
+            Velocity(document.getElementById('b-crnInput'),'fadeIn',{complete:function(){
+                        document.getElementById('b-crnInput'),focus();
+            }},300)
+
             e.target.setAttribute('data-active','true');
         }
     });
@@ -368,7 +377,48 @@ CORE.view.crnInput  =   (function(CORE){
     
 })(CORE);
 
+    function selectText(el, win) {
+    win = win || window;
+    var doc = win.document, sel, range;
+    if (win.getSelection && doc.createRange) {
+        sel = win.getSelection();
+        range = doc.createRange();
+        range.selectNodeContents(el);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (doc.body.createTextRange) {
+        range = doc.body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+}
 
+CORE.view.crnBar    =   (function(CORE){
+    return {
+        init:function(){
+            var crnBar  =   document.getElementById('crnBar');
+            CORE.currentCRNs.forEach(function(v,i,a){
+                var li  =   document.createElement('li');
+                var span    =   document.createElement('span');
+                span.innerHTML    =   v;
+                li.className    =   'crnLabel';
+                CORE.helper.element.changeStyle(span,{
+                    color:CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName),
+                    padding:'5px',
+                    border:'1px solid #DDD',
+                    fontSize:'14px'
+                });
+                li.addEventListener('mousedown',function(e){
+                    selectText(span);
+                    e.preventDefault();
+                });
+                li.appendChild(span);
+                li.innerHTML+='&nbsp;&nbsp;&nbsp;'+CORE.crnMap[v].courseName+(CORE.crnMap[v].lab?' -Lab':'');
+                crnBar.appendChild(li);
+            });
+        }
+    };
+})(CORE);
 
 var josephisAwesome=true;
 
@@ -380,16 +430,19 @@ var josephisAwesome=true;
 
     function rawExists(){
         CORE.main.parse.start();
-        CORE.schedule.generate();
         
-        document.location.hash.substr(1).split('.').forEach(function(v,i,a){
-            CORE.currentCRNs.push(v);
-            var crnLabel    =   document.createElement('li');
-            crnLabel.className  =   'crnLabel';
-            crnLabel.innerHTML=v;
-            crnLabel.style.color  =   CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName);
-            document.getElementById('crnBar').appendChild(crnLabel);
-        });
+        var newURL  =   [];
+        var urlCRNs =   document.location.hash.substr(1).split('.');
+        //Loop through all the crns in the url hash
+        
+        for(var i = urlCRNs.length;i--;)
+            if(CORE.crnMap[urlCRNs[i]]!==undefined)
+                newURL.unshift(urlCRNs[i]);
+        
+        document.location.hash  =   newURL.join('.');
+        CORE.currentCRNs    =   newURL;
+        CORE.schedule.generate();
+        CORE.view.crnBar.init();
     }
     //Fix the Url
     document.location.hash='#'+document.location.hash.match(/(\d\d\d\d\d)/g).join('.');
