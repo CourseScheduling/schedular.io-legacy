@@ -435,12 +435,12 @@ CORE.main.parse =   (function(CORE){
                         var aSum=0,bSum=0;
                         for(var i = a.length;i--;){
                             var aSeats  =   CORE.socket.seatMap[a[i].crn];
-                            aSum+=((aSeats.m-aSeats.e)>0);
+                            aSum+=(((aSeats.m-aSeats.e)>0)*1000)-aSeats.w;
 
                         }
                         for(var i = b.length;i--;){
                             var bSeats  =   CORE.socket.seatMap[b[i].crn];
-                            bSum+=((bSeats.m-bSeats.e)>0);
+                            bSum+=(((bSeats.m-bSeats.e)>0)*1000)-bSeats.w;
                         }
                         return bSum-aSum;
                     },
@@ -1176,7 +1176,12 @@ CORE.socket =   (function(CORE){
         data.forEach(function(section,index,array){
             CORE.socket.seatMap[section[0]]=JSON.parse(section[1]);
             [].forEach.call(document.getElementsByClassName('crn_'+section[0]),function(v,i,a){
-                v.innerHTML =   (CORE.socket.seatMap[section[0]].m-CORE.socket.seatMap[section[0]].e);
+                var sectionFullness =   (CORE.socket.seatMap[section[0]].m-CORE.socket.seatMap[section[0]].e);
+                    if(sectionFullness==0){
+                        v.innerHTML=CORE.socket.seatMap[section[0]].w+' waitlisted';
+                    }else{
+                        v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
+                    }
             });
         });
     });
@@ -1187,7 +1192,12 @@ CORE.socket =   (function(CORE){
             for(var crn in CORE.socket.seatMap){
                 var data =   CORE.socket.seatMap[crn];
                 [].forEach.call(document.getElementsByClassName('crn_'+crn),function(v,i,a){
-                    v.innerHTML =   data.m-data.e;
+                    var sectionFullness = data.m-data.e;
+                    if(sectionFullness==0){
+                        v.innerHTML=data.w+' waitlisted';
+                    }else{
+                        v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
+                    }
                 });
             }
         }
