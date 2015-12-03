@@ -47,7 +47,7 @@
 
 */
 
-var TEACHER_RATING_AVERAGE  =   3.6679156419657004;
+var TEACHER_RATING_AVERAGE  =   3.86;
 var STANDARD_DEVIATION  =   1.0229023978801683;
 //Store the raw data into the local storage. Help the builder
 
