@@ -1144,10 +1144,13 @@ CORE.view.schedule  =   (function(CORE){
         
         
 CORE.socket =   (function(CORE){
-    //CORE.socket.socket  =   io('localhost:3000/socketServer');
-    
-    
-    
+    var socket = io('http://localhost:8080');
+    socket.on('crnData', function (data) {
+        console.log(data);
+    });
+    return {
+        socket:socket
+    }
 })(CORE);
 
 

@@ -86,9 +86,10 @@ router.get('/show',function(req,res){
                 crns:crnArray
             };
             socket.emit('crnData',crnData);
-        });
-        req.io.on('disconnect',function(socket){
-            delete global.sockets[socket.id];
+            socket.on('disconnect',function(){
+                console.log(socket.id+'disconnected');
+                delete global.sockets[socket.id];
+            });
         });
         
         
