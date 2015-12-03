@@ -108,7 +108,9 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
             },
             show:{}
         },
-        socket:{}
+        socket:{
+            seatMap:{}
+        }
     }
 
 /* 
@@ -531,6 +533,8 @@ CORE.main.parse =   (function(CORE){
                         document.getElementById('main-scheduleContainer').appendChild(schedule);
                     }
                     this.current+=10;
+                    //Update how full sections are
+                    CORE.socket.updateSeats();
                     return current;
                 },
                 init:function(){
@@ -576,9 +580,12 @@ CORE.main.teacher.functions   =   (function(CORE){
             data.forEach(function(v,i,a){
                     var courseLabel =   document.createElement('div');                                                
                     courseLabel.innerHTML+=[
-                    '<div style="float:left;border:1px solid #DDD;box-sizing:border-box;height:28px;margin-top:1px;padding-left:5px;padding-right:5px;line-height:28px;margin-right:10px;">',
-                    '<strong style="text-shadow:0 0px 1px #999">',
-                        (Math.random()*10).toFixed(0),    
+                    '<div class="crn_',
+                    v.crn,
+                    '"style="float:left;border:1px solid #DDD;box-sizing:border-box;height:28px;margin-top:1px;padding-left:5px;padding-right:5px;line-height:28px;margin-right:10px;">',
+                    '<strong style="text-shadow:0 0px 1px #999" data-seatsCRN="',
+                        v.crn,
+                        '">',
                         '</strong>',
                     ' seats left</div>',
                     '<strong style="color:'+CORE.helper.color.getBackgroundColor(v.courseName)+'">',
@@ -1039,8 +1046,6 @@ CORE.view.schedule  =   (function(CORE){
                         elemRect = event.target.getBoundingClientRect(),
                         offset   = elemRect.top - bodyRect.top,
                         offsetleft   = elemRect.left - bodyRect.left;
-
-                    console.log(elemRect.height);
                     tt.style.top    =   offset+80+elemRect.height+'px';
                     tt.style.left    =   offsetleft-150+'px';
                     document.getElementById('t-toolTipTimes').innerHTML ='';
@@ -1146,10 +1151,24 @@ CORE.view.schedule  =   (function(CORE){
 CORE.socket =   (function(CORE){
     var socket = io('http://localhost:8080');
     socket.on('crnData', function (data) {
-        console.log(data);
+        data.forEach(function(section,index,array){
+            CORE.socket.seatMap[section[0]]=JSON.parse(section[1]);
+            [].forEach.call(document.getElementsByClassName('crn_'+section[0]),function(v,i,a){
+                v.innerHTML =   (CORE.socket.seatMap[section[0]].m-CORE.socket.seatMap[section[0]].e);
+            });
+        });
     });
     return {
-        socket:socket
+        seatMap:{},
+        socket:socket,
+        updateSeats:function(){
+            for(var crn in CORE.socket.seatMap){
+                var data =   CORE.socket.seatMap[crn];
+                [].forEach.call(document.getElementsByClassName('crn_'+crn),function(v,i,a){
+                    v.innerHTML =   data.m-data.e;
+                });
+            }
+        }
     }
 })(CORE);
 
