@@ -25,7 +25,7 @@ app.init   =   function(){
     // Grab the last update time.
     memServer.get(CRN_UPDATE_KEY,function(e,data){
         //Set the lastUpdate variable
-        global.lastUpdateCRN    = 0;
+        global.lastUpdate    = 0;
         console.log('Pushing to sockets in'+((600-(parseInt(Date.now()/1000)-parseInt(data.substr(1))))*1000)+'ms');
         //Set the timeout function to go off after 10min since last update on memcached side.
         setTimeout(app.timeOut,(600-(parseInt(Date.now()/1000)-parseInt(data.substr(1))))*1000);
@@ -42,15 +42,16 @@ app.init   =   function(){
 app.timeOut =   function(){
     memServer.get(CRN_UPDATE_KEY,function(e,data){
         //GRAB ALL CRNS and store in fillData
-        
-        memServer.getMulti(CRN_ARRAY, function (err, data) {
-            //Populate the global fillData object with crns and their corresponding data.
-            console.log('updated memcached');
-            for(var crn in data){
-                global.fillData[crn.substr(CRN_PREFIX.length)]   =   data[crn];
-            }
-            app.pushSockets();
-        });
+        if(data!==global.lastUpdate){
+            memServer.getMulti(CRN_ARRAY, function (err, data) {
+                //Populate the global fillData object with crns and their corresponding data.
+                console.log('updated memcached');
+                for(var crn in data){
+                    global.fillData[crn.substr(CRN_PREFIX.length)]   =   data[crn];
+                }
+                app.pushSockets();
+            });
+        }
     });
     //Do this again in 10 minutes
     setTimeout(app.timeOut,600000);
