@@ -37,7 +37,6 @@ CORE.main.fetch =   (function(CORE){
                 localStorage["RAW_COURSE_DATA"]=JSON.stringify(data);
                 CORE.raw_data=localStorage["RAW_COURSE_DATA"];
                 //make this the new localstorage stuff
-                localStorage["currentSchedule"] =   CRNarray.map(Number).join('.');
                 
                 cb&&cb();
             }
@@ -48,10 +47,7 @@ CORE.main.fetch =   (function(CORE){
 CORE.main.parse =   (function(CORE){
     return {
         start:function(){
-        
-            document.location.hash.substr(1).split('.').forEach(function(v,i,a){
-                CORE.currentCRNs.push(v);
-            });
+            
             CORE.raw_data   =   JSON.parse(CORE.raw_data);  
             CORE.raw_data.forEach(function(timeSection,index,raw_data){
             
@@ -337,7 +333,10 @@ CORE.view.crnInput  =   (function(CORE){
             Velocity(document.getElementById('b-crnInput'),'fadeOut',300)
             e.target.setAttribute('data-active','false');
         }else{
-            Velocity(document.getElementById('b-crnInput'),'fadeIn',300)
+            Velocity(document.getElementById('b-crnInput'),'fadeIn',{complete:function(){
+                        document.getElementById('b-crnInput'),focus();
+            }},300)
+
             e.target.setAttribute('data-active','true');
         }
     });
@@ -380,16 +379,18 @@ var josephisAwesome=true;
 
     function rawExists(){
         CORE.main.parse.start();
-        CORE.schedule.generate();
         
-        document.location.hash.substr(1).split('.').forEach(function(v,i,a){
-            CORE.currentCRNs.push(v);
-            var crnLabel    =   document.createElement('li');
-            crnLabel.className  =   'crnLabel';
-            crnLabel.innerHTML=v;
-            crnLabel.style.color  =   CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName);
-            document.getElementById('crnBar').appendChild(crnLabel);
-        });
+        var newURL  =   [];
+        var urlCRNs =   document.location.hash.substr(1).split('.');
+        //Loop through all the crns in the url hash
+        
+        for(var i = urlCRNs.length;i--;)
+            if(CORE.crnMap[urlCRNs[i]]!==undefined)
+                newURL.unshift(urlCRNs[i]);
+        
+        document.location.hash  =   newURL.join('.');
+        CORE.currentCRNs    =   newURL;
+        CORE.schedule.generate();
     }
     //Fix the Url
     document.location.hash='#'+document.location.hash.match(/(\d\d\d\d\d)/g).join('.');
