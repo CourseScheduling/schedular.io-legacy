@@ -435,12 +435,14 @@ CORE.main.parse =   (function(CORE){
                         var aSum=0,bSum=0;
                         for(var i = a.length;i--;){
                             var aSeats  =   CORE.socket.seatMap[a[i].crn];
-                            aSum+=aSeats.m-aSeats.e;
+                            aSum+=((aSeats.m-aSeats.e)>0);
+
                         }
                         for(var i = b.length;i--;){
                             var bSeats  =   CORE.socket.seatMap[b[i].crn];
-                            bSum+=bSeats.m-bSeats.e;
+                            bSum+=((bSeats.m-bSeats.e)>0);
                         }
+                        return bSum-aSum;
                     },
                     blockAmount:function(a,b){
                         return b.times.length-a.times.length;
