@@ -24,7 +24,7 @@ block bodyContent
         br(clear="all")
     
     //  Controls for filtering
-    div#c-controlBlock
+    div#c-controlBlock(style="z-index:100000000")
         // Control Course Filter
         
         div(id="sort-dropDownContainer")
@@ -32,6 +32,7 @@ block bodyContent
                 label(style="font-weight:100") | 
                 label(style="font-weight:300;") Starting Time
             div(id="sort-dropDownList")
+                div(class="sort-dropDownItem" data-value="Availability") Availability
                 div(class="sort-dropDownItem" data-value="Teacher Rating") Teacher Rating
                 div(class="sort-dropDownItem sort-dropDownItem-active" data-value="Starting Time") Starting Time
         //Control Course Start Time

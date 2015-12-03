@@ -431,6 +431,17 @@ CORE.main.parse =   (function(CORE){
                         return (bSum/bCount)-(aSum/aCount);
                             
                     },
+                    availability:function(a,b){
+                        var aSum=0,bSum=0;
+                        for(var i = a.length;i--;){
+                            var aSeats  =   CORE.socket.seatMap[a[i].crn];
+                            aSum+=aSeats.m-aSeats.e;
+                        }
+                        for(var i = b.length;i--;){
+                            var bSeats  =   CORE.socket.seatMap[b[i].crn];
+                            bSum+=bSeats.m-bSeats.e;
+                        }
+                    },
                     blockAmount:function(a,b){
                         return b.times.length-a.times.length;
                     }
@@ -457,6 +468,10 @@ CORE.main.parse =   (function(CORE){
                             case  'Teacher Rating':
                                 var start = new Date().getTime();   
                                 CORE.scheduleOptions.current.sort(CORE.sort.functions.teacherRating);
+                            break;
+                            case  'Availability':
+                                var start = new Date().getTime();   
+                                CORE.scheduleOptions.current.sort(CORE.sort.functions.availability);
                             break;
                         }
                         //Display timer results
@@ -988,6 +1003,11 @@ CORE.view.schedule  =   (function(CORE){
                             case 'Starting Time':
                                 CORE.sort.functions.type='Starting Time';
                                 CORE.view.controlPanel.timeSort.enable();
+                                CORE.sort.functions.start();
+                            break;
+                            case 'Availability':
+                                CORE.sort.functions.type='Availability';
+                                CORE.view.controlPanel.timeSort.disable();
                                 CORE.sort.functions.start();
                             break;
                         }
