@@ -235,6 +235,7 @@ CORE.schedule   =   (function(CORE){
             
         },
         blockOver:function(e){
+            console.log(e);
             var section = e.target.getAttribute('data-sectionId');
             [].forEach.call(document.querySelectorAll('[data-sectionID="'+section+'"]'),function(possible,i,a){
                 possible.style.boxShadow    =   '0px 0px 3px #000';
