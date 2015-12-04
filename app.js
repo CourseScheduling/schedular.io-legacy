@@ -49,7 +49,7 @@ app.use(session({
 
 
 
-var io  = require('socket.io').listen(app.listen(8080));
+var io  = require('socket.io').listen(app.listen(4342));
 
 app.use(function(req,res,next){
     if(req.session.loggedIn){

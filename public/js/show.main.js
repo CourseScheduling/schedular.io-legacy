@@ -1171,7 +1171,7 @@ CORE.view.schedule  =   (function(CORE){
         
         
 CORE.socket =   (function(CORE){
-    var socket = io('http://localhost:8080');
+    var socket = io('http://schedular.io:4342');
     socket.on('crnData', function (data) {
         data.forEach(function(section,index,array){
             CORE.socket.seatMap[section[0]]=JSON.parse(section[1]);
