@@ -10,6 +10,7 @@ CORE    =   {
         parse:{},
     },
     schedule:{
+        container:'',
         blockClick:{},
         makeBlock:{},
         generate:{}
@@ -216,6 +217,7 @@ CORE.search =   (function(CORE){
 })(CORE);
 CORE.schedule   =   (function(CORE){
     return {
+        container:document.getElementById('b-timeBlockWrap'),
         blockBlur:function(element){
             var possible = element.getAttribute('data-possibleUniq');
             var killNodes   =   function(e){
@@ -288,8 +290,9 @@ CORE.schedule   =   (function(CORE){
                                     console.log(v.parentNode.removeChild(v));
                                 });
                                 urlCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
-                                CORE.currentCRNs.splice(CORE.currentCRNs.indexOf(currentCrn),1,section.crn);
+                                CORE.currentCRNs.splice(CORE.currentCRNs.indexOf(currentCrn),1,section.crn.toString());
                                 document.location.hash  =   urlCRNs.join('.');
+                                CORE.schedule.container.innerHTML='';
                                 CORE.schedule.generate();
 
                             });
