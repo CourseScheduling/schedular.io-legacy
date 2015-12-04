@@ -39,8 +39,10 @@ var ValidateMod   =   {
         });
     },
         
-    good:function(username,password,student,account,cb){
+    good:function(username,password,student,account,email,cb){
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
         var _this   =   this;
+        
         if(["student","faculty"].indexOf(account)==-1)
             return cb&&cb(false,'INVALID_ACCOUNT');
         if(username.match(/[^a-zA-Z\d_-]/g)!==null)
@@ -51,7 +53,8 @@ var ValidateMod   =   {
             return cb&&cb(false,'INVALID_STUDENT');
         if(password.length>200)
             return cb&&cb(false,'LONG_PASSWORD');
-        
+        if(account=='faculty'&&(email.length==0||!emailRegex.test(email)||email.split('@')[1]!=='ufv.ca')
+            return cb&&cb(false,'BAD_FACULTY');
         return cb&&cb(true,'');
         
     },
