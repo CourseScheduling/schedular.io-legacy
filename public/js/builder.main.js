@@ -285,10 +285,10 @@ CORE.schedule   =   (function(CORE){
                             block.addEventListener('mousedown',function(e){
                                 var urlCRNs =   document.location.hash.substr(1).split('.');
                                 [].forEach.call(document.querySelectorAll('[data-crn="'+currentCrn+'"]'),function(v,i,a){
-                                    v.parentNode.removeChild(v);
+                                    console.log(v.parentNode.removeChild(v));
                                 });
                                 urlCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
-                                CORE.currentCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
+                                CORE.currentCRNs.splice(CORE.currentCRNs.indexOf(currentCrn),1,section.crn);
                                 document.location.hash  =   urlCRNs.join('.');
                                 CORE.schedule.generate();
 
