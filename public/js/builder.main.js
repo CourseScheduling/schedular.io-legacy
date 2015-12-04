@@ -30,7 +30,6 @@ CORE    =   {
 CORE.main.fetch =   (function(CORE){
         //Fetches the data that is needed
     return function(CRNarray,cb){
-        console.log('f');
         CORE.ajax.get({
             url:'/s/fetch?crns='+JSON.stringify(CRNarray.map(Number)),
             done:function(data){
@@ -285,10 +284,14 @@ CORE.schedule   =   (function(CORE){
                             });
                             block.addEventListener('mousedown',function(e){
                                 var urlCRNs =   document.location.hash.substr(1).split('.');
+                                [].forEach.call(document.querySelectorAll('[data-crn="'+currentCrn+'"]'),function(v,i,a){
+                                    v.parentNode.removeChild(v);
+                                });
                                 urlCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
+                                CORE.currentCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
                                 document.location.hash  =   urlCRNs.join('.');
-                                document.body.innerHTML =   '';
-                                document.location.reload();
+                                CORE.schedule.generate();
+
                             });
                             block.addEventListener('mouseover',CORE.schedule.blockOver);
                             block.addEventListener('mouseout',CORE.schedule.blockOut);
@@ -405,7 +408,7 @@ CORE.view.crnBar    =   (function(CORE){
                 CORE.helper.element.changeStyle(span,{
                     color:CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName),
                     padding:'5px',
-                    border:'1px solid #DDD',
+                    border:'1px solid #CCC',
                     fontSize:'14px'
                 });
                 li.addEventListener('mousedown',function(e){
