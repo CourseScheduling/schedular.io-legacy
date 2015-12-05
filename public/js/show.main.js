@@ -157,12 +157,23 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
 
         CORE.helper.color   =   (function(CORE){
             return {
-                changeTint:function(color,amount){
-                    var num = parseInt(color,16);
-                    var newColor = ((num & 0x0000FF) + amount) | 
-                        ((((num >> 8) & 0x00FF) + amount) << 8) |
-                        (((num >> 16) + amount) << 16);
-                    return newColor.toString(16);
+                changeTint:function(hex, lum) {
+                    // validate hex string
+                    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+                    if (hex.length < 6) {
+                        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+                    }
+                    lum = lum || 0;
+
+                    // convert to decimal and change luminosity
+                    var rgb = "", c, i;
+                    for (i = 0; i < 3; i++) {
+                        c = parseInt(hex.substr(i*2,2), 16);
+                        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+                        rgb += ("00"+c).substr(c.length);
+                    }
+
+                    return rgb;
                 },
                 getTextColor:function(code){
                     code    =   code.substr(1);
@@ -184,7 +195,7 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
                                 .slice(2,-5), 10) & 0xFFFFFF)
                          .toString(16)
                          .toUpperCase())
-                        .slice(-6),5);
+                        .slice(-6),0.1);
                 }
             };
         })(CORE);
