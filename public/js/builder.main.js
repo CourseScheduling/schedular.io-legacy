@@ -1,4 +1,9 @@
+/* CONFIG STUFF */
 
+    ZeroClipboard.config( { swfPath: "/flash/ZeroClipboard.swf" } );
+
+                window.ZeroClipboard = ZeroClipboard;
+/* CORE STUFF */
 
 CORE    =   {
     ajax:$,
@@ -427,17 +432,21 @@ CORE.view.crnBar    =   (function(CORE){
                     color:'#FFF',
                     backgroundColor:CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName),
                     padding:'10px',
-                    fontSize:'12px',
-                    zIndex:10000
+                    fontSize:'12px'
                 });
                 li.addEventListener('mousedown',function(e){
                     selectText(span);
                     e.preventDefault();
                 });
                 li.appendChild(span);
+                li.style.zIndex = 999999999;
+
+
                 li.innerHTML+='&nbsp;&nbsp;&nbsp;'+CORE.crnMap[v].courseName+(CORE.crnMap[v].lab?' -Lab':'');
                 crnBar.appendChild(li);
-            });
+                li.setAttribute('data-clipboard-text',v);
+                new ZeroClipboard(li);
+        });
         }
     };
 })(CORE);
