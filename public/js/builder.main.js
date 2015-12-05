@@ -293,6 +293,9 @@ CORE.schedule   =   (function(CORE){
                                 CORE.currentCRNs.splice(CORE.currentCRNs.indexOf(currentCrn),1,section.crn.toString());
                                 document.location.hash  =   urlCRNs.join('.');
                                 CORE.schedule.container.innerHTML='';
+                                var crnBlock    =   document.querySelectorAll('[data-crnSpan="'+currentCrn+'"]')[0];
+                                crnBlock.setAttribute('data-crnSpan',section.crn);
+                                crnBlock.innerHTML=section.crn;
                                 CORE.schedule.generate();
 
                             });
@@ -407,6 +410,7 @@ CORE.view.crnBar    =   (function(CORE){
                 var li  =   document.createElement('li');
                 var span    =   document.createElement('span');
                 span.innerHTML    =   v;
+                span.setAttribute('data-crnSpan',v);
                 li.className    =   'crnLabel';
                 CORE.helper.element.changeStyle(span,{
                     color:CORE.helper.color.getBackgroundColor(CORE.crnMap[v].courseName),

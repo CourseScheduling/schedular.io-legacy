@@ -53,8 +53,9 @@ var ValidateMod   =   {
             return cb&&cb(false,'INVALID_STUDENT');
         if(password.length>200)
             return cb&&cb(false,'LONG_PASSWORD');
-        if(account=='faculty'&&(email.length==0||!emailRegex.test(email)||email.split('@')[1]!=='ufv.ca')
+        if(account=='faculty'&&(email.length==0||!emailRegex.test(email)||email.split('@')[1]!=='ufv.ca'))
             return cb&&cb(false,'BAD_FACULTY');
+        
         return cb&&cb(true,'');
         
     },
