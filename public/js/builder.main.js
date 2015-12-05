@@ -1,8 +1,4 @@
-/* CONFIG STUFF */
 
-    ZeroClipboard.config( { swfPath: "/flash/ZeroClipboard.swf" } );
-
-                window.ZeroClipboard = ZeroClipboard;
 /* CORE STUFF */
 
 CORE    =   {
@@ -445,8 +441,7 @@ CORE.view.crnBar    =   (function(CORE){
                 li.innerHTML+='&nbsp;&nbsp;&nbsp;'+CORE.crnMap[v].courseName+(CORE.crnMap[v].lab?' -Lab':'');
                 crnBar.appendChild(li);
                 li.setAttribute('data-clipboard-text',v);
-                new ZeroClipboard(li);
-        });
+            });
         }
     };
 })(CORE);

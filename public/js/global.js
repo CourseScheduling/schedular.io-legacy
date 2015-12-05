@@ -30,12 +30,20 @@ $   =   {
         };
         request.onerror = function() {};
         request.send(e.data);
+    },
+    isChild:function(element,parent){
+        while(element.parentNode){
+            if(element===parent){
+                return true;    
+            }
+            element =   element.parentNode;
+        }
+        return false;
     }
 }
 var navbarMenu  =   {
     isDown:false,
     drop:function(){
-        console.log('e');
         if(!_NMthis.isDown){
             _NMthis.initiateButton.classList.add('menuDrop-active');
             Velocity(_NMthis.dropDown,'fadeIn',{complete:function(e){
@@ -53,11 +61,26 @@ var navbarMenu  =   {
             return;
         }
     },
+    close:function(){
+        if(_NMthis.isDown){
+            _NMthis.initiateButton.classList.remove('menuDrop-active');
+            Velocity(_NMthis.dropDown,'fadeOut',{complete:function(e){
+                e[0].display    =   'none';
+                _NMthis.isDown =   false;
+            }},50);
+            return;
+        }
+    },
     init:function(){
         _NMthis   =   this;
         this.initiateButton =   document.getElementById('menuDrop'),
         this.dropDown   =   document.getElementById('menuContainer'),
         navbarMenu.initiateButton.addEventListener('mouseup',_NMthis.drop);
+        document.addEventListener('click',function(e){
+            if($.isChild(e.target,_NMthis.dropDown)||$.isChild(e.target,_NMthis.initiateButton))
+                return;
+            _NMthis.close();
+        });
     }
 }
 

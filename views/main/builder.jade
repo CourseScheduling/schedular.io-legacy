@@ -12,10 +12,10 @@ block bodyContent
                 span(id="b-crnAddButton") Add +
             br
             br
+    img(src="/images/cloudSave.png" height="50px")
+    img(src="/images/cameraWire.png" height="40px")
     div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:123px;left:50%;width:704px;")
         p(style="font-family:Raleway;font-size:20px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
-            img(src="/images/cloudSave.png" height="50px")
-            img(src="/images/cameraWire.png" height="40px")
         input(id="b-crnInput" placeholder="Enter CRNs with a comma inbetween e.g. 10973,10981,10921")
         div(class="b-scheduleWrap" data-crn="" style="float:left;")
             div(class="b-dayLabelWrap")
@@ -27,5 +27,4 @@ block bodyContent
                     div(class="b-timeLabel" style="top:"+((index*40)-1)+'px')=time
 
             div(id="b-timeBlockWrap" class="b-timeBlockWrap")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.js")
     script(src="/js/builder.main.js")

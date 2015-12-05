@@ -7,6 +7,14 @@ html
         link(href='https://fonts.googleapis.com/css?family=Open Sans:600,400,100,300' rel='stylesheet')
         link(href='https://fonts.googleapis.com/css?family=Raleway:400,300,100',rel='stylesheet')
         link(href='/css/templateCSS.css' rel='stylesheet')
+        style.
+            #homeIconCover{
+                transition:background .25s;
+            }
+            #homeIconCover:hover{
+                background:#999;
+                transition:background .25s;
+            }
         block headContent
     body     
     
@@ -18,20 +26,24 @@ html
                         span(style="height:50px;line-height:50px;font-size:14px;font-family:Open Sans;font-weight:300;color:#444;") Schedular
                 #accountWrap
                     div#accountName=((firstname+lastname).length===0?student:(firstname+' '+lastname))
+                    div(style="padding:12px;display:inline-block;")
+                        a(title="Home" href="/")
+                            div(id="homeIconCover" style="height:26px;width:26px;border:1px solid #CCC;border-radius:25px;overflow:hidden;padding:4px 4px 4px 5px;cursor:pointer;box-sizing:border-box;")
+                                img(src="/images/homeIcon.png" height="15px")
                     #menuDrop
                             
                 #menuContainer
                     #menuNub
                     ul#menuItems-list
+                        a(href="/m/manage" title="Manage Timetable")
+                            li.menuItems-listItem.clearfix
+                                img(src="/images/calendarManage.png" height="30px" style="display:inline;float:left;")
+                                span(style="display:inline;padding:5px;margin-left:10px;float:right;") Manage Timetables
+                        a(href="/s/builder" title="Timetable Builder")
+                            li.menuItems-listItem.clearfix
+                                img(src="/images/calendarWork.png" height="30px" style="display:inline;float:left;")   
+                                span(style="display:inline;padding:5px;margin-left:10px;float:right;") Timetable Builder
                         //
-                            a(href="/create" title="Create Timetable")
-                                li.menuItems-listItem.clearfix
-                                    img(src="/images/calendarPlus.png" height="30px" style="display:inline;float:left;")   
-                                    span(style="display:inline;padding:5px;margin-left:10px;float:right;") Create Timetable
-                            a(href="/manage" title="Manage Timetable")
-                                li.menuItems-listItem.clearfix
-                                    img(src="/images/calendarWork.png" height="30px" style="display:inline;float:left;")
-                                    span(style="display:inline;padding:5px;margin-left:10px;float:right;") Manage Timetable
                             a(href="/directory" title="Course Directory")
                                 li.menuItems-listItem.clearfix
                                     img(src="/images/directory.png" height="30px" style="display:inline;float:left;")
@@ -39,7 +51,7 @@ html
                             a(href="/info" title="My Info")
                                 li.menuItems-listItem(style="padding-left:20px;") My Info
                         a(href="/u/logout" title="Logout")
-                            li.menuItems-listItem(style="padding-left:20px;") Logout
+                            li.menuItems-listItem(style="border-top:1px solid #EEE;margin-top:5px;text-align:center;padding-left:20px;") Logout
         script.
             
             navbarMenu.init();

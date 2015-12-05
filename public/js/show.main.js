@@ -446,12 +446,12 @@ CORE.main.parse =   (function(CORE){
                         var aSum=0,bSum=0;
                         for(var i = a.length;i--;){
                             var aSeats  =   CORE.socket.seatMap[a[i].crn];
-                            aSum+=(((aSeats.m-aSeats.e)>0)*100000)-aSeats.w*100+(aSeats.m-aSeats.e);
+                            aSum+=(((aSeats.m-aSeats.e)>0)*100000)-(aSeats.w*100)+(aSeats.m-aSeats.e)*((aSeats.m-aSeats.e)>0);
 
                         }
                         for(var i = b.length;i--;){
                             var bSeats  =   CORE.socket.seatMap[b[i].crn];
-                            bSum+=(((bSeats.m-bSeats.e)>0)*100000)-bSeats.w*100+(aSeats.m-aSeats.e);
+                            bSum+=(((bSeats.m-bSeats.e)>0)*100000)-(bSeats.w*100)+(bSeats.m-bSeats.e)*((bSeats.m-bSeats.e)>0);
                         }
                         return bSum-aSum;
                     },
