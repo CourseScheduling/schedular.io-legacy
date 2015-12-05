@@ -1,4 +1,3 @@
-
 /* CORE STUFF */
 
 CORE    =   {
@@ -398,21 +397,6 @@ CORE.view.crnInput  =   (function(CORE){
     
 })(CORE);
 
-    function selectText(el, win) {
-    win = win || window;
-    var doc = win.document, sel, range;
-    if (win.getSelection && doc.createRange) {
-        sel = win.getSelection();
-        range = doc.createRange();
-        range.selectNodeContents(el);
-        sel.removeAllRanges();
-        sel.addRange(range);
-    } else if (doc.body.createTextRange) {
-        range = doc.body.createTextRange();
-        range.moveToElementText(el);
-        range.select();
-    }
-}
 
 CORE.view.crnBar    =   (function(CORE){
     return {
@@ -430,17 +414,14 @@ CORE.view.crnBar    =   (function(CORE){
                     padding:'10px',
                     fontSize:'12px'
                 });
-                li.addEventListener('mousedown',function(e){
-                    selectText(span);
-                    e.preventDefault();
-                });
                 li.appendChild(span);
                 li.style.zIndex = 999999999;
 
 
-                li.innerHTML+='&nbsp;&nbsp;&nbsp;'+CORE.crnMap[v].courseName+(CORE.crnMap[v].lab?' -Lab':'');
+                li.innerHTML+='<span style="user-select:none;-webkit-user-select: none;margin-left:20px;">'+CORE.crnMap[v].courseName+(CORE.crnMap[v].lab?' -Lab':'')+'</span>';
                 crnBar.appendChild(li);
                 li.setAttribute('data-clipboard-text',v);
+                
             });
         }
     };
