@@ -192,7 +192,7 @@ CORE.helper.element =  (function(CORE){
             return element;
         }
     }
-})(CORE)
+})(CORE);
 
 
 /*

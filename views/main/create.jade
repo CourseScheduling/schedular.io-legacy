@@ -80,13 +80,14 @@ block headContent
                         padding-left:10px;
                         cursor:pointer;
                     }
-                        .instant-resultContainer:hover{
+                        .instant-resultContainer-hover{
                             background-color:#89C4F4;
                         }
                         .instant-resultCourseName{
                             font-family:Raleway;
                             font-size:13px;
                             font-weight:600;
+                            display:inline-block;
                         }
                         .instant-resultCourseCode{
                             font-family:Open Sans;
@@ -94,6 +95,7 @@ block headContent
                             font-weight:300;
                             color:#666;
                             margin-left:10px;
+                            display:inline-block;
                         }
                         .courseChoice-wrap{
                             list-style-type:none;
@@ -135,6 +137,29 @@ block bodyContent
 
     footer
     script.
+        CORE    =   {
+            helper:{
+                element:{
+                
+                }
+            }
+        }
+        
+        CORE.helper.element =  (function(CORE){
+            return {
+                changeStyle:function(element,styles){
+                    for(var attributes in styles)
+                        element.style[attributes]=styles[attributes];
+                },
+                createDiv:function(attributes){
+                    var element =   document.createElement('div');
+                    for(var attributeName in attributes)
+                        element.setAttribute(attributeName,attributes[attributeName]);
+                    return element;
+                }
+            }
+        })(CORE);
+        
         var courseInput =   {
             element:document.getElementById('courseInput'),
             pastValue:'',
@@ -193,19 +218,33 @@ block bodyContent
             },
             load:function(courses){
                 var _this   =   this;
-                    _this.dropDown.innerHTML='';
+                
+                //Remove all nodes in the dropdown
+                
+                    while(_this.dropDown.firstChild)
+                        _this.dropDown.removeChild(_this.dropDown.firstChild);
                 courses.forEach(function(v,i,a){
-                    _this.dropDown.innerHTML+=[
-                        '<div class="instant-resultContainer" data-courseCode="',v.courseCode,'" onclick="chosenCourses.add(this)">',
-                            '<strong class="instant-resultCourseName">',
-                            v.courseName,
-                            '</strong>',
-                            '<span class="  instant-resultCourseCode">',
-                            v.courseCode,
-                            '<span>',
-                        '</div>'
-                    ].join('');
-
+                    var instantContainer    =  CORE.helper.element.createDiv({class:'instant-resultContainer'});
+                    var courseName  =   CORE.helper.element.createDiv({class:'instant-resultCourseName'});
+                    var courseCode  =   CORE.helper.element.createDiv({class:'instant-resultCourseCode'});
+                    
+                    instantContainer.setAttribute('data-courseCode',v.courseCode);
+                    courseName.innerHTML    =   v.courseName;
+                    courseCode.innerHTML    =   v.courseCode;
+                    
+                    instantContainer.appendChild(courseName);
+                    instantContainer.appendChild(courseCode);
+                    
+                    _this.dropDown.appendChild(instantContainer);
+                    instantContainer.addEventListener('click',function(){
+                        chosenCourses.add(instantContainer);
+                    });
+                    instantContainer.addEventListener('mouseover',function(){
+                        instantContainer.classList.add('instant-resultContainer-hover');
+                    });
+                    instantContainer.addEventListener('mouseout',function(){
+                        instantContainer.classList.remove('instant-resultContainer-hover');
+                    });
                 });
             },
             getPos:function(el) {

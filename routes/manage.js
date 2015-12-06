@@ -8,6 +8,7 @@ var connection = mysql.createConnection({
   password : 'joseph123',
   database : 'ufv'
 });
+connection.connect();
 
 function jadeData(req){
     return {
@@ -17,7 +18,6 @@ function jadeData(req){
    }
 }
 
-connection.connect();
 
 
 router.use(function(req,res,next){
@@ -29,7 +29,7 @@ router.use(function(req,res,next){
 })
 
 router.get('/',function(req,res){
-    res.render('main/create',jadeData(req));
+    res.render('main/manage',jadeData(req));
 })
 
 module.exports = router;
