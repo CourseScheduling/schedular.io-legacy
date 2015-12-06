@@ -12,7 +12,19 @@ This is the Schedular.io README file.
 
 ### How to get started ##
 * Clone this into a folder
-* Install nodejs and npm
+
+On Debian:
+    `sudo apt-get install nodejs-legacy`
+    `sudo apt-get install npm`
+    `sudo apt-get install memcached`
+It is very important that you use the legacy version of nodejs for all debian based distros.
+
+On Windows:
+    Download install and run nodejs
+    Download install and run memcached
+
+
+    
 * cd into this folder via command line
 * execute:
  * npm install
