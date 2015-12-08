@@ -17,7 +17,6 @@ var liveCrn =   require('./liveCrn');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
 /*
 * Start the socket thing and memcached stuff
 */
