@@ -764,7 +764,7 @@ CORE.view.schedule  =   (function(CORE){
             //Adjust its styles.
             CORE.helper.element.changeStyle(timeBlock,{
                 top     :   [(time.startTime-480)/2,'px'].join(''),
-                left    :   [(day+1)*71,'px'].join(''),
+                left    :   [((day+1)%7)*71,'px'].join(''),
                 height  :   [(time.endTime-time.startTime)/2,'px'].join(''),
                 lineHeight  :   [(time.endTime-time.startTime-4)/2,'px'].join(''),
                 color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.courseName)),
