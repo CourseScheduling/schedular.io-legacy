@@ -63,12 +63,11 @@ block headContent
                     color:inherit;
                     outline:0;
                     text-decoration:none;
-                }
-                [contenteditable=true]:empty:after{
-                  color:#888;
-                  content: attr(placeholder);
-                  display: block; /* For Firefox */
-                }
+                    }
+                    ::-webkit-input-placeholder { /* WebKit browsers */
+            color:    #888;
+            opacity: 1 !important;
+            }
                 #instantDropDown{
                     width:100px;
                     border:1px solid #BBB;
@@ -131,8 +130,9 @@ block bodyContent
                 img(src="/images/sun.png" width="30px")
         #centerContainer
             p#mainTitle Your Courses
-            div#courseInput(type="text",contenteditable="true",placeholder="Enter your courses, e.g. Academic Writing, ENGL105")
+            input#courseInput(type="text",placeholder="Enter your courses, e.g. Academic Writing, ENGL105")
             div#instantDropDown
+            br
             br
             p(style="font-family:Open Sans;font-size:12px;font-weight:100;padding-left:100px;") Your Current Schedule Contains:
             ul#courseChoiceContainer(style="margin-left:100px;width:550px;padding-right:50px;float:left;")
@@ -170,7 +170,7 @@ block bodyContent
             pastValue:'',
             currentInstance:0,
             getValue:function(){
-                return this.element.innerHTML.replace(/(<([^>]+)>)/ig,"").replace('&nbsp;','');
+                return this.element.value
             },
             keypress:function(e){
                 var currentValue    =   _CIthis.getValue();    
