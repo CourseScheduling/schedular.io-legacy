@@ -44,9 +44,12 @@ block bodyContent
                 div(class="timeSort-ball" data-value="Noon")
                 div(class="timeSort-connector")
                 div(class="timeSort-ball" data-value="Evenings")
-                
+        div(style="font-family:Open Sans;font-size:12px;font-weight:100;float:right;")        
+            div(style="height:20px;width:20px;border-radius:20px;border:1px solid #DDD;float:right;margin-top:20px;") 
+            span(style="float:right") Advanced
+        
         //Filter by Campus
-        table(id="campusList" style="float:right")
+        table(id="campusList" style="float:right;opacity:0;")
             tr
                 td(class="campusFilter-box") Abby
                 td(class="campusFilter-box") Chilliwack
@@ -68,7 +71,6 @@ block bodyContent
                 td(class="campusFilter-box") 
                     input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
                     
-                    
     //  Main part
     div#main-scheduleContainer
     div#yo
@@ -80,7 +82,7 @@ block bodyContent
     div(class="possibleContainer" id="scheduleWrapTemplate" )
         //This below is the template for ratings
         div(class="r-ratingWrap")
-            img(src="/images/star.png" style="float: left;height: 20px;margin: 5px;margin-right:10px;margin-left: 0;")
+            //img(src="/images/star.png" onmouseover="this.src='/images/starHover.png'" onmouseout="this.src='/images/star.png'" style="cursor:pointer;float: left;height: 20px;margin: 5px;margin-right:10px;margin-left: 0;")
             div(class="r-averageRatingTitle") Average Rating:
             div(class="r-ratingContainer")
             button(data-crn="11257" class="s-useMeButton" title="Use This Schedule") Use This Schedule

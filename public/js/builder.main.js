@@ -84,6 +84,9 @@ CORE.main.parse =   (function(CORE){
                         }
                     }
                 }else{
+                    if(CORE.crnMap[timeSection.CRN].times.every(function(a){
+                       return JSON.stringify(a)!==JSON.stringify(timeSectionJSON)
+                    }))
                     CORE.crnMap[timeSection.CRN].times.push(timeSectionJSON);
                 }
             });
@@ -207,6 +210,10 @@ CORE.helper.element =  (function(CORE){
 CORE.search =   (function(CORE){
     return {
         matchCurrent:function(section){
+            if(CORE.currentCRNs.indexOf(section.crn.toString())!==-1)
+                return true;
+            return false;
+            /*
             var scheduleI   =   CORE.currentCRNs.length;
             while(scheduleI--){
                 var timeCI =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times.length;
@@ -222,29 +229,46 @@ CORE.search =   (function(CORE){
                 }
             }
             return false;
-            
+            */
         }
     };
 })(CORE);
 CORE.schedule   =   (function(CORE){
     return {
         container:document.getElementById('b-timeBlockWrap'),
+        regrow:function(){
+            [].forEach.call(document.getElementsByClassName('b-timeBlock'),function(block){
+                if(block.classList.contains('tempBlock'))
+                    return;
+                var top = parseInt(block.getAttribute('data-top'));
+                var left = parseInt(block.getAttribute('data-left'));
+                conflicts   =   [].slice.call(document.querySelectorAll('[data-top="'+top+'"][data-left="'+left+'"]'));
+                conflicts = conflicts.filter(function(v){return block!==v});
+                conflicts.forEach(function(v,i,a){
+                    v.style.width=(85/(conflicts.length+1))+'px';
+                    v.style.left=(left+(((85/(conflicts.length+1)))*(i+1)))+'px';
+                });
+                block.style.width=(85/(conflicts.length+1))+'px';
+                block.style.left=left+'px';
+            });
+        },
         blockBlur:function(element){
             var possible = element.getAttribute('data-possibleUniq');
             var killNodes   =   function(e){
                 if(e.target.getAttribute('data-possibleActive')=='true')
                     return;
-                [].forEach.call(document.querySelectorAll('[data-possibleID="'+possible+'"]'),function(v,i,a){
-                    v.parentNode.removeChild(v);
-                });
+                var v = document.getElementsByClassName('tempBlock');
+                while(v.length){
+                    v[0].parentNode.removeChild(v[0]);
+                }
                 element.setAttribute('data-possibleActive','false');
                 document.removeEventListener('mousedown',killNodes);
+                CORE.schedule.regrow();
             }
             document.addEventListener('mousedown',killNodes);
             
         },
         blockOver:function(e){
-            console.log(e);
             var section = e.target.getAttribute('data-sectionId');
             [].forEach.call(document.querySelectorAll('[data-sectionID="'+section+'"]'),function(possible,i,a){
                 possible.style.boxShadow    =   '0px 0px 3px #000';
@@ -296,9 +320,10 @@ CORE.schedule   =   (function(CORE){
                                 opacity:.3
                             });
                             block.addEventListener('mousedown',function(e){
+                                block.classList.remove('tempBlock');
                                 var urlCRNs =   document.location.hash.substr(1).split('.');
                                 [].forEach.call(document.querySelectorAll('[data-crn="'+currentCrn+'"]'),function(v,i,a){
-                                    console.log(v.parentNode.removeChild(v));
+                                    v.parentNode.removeChild(v);
                                 });
                                 urlCRNs.splice(urlCRNs.indexOf(currentCrn),1,section.crn);
                                 CORE.currentCRNs.splice(CORE.currentCRNs.indexOf(currentCrn),1,section.crn.toString());
@@ -315,6 +340,7 @@ CORE.schedule   =   (function(CORE){
                             block.setAttribute('data-crn',section.crn);
                             block.setAttribute('data-possibleId',uniq);
                             block.setAttribute('data-sectionId',sectionUniq);
+                            block.classList.add('tempBlock');
                             builderWrap.appendChild(block);
                         });
                     });
@@ -327,17 +353,27 @@ CORE.schedule   =   (function(CORE){
                 return document.createElement('div');
             //Make a timeblock element
             var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
-            
+            var top =   ((time.startTime-480)*(560/840));
+            var left=   (((day+1)%7)*86);
             //Adjust its styles.
             CORE.helper.element.changeStyle(timeBlock,{
-                top     :   [(time.startTime-480)*(560/840),'px'].join(''),
-                left    :   [((day+1)%7)*86,'px'].join(''),
+                top     :   [top,'px'].join(''),
+                left    :   [left,'px'].join(''),
                 height  :   [(time.endTime-time.startTime)*(560/840),'px'].join(''),
                 lineHeight  :   [(time.endTime-time.startTime-4)*(560/840),'px'].join(''),
                 color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.courseName)),
                 backgroundColor :   CORE.helper.color.getBackgroundColor(section.courseName)
             });
+            timeBlock.setAttribute('data-top',(time.startTime-480)*(560/840));
+            timeBlock.setAttribute('data-left',((day+1)%7)*86);
+            conflicts   =   document.querySelectorAll('[data-top="'+top+'"][data-left="'+left+'"]');
+            [].forEach.call(conflicts,function(v,i,a){
+                v.style.width=(85/(conflicts.length+1))+'px';
+                v.style.left=(left+((85)/(conflicts.length+1))*(i+1))+'px';
+                timeBlock.style.width=(85/(conflicts.length+1))+'px';
+            });
             timeBlock.innerHTML=section.courseName
+            
             //return the timeblock
             return timeBlock;
         },
@@ -373,7 +409,6 @@ CORE.view.crnInput  =   (function(CORE){
     
     document.getElementById('b-crnInput').addEventListener('keydown',function(e){
         //execute if the enter key is pressed on the crn input thing
-        console.log(e.keyCode);
         if (!e) { var e = window.event; }
         if (e.keyCode == 13) { 
             //Make an array of all the crns
