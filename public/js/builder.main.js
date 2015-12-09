@@ -488,6 +488,10 @@ var josephisAwesome=true;
     }
     //Fix the Url
     document.location.hash='#'+document.location.hash.match(/(\d\d\d\d\d)/g).join('.');
+    //kill the front.
+    if(document.location.hash.match(/(\d\d\d\d\d)/g)!==null){
+        document.getElementsByClassName('b-timeBlockWrap')[0].innerHTML='';
+    }
     //Check Course Schedule Integrity
     if(document.location.hash.substr(1)==localStorage["currentSchedule"]){
         console.log('Raw Data is Good');
@@ -501,3 +505,15 @@ var josephisAwesome=true;
     }
 })();
 
+window.addEventListener('keydown', function(e)
+{
+    if( e.keyCode == '8' )
+    {
+                          // history
+        if(e.target==document.body){
+            e.preventDefault();
+            history.go(-1);
+            document.location.reload();
+        }
+    }
+}, false);
