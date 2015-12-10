@@ -384,8 +384,8 @@ CORE.main.parse =   (function(CORE){
                                         break;
                                     }
                                     //Add the difference between the middle of the timeblock to aSum
-                                    aSum+=(Math.abs((a[section].times[time].startTime-a[section].times[time].endTime)/2-720)*a[section].times[time].day.length);
-                                    aCount+=a[section].times[time].day.length
+                                    aSum+=(Math.abs(720-(a[section].times[time].startTime-a[section].times[time].endTime)/2));
+                                    aCount++
                                 }
                             }
                             //Iterate through each b schedule time
@@ -395,11 +395,11 @@ CORE.main.parse =   (function(CORE){
                                         break;
                                     }
                                     //Add the difference between the middle of the timeblock to bSum
-                                    bSum+=(Math.abs((b[section].times[time].startTime-b[section].times[time].endTime)/2-720)*b[section].times[time].day.length);
-                                    bCount+=b[section].times[time].day.length;
+                                    bSum+=(Math.abs(720-(b[section].times[time].startTime-b[section].times[time].endTime)/2));
+                                    bCount++
                                 }
                             }
-                            return  (bSum/bCount-aSum/aCount);
+                            return  (aSum/aCount-bSum/bCount);
                         },
                         evenings:function(a,b){
                             var aSum=0,bSum=0,aCount=0,bCount=0;
@@ -1180,8 +1180,15 @@ CORE.view.schedule  =   (function(CORE){
             }
         })(CORE);
         
-        
-        
+        CORE.view.advanced  =   (function(CORE){
+            document.getElementById('advancedButton').addEventListener('click',function(){
+                var lowerControls   =   document.getElementById('lowerControls');
+                if(lowerControls.style.display  ==  'none')
+                    Velocity(lowerControls,'slideDown',200)
+                else
+                    Velocity(lowerControls,'slideUp',200)
+            });
+        })(CORE);
         
         
 CORE.socket =   (function(CORE){

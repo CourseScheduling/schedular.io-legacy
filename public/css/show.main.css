@@ -14,7 +14,6 @@ body{
     margin-left:-540px;
     left:50%;
     display:inline-block;
-    margin-top:20px;
     padding-top:10px;
     padding:30px;
 }
@@ -227,6 +226,7 @@ border-width: 1px 0 0;
                 display:inline-block;
                 float:left;
                 position:relative;
+                background-color:#FFF;
             }
                 #sort-dropDownButton{
                     font-family:Open Sans;
@@ -275,6 +275,7 @@ border-width: 1px 0 0;
                         padding:7px;
                         transition:background-color .1s;
                         border-top:1px solid #DDD;
+                        background-color:#FFF;
                     }
                     .sort-dropDownItem:hover{
                         background-color:#C39DD2;

@@ -6,22 +6,36 @@ var mysql   =   require('mysql');
 
 var DB      =   require('../../bin/db.js');
 
+var Login;
 
-var CORE    =   {
-    validate:{},
-    user:{
-        getUser:{}
-    },
-    session:{}
-}
+router.post('/',function(req,res,next){
+    //convert username to lowercase
+    req.body.u  =   req.body.u.toLowerCase();
+    Login.validate(req.body.u,req.body.p,function(good,data){
+        //If the function called the callback with a false first parameter tell the user the reason.
+        if(!good){
+            res.send([data]);
+            return;   
+        }
+        
+        //Get the userdata
+        Login.getUser(data.userId,function(data){
+            //add username to the data
+            data.username   = req.body.u;
+            Login.setUser(req,data,function(){
+                res.send('["SUCCESS"]');
+            });
+        }); 
+    });
+});
 
-/*
-    Validate, anything that involves validating inputs    
-*/
 
-CORE.validate   =   (function(CORE){
-    
-    return function(username,password,cb){
+
+var Login    =   (function(){
+    /*
+        Validate, anything that involves validating inputs    
+    */
+    function validate(username,password,cb){
         var searchSQL   =   'SELECT userId,active,password FROM userlogin WHERE(username=?)';   
         DB.query(searchSQL,[username],function(err,result){
             //return if user does not exist 
@@ -50,68 +64,25 @@ CORE.validate   =   (function(CORE){
 
         });
     }
-})(CORE);
-
-/*
-
-    User, anything with retrieving user info
-    
-*/
-
-CORE.user.getUser   =   (function(CORE){
-    return function(userId,cb){
+    function getUser(userId,cb){
         var searchSQL   =   'SELECT id,studentNumber,firstname,lastname,title,accountType FROM user WHERE id=?'
         DB.query(searchSQL,userId,function(err,results){
             cb&&cb(results[0]);
         });
     }
-})(CORE);
-
-
-/*
-    Session, anything involving adding stuff and taking stuff away from sessions
-*/
-
-
-
-CORE.session = (function(CORE){
-    return {
-        set:function(req,data,cb){
-            console.log(data);
-            req.session.userData    =   data;
-            req.session.loggedIn    =   true;
-            req.session.save(function(e){
-                cb&&cb();
-            });
-        }
+    function setSession(req,data,cb){
+        req.session.userData    =   data;
+        req.session.loggedIn    =   true;
+        req.session.save(function(e){
+            cb&&cb();
+        });
     }
-})(CORE);
-
-/*
-    Routes, now here comes the main part of our program
-*/
-
-
-router.post('/',function(req,res,next){
-    //convert username to lowercase
-    req.body.u  =   req.body.u.toLowerCase();
-    CORE.validate(req.body.u,req.body.p,function(good,data){
-        //If the function called the callback with a false first parameter tell the user the reason.
-        if(!good){
-            res.send([data]);
-            return;   
-        }
-        
-        //Get the userdata
-        CORE.user.getUser(data.userId,function(data){
-            //add username to the data
-            data.username   = req.body.u;
-            CORE.session.set(req,data,function(){
-                res.send('["SUCCESS"]');
-            });
-        }); 
-    });
-});
+    return {
+        validate:validate,
+        getUser:getUser,
+        setUser:setSession
+    }
+})();
 
 
 
