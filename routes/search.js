@@ -13,7 +13,8 @@ function jadeData(req){
     return {
             firstname:req.session.userData.firstname,
             lastname:req.session.userData.lastname,
-            student:req.session.userData.studentNumber
+            student:req.session.userData.studentNumber,
+            username:req.session.userData.username
            }
 }
 

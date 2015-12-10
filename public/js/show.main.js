@@ -187,6 +187,7 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
                    return ((255 - bgDelta) < nThreshold) ? "#222222" : "#ffffff";   
                 },
                 getBackgroundColor:function(code){
+                                 
                     return "#"+this.changeTint(
                         ('000000'+(
                             parseInt(
@@ -446,12 +447,14 @@ CORE.main.parse =   (function(CORE){
                         var aSum=0,bSum=0;
                         for(var i = a.length;i--;){
                             var aSeats  =   CORE.socket.seatMap[a[i].crn];
-                            aSum+=(((aSeats.m-aSeats.e)>0)*100000)-(aSeats.w*100)+(aSeats.m-aSeats.e)*((aSeats.m-aSeats.e)>0);
+                            var d = (aSeats.m-aSeats.e);
+                            aSum+=((d>0)*100000)-(aSeats.w*100)+d*(d>0);
 
                         }
                         for(var i = b.length;i--;){
                             var bSeats  =   CORE.socket.seatMap[b[i].crn];
-                            bSum+=(((bSeats.m-bSeats.e)>0)*100000)-(bSeats.w*100)+(bSeats.m-bSeats.e)*((bSeats.m-bSeats.e)>0);
+                            var d = (bSeats.m-bSeats.e);
+                            bSum+=((d>0)*100000)-(bSeats.w*100)+d*(d>0);
                         }
                         return bSum-aSum;
                     },

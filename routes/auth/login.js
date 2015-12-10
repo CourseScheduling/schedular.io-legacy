@@ -1,46 +1,46 @@
-var express = require('express');
-var router = express.Router();
+var express =   require('express');
+var router  =   express.Router();
+
 var crypto  =   require('crypto');
-var mysql      = require('mysql');
+var mysql   =   require('mysql');
 
-var connection = mysql.createConnection({
-  host     : 'schedule.cpfi2ocm03x0.us-west-2.rds.amazonaws.com',
-  user     : 'joseph',
-  password : 'joseph123',
-  database : 'ufv'
-});
+var DB      =   require('../../bin/db.js');
 
-connection.connect();
 
-ValidateMod =   {
-    validate:function(u,p,cb){
-        console.log('SEARCHING FOR USER '+u);
-        connection.query('SELECT userId,password FROM userlogin WHERE( username=? AND active="1")',[u],function(e,r,v){
-            if (e) throw e;
-            if(r.length==0){
-                console.log('USER '+u+' Not found');
-                cb&&cb(false,'BAD_USERNAME');
-                return;
-            }
-            var passwordSalt    =   r[0].password.slice(0,10);
-            var hashedPassword  =   crypto.createHash('sha512').update(passwordSalt+p).digest('base64');
-            if(hashedPassword===r[0].password.substr(10))
-                cb&&cb(true,r[0]);
-            else
-                cb&&cb(false,'WRONG_PASSWORD');
-        });
-    }
+var CORE    =   {
+    validate:{},
+    user:{},
+    session:{}
 }
 
-UserMod =   {
-    grabUser:function(uId,cb){
-        connection.query('SELECT * FROM user WHERE id=?',[uId],function(e,r,v){
-            cb&&cb(r[0]);
-        });
-    }
+/*
+    Validate, anything that involves validating inputs    
+*/
+
+CORE.validate   =   function(username,password,cb){
+    var searchSQL   =   'SELECT userId,password FROM userlogin WHERE(username=?)';   
+    DB.query(searchSQL,[username],function(err,result){
+        //return if user does not exist 
+        if(result.length==0)
+            return cb&&cb(false,'BAD_USERNAME');
+        //get the hash of the inputted password
+        var hash    =   crypto.createHash('sha512').update(result[0].password.slice(0,10)+p).digest('base64');
+        //compare the newhash to the dbhash
+        if(hash===result[0].password.substr(10)){
+            result[0].username = username;
+            cb&&cb(true,result[0]);
+        }else{
+            cb&&cb(false,'WRONG_PASSWORD');
+        }
+
+    });
 }
 
-SessionMod  =   {
+/*
+    Session, anything involving adding stuff and taking stuff away from sessions
+*/
+
+CORE.session = {
     addData:function(req,data,cb){
         req.session.userData    =   data;
         req.session.loggedIn    =   true;
@@ -52,13 +52,13 @@ SessionMod  =   {
 
 router.post('/',function(req,res,next){
     req.body.u  =   req.body.u.toLowerCase();
-    ValidateMod.validate(req.body.u,req.body.p,function(good,reason){
+    CORE.validate(req.body.u,req.body.p,function(good,reason){
         if(!good){
             res.send([reason]);
             return;
         }
         
-        UserMod.grabUser(reason.userId,function(data){
+        UserMod.grabUser(reason,function(data){
             SessionMod.addData(req,data,function(){
                 res.send(['SUCCESS']);
             });

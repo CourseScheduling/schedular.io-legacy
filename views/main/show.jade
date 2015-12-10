@@ -24,58 +24,60 @@ block bodyContent
         br(clear="all")
     
     //  Controls for filtering
-    div#c-controlBlock(style="z-index:100000000")
+    div#c-controlBlock(style="z-index:10;display:table;")
         // Control Course Filter
+        div(id="upperControls")
+            div(id="sort-dropDownContainer")
+                div(id="sort-dropDownButton" class="sort-dropDown-active") Sort By 
+                    label(style="font-weight:100") | 
+                    label(style="font-weight:300;") Starting Time
+                div(id="sort-dropDownList")
+                    div(class="sort-dropDownItem" data-value="Availability") Availability
+                    div(class="sort-dropDownItem" data-value="Teacher Rating") Teacher Rating
+                    div(class="sort-dropDownItem sort-dropDownItem-active" data-value="Starting Time") Starting Time
+            //Control Course Start Time
+            div(id="timeSort-wrap")
+                div(id="timeSort-upper")
+                div(id="timeSort-lower")
+                    div(class="timeSort-ball" data-value="Mornings")
+                    div(class="timeSort-connector")
+                    div(class="timeSort-ball" data-value="Noon")
+                    div(class="timeSort-connector")
+                    div(class="timeSort-ball" data-value="Evenings")
+            div(style="font-family:Open Sans;font-size:12px;font-weight:100;float:right;")        
+                div(style="height:20px;width:20px;border-radius:20px;border:1px solid #DDD;float:right;margin-top:20px;display:inline-block;position:absolute;right:0px;") 
+                span(style="float:right;display:inline-block;position:absolute;right:30px;top:30px") Advanced
         
-        div(id="sort-dropDownContainer")
-            div(id="sort-dropDownButton" class="sort-dropDown-active") Sort By 
-                label(style="font-weight:100") | 
-                label(style="font-weight:300;") Starting Time
-            div(id="sort-dropDownList")
-                div(class="sort-dropDownItem" data-value="Availability") Availability
-                div(class="sort-dropDownItem" data-value="Teacher Rating") Teacher Rating
-                div(class="sort-dropDownItem sort-dropDownItem-active" data-value="Starting Time") Starting Time
-        //Control Course Start Time
-        div(id="timeSort-wrap")
-            div(id="timeSort-upper")
-            div(id="timeSort-lower")
-                div(class="timeSort-ball" data-value="Mornings")
-                div(class="timeSort-connector")
-                div(class="timeSort-ball" data-value="Noon")
-                div(class="timeSort-connector")
-                div(class="timeSort-ball" data-value="Evenings")
-        div(style="font-family:Open Sans;font-size:12px;font-weight:100;float:right;")        
-            div(style="height:20px;width:20px;border-radius:20px;border:1px solid #DDD;float:right;margin-top:20px;") 
-            span(style="float:right") Advanced
         
         //Filter by Campus
-        table(id="campusList" style="float:right;opacity:0;")
-            tr
-                td(class="campusFilter-box") Abby
-                td(class="campusFilter-box") Chilliwack
-                td(class="campusFilter-box") Hope
-                td(class="campusFilter-box") Clearbrook
-                td(class="campusFilter-box") Mission
-                td(class="campusFilter-box") Online
-            tr
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box") 
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box") 
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
+        div(id="lowerControls" style="margin-top:60px;float:right;")
+            table(id="campusList" style="float:right;")
+                tr
+                    td(class="campusFilter-box") Abby
+                    td(class="campusFilter-box") Chilliwack
+                    td(class="campusFilter-box") Hope
+                    td(class="campusFilter-box") Clearbrook
+                    td(class="campusFilter-box") Mission
+                    td(class="campusFilter-box") Online
+                tr
+                    td(class="campusFilter-box")
+                        input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
+                    td(class="campusFilter-box")
+                        input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
+                    td(class="campusFilter-box") 
+                        input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
+                    td(class="campusFilter-box")
+                        input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
+                    td(class="campusFilter-box")
+                        input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
+                    td(class="campusFilter-box") 
+                        input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
                     
     //  Main part
     div#main-scheduleContainer
     div#yo
     //Okay, if you're reading this HTML looking for hacks or something I suggest you look at the file below.
-    script(src='/js/show.main.min.js')
+    script(src='/js/show.main.js')
     //Yea, I'm talking about ^ that file. It contains all the scripts for the page you see in front of you.
     
     //--Templates--

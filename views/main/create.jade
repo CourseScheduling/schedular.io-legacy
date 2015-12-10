@@ -260,7 +260,7 @@ block bodyContent
                 };
             },
             flush:function(){
-                this.dropDown.innerHTML='';
+                this.dropDown.value='';
             },
             init:function(){
                 this.isDown =   false;
@@ -300,7 +300,7 @@ block bodyContent
                 this.container.appendChild(button);
                 dropDown.flush();
                 dropDown.up();
-                dropDown.mainInput.element.innerHTML='';
+                dropDown.mainInput.element.value='';
             },
             remove:function(e){
                 chosenCourses.courseList    =   chosenCourses.courseList.filter(function(a){

@@ -209,29 +209,30 @@ CORE.helper.element =  (function(CORE){
 
 CORE.search =   (function(CORE){
     return {
-        matchCurrent:function(section){
-            if(CORE.currentCRNs.indexOf(section.crn.toString())!==-1)
-                return true;
-            return false;
-            /*
-            var scheduleI   =   CORE.currentCRNs.length;
-            while(scheduleI--){
-                var timeCI =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times.length;
-                while(timeCI--){
-                    var timeSI =   section.times.length;
-                    while(timeSI--){
-                        var sSTime =   section.times[timeSI];
-                        var cSTime =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times[timeCI];
-                        //If any intersects exists between the times of sSTime or cSTime exit.
-                        if(CORE.helper.time.sameDay(sSTime.day,cSTime.day)&&CORE.helper.time.inTime(sSTime.startTime,sSTime.endTime,cSTime.startTime,cSTime.endTime))
-                            return true;
+            matchCurrent:function(section){
+                if(CORE.currentCRNs.indexOf(section.crn.toString())!==-1)
+                    return true;
+                
+                if(!CORE.search.findAll){
+                    var scheduleI   =   CORE.currentCRNs.length;
+                    while(scheduleI--){
+                        var timeCI =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times.length;
+                        while(timeCI--){
+                            var timeSI =   section.times.length;
+                            while(timeSI--){
+                                var sSTime =   section.times[timeSI];
+                                var cSTime =   CORE.crnMap[CORE.currentCRNs[scheduleI]].times[timeCI];
+                                //If any intersects exists between the times of sSTime or cSTime exit.
+                                if(CORE.helper.time.sameDay(sSTime.day,cSTime.day)&&CORE.helper.time.inTime(sSTime.startTime,sSTime.endTime,cSTime.startTime,cSTime.endTime))
+                                    return true;
+                            }
+                        }
                     }
+                    return false;
                 }
-            }
-            return false;
-            */
-        }
-    };
+            },
+        findAll:false
+        };
 })(CORE);
 CORE.schedule   =   (function(CORE){
     return {

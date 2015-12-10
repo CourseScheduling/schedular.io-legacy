@@ -18,6 +18,7 @@ var signupAuth = require('./routes/auth/signup');
 var loginAuth = require('./routes/auth/login');
 var continueAuth = require('./routes/auth/continue');
 var forgotAuth = require('./routes/auth/forgot');
+var DB = require('./bin/db.js');
 
 var app = express();
 

@@ -359,8 +359,8 @@ border-width: 1px 0 0;
                 user-select: none;
             }
             .customCheckbox-checked{
-                border-color:#3498db;
-                background:url(/images/checkBoxX.png) #3498db center center no-repeat;
+                border-color:#27ae60;
+                background:url(/images/checkBoxX.png) #2ecc71 center center no-repeat;
                 background-size:5px 5px;
             }
             
