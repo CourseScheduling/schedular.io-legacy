@@ -62,7 +62,7 @@ CORE.user.getUser   =   (function(CORE){
     return function(userId,cb){
         var searchSQL   =   'SELECT id,studentNumber,firstname,lastname,title,accountType FROM user WHERE id=?'
         DB.query(searchSQL,userId,function(err,results){
-            cb&&cb(results);
+            cb&&cb(results[0]);
         });
     }
 })(CORE);
@@ -77,6 +77,7 @@ CORE.user.getUser   =   (function(CORE){
 CORE.session = (function(CORE){
     return {
         set:function(req,data,cb){
+            console.log(data);
             req.session.userData    =   data;
             req.session.loggedIn    =   true;
             req.session.save(function(e){
