@@ -242,7 +242,7 @@ block bodyContent
                     
                     _this.dropDown.appendChild(instantContainer);
                     instantContainer.addEventListener('click',function(){
-                        chosenCourses.add(instantContainer);
+                        chosenCourses.add(instantContainer.getAttribute('data-courseCode'));
                     });
                     instantContainer.addEventListener('mouseover',function(){
                         instantContainer.classList.add('instant-resultContainer-hover');
@@ -291,7 +291,7 @@ block bodyContent
                 return li;
             },
             add:function(e){
-                var courseCode  =   e.getAttribute('data-courseCode');
+                var courseCode  =   e;
                 var button  =   this.createButton(courseCode);
                 var courseJSON  =   {};
                 courseJSON.button   =   button;
@@ -320,6 +320,7 @@ block bodyContent
                     courseList.push([e.code.split(/(\d)/).shift(),e.code.split(/(\d)/).splice(1).join('')]);
                     return e;
                 });
+                localStorage['oldCourses']=courseList.map(function(a){return a[0]+a[1];}).join('.');
                 document.location   =   '/s/show/?c='+JSON.stringify(courseList);
             },
             init:function(){
@@ -328,3 +329,6 @@ block bodyContent
         }
         submit.init();
         document.location.hash='';
+        localStorage['oldCourses'].split('.').forEach(function(v,i,a){
+            chosenCourses.add(v);
+        });

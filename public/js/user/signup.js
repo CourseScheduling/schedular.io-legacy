@@ -112,11 +112,6 @@ var AccountType =   {
         //Make clicked element active
         e.target.id='active-aT-selectionCircle';
         AccountType.active   =   e.target;
-        if(e.target.getAttribute('data-accountType')==='faculty'){
-           Velocity(document.getElementById('faculty-email-cover'),'fadeIn',300);
-        }else{
-           Velocity(document.getElementById('faculty-email-cover'),'fadeOut',300);
-        }   
 
     }
 };

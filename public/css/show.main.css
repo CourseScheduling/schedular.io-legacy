@@ -361,10 +361,10 @@ border-width: 1px 0 0;
                 transition:border-radius .5s;
             }
             .customCheckbox-checked{
-                border-color:#27ae60;
-                background:url(/images/checkBoxX.png) #2ecc71 center center no-repeat;
+                border-color:#2980b9;
+                background:url(/images/checkBoxX.png) #3498db center center no-repeat;
                 background-size:60%;
-                border-radius:100px;
+                border-radius:3px;
                 transition:border-radius .5s;
             }
             
