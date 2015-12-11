@@ -1197,12 +1197,16 @@ CORE.socket =   (function(CORE){
         data.forEach(function(section,index,array){
             CORE.socket.seatMap[section[0]]=JSON.parse(section[1]);
             [].forEach.call(document.getElementsByClassName('crn_'+section[0]),function(v,i,a){
-                var sectionFullness =   (CORE.socket.seatMap[section[0]].m-CORE.socket.seatMap[section[0]].e);
+                if(CORE.socket.seatMap[section[0]]!==null){
+                    var sectionFullness =   (CORE.socket.seatMap[section[0]].m-CORE.socket.seatMap[section[0]].e);
                     if(sectionFullness<=0){
                         v.innerHTML=CORE.socket.seatMap[section[0]].w+' waitlisted';
                     }else{
                         v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
                     }
+                }else{
+                    v.innerHTML='unknown';
+                }
             });
         });
     });
@@ -1213,11 +1217,15 @@ CORE.socket =   (function(CORE){
             for(var crn in CORE.socket.seatMap){
                 var data =   CORE.socket.seatMap[crn];
                 [].forEach.call(document.getElementsByClassName('crn_'+crn),function(v,i,a){
-                    var sectionFullness = data.m-data.e;
-                    if(sectionFullness<=0){
-                        v.innerHTML=data.w+' waitlisted';
+                    if(data!==null){
+                        var sectionFullness = data.m-data.e;
+                        if(sectionFullness<=0){
+                            v.innerHTML=data.w+' waitlisted';
+                        }else{
+                            v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
+                        }
                     }else{
-                        v.innerHTML=sectionFullness+' spot'+(sectionFullness>1?'s':'');
+                        v.innerHTML='unknown';
                     }
                 });
             }

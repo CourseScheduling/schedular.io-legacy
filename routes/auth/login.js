@@ -8,6 +8,8 @@ var DB      =   require('../../bin/db.js');
 
 var Login;
 
+
+
 router.post('/',function(req,res,next){
     //convert username to lowercase
     req.body.u  =   req.body.u.toLowerCase();

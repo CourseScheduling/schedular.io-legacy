@@ -505,16 +505,3 @@ var josephisAwesome=true;
         });
     }
 })();
-
-window.addEventListener('keydown', function(e)
-{
-    if( e.keyCode == '8' )
-    {
-                          // history
-        if(e.target==document.body){
-            e.preventDefault();
-            history.go(-1);
-            document.location.reload();
-        }
-    }
-}, false);

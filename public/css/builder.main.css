@@ -93,13 +93,13 @@
                 position:absolute;
                 background-color:#EEE;
                 width:85px;
-                font-size:12px;
+                font-size:11px;
                 text-align:center;
                 font-family:Open Sans;
                 color:#000;
                 cursor:pointer;
                 border-radius:3px;
-                border:2px solid rgba(0,0,0,.05);
+                border:1px solid rgba(0,0,0,.05);
                 box-sizing: border-box;
                 font-weight:100;
                 -webkit-user-select: none; /* Chrome/Safari */        
