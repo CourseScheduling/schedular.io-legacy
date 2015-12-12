@@ -30,77 +30,70 @@
         </style>
     </head>
     <body>
-        <div id="lowerControls" style="float:right;width:1000px;position:absolute;top:100px;left:50%;margin-left:-500px;background-color:#fff;border-bottom:1px solid #DDD;height:120px;border:1px solid #DDD;">
+        <div id="sliderControls" style="float:left;">
             <div style="width:100%;font-family:Open Sans;font-weight:300;height:20px;font-size:12px;">
-                <div style="width:20px;margin-left:15px;margin-right:15px;float:left;">Mon</div>
-                <div style="width:20px;margin-left:15px;margin-right:15px;float:left;">Tue</div>
-                <div style="width:20px;margin-left:15px;margin-right:15px;float:left;">Wed</div>
-                <div style="width:20px;margin-left:15px;margin-right:15px;float:left;">Thu</div>
-                <div style="width:20px;margin-left:15px;margin-right:15px;float:left;">Fri</div>
-                <div style="width:20px;margin-left:15px;margin-right:15px;float:left;">Sat</div>
+                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Mon</div>
+                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Tue</div>
+                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Wed</div>
+                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Thu</div>
+                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Fri</div>
+                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Sat</div>
+            </div>
+            <div class="sliderContainer">
+                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
+                <div class="sliderBlock"></div>
+                <div class="sliderCircle" style="top:63px;left:0px;" data-loc="70"></div>    
             </div>
             <div class="sliderContainer">
                 <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="bottom:-7px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
             </div>
             <div class="sliderContainer">
                 <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="bottom:-7px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
             </div>
             <div class="sliderContainer">
                 <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="bottom:-7px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
             </div>
             <div class="sliderContainer">
                 <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="bottom:-7px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
             </div>
             <div class="sliderContainer">
                 <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="bottom:-7px;left:0px;"></div>    
-            </div>
-            <div class="sliderContainer">
-                <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="bottom:-7px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
             </div>
         </div>
         <script>
-        [].forEach.call(document.getElementsByClassName('sliderContainer'),function(a){
-            a.addEventListener('mousemove',onMousemove);
+        [].forEach.call(document.getElementsByClassName('sliderCircle'),function(a){
+            var clicked = 0;
+            var moved = 0;
+            var element = a;
+            element.addEventListener("mousedown", function(){
+                clicked =   1;
+            }, false);
+            document.addEventListener("mouseup",function(){
+                clicked =   0;
+            },false);
+            document.addEventListener("mousemove", function(e){
+                if(clicked){
+                    var newTop  =   ((e.clientY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
+                    console.log(newTop);
+                    if(newTop<-7)
+                        newTop   =   -7;
+                    else if(newTop>63)
+                        newTop   =   63;
+                    element.style.top   =   newTop+'px';
+                    a.setAttribute('data-loc',Math.round(newTop/5)*5+5)
+                }
+            }, false);
         });
-        function onMousemove(e){
-            var m_posx = 0, m_posy = 0, e_posx = 0, e_posy = 0,
-                   obj = this.children[1];
-            //get mouse position on document crossbrowser
-            if (!e){e = window.event;}
-            if (e.pageX || e.pageY){
-                m_posx = e.pageX;
-                m_posy = e.pageY;
-            } else if (e.clientX || e.clientY){
-                m_posx = e.clientX + document.body.scrollLeft
-                         + document.documentElement.scrollLeft;
-                m_posy = e.clientY + document.body.scrollTop
-                         + document.documentElement.scrollTop;
-            }
-            //get parent element position in document
-            if (obj.offsetParent){
-                do { 
-                    e_posx += obj.offsetLeft;
-                    e_posy += obj.offsetTop;
-                } while (obj = obj.offsetParent);
-            }
-            // mouse position minus elm position is mouseposition relative to element:
-            var yPos    =   (((m_posy-e_posy)/5)+8);
-            if(yPos>=8&&yPos<=22)
-                console.log( ' Y Position: ' + yPos);
-        }
-
         </script>
     </body>
 </html>
