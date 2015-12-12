@@ -1143,11 +1143,13 @@ CORE.view.schedule  =   (function(CORE){
                     }
 
 
-
+                    
                     for(var g=0;g<data.times.length;g++){
+
                         for(var i=0;i<data.times[g].day.length;i++){
                             if(data.times[timeLocation].day[i]===-1)
                                 break;
+                            
                             document.getElementById('t-toolTipTimes').innerHTML   +=   [
                                 '<strong>',
                                 dayMap[data.times[g].day[i]],
@@ -1181,12 +1183,19 @@ CORE.view.schedule  =   (function(CORE){
         })(CORE);
         
         CORE.view.advanced  =   (function(CORE){
-            document.getElementById('advancedButton').addEventListener('click',function(){
+            document.getElementById('advancedButton').addEventListener('click',function(e){
                 var lowerControls   =   document.getElementById('lowerControls');
-                if(lowerControls.style.display  ==  'none')
-                    Velocity(lowerControls,'slideDown',200)
-                else
+                if(lowerControls.style.display  ==  'none'){
+                    Velocity(lowerControls,'slideDown',200);
+                    document.getElementById('advancedButton').children[0].style.backgroundImage="url(/images/upArrow.png)";
+                    document.getElementById('advancedButton').style.background="#9b59b6";
+                    document.getElementById('advancedButton').style.color="#FFF";   
+                }else{
                     Velocity(lowerControls,'slideUp',200)
+                    document.getElementById('advancedButton').children[0].style.backgroundImage="url(/images/downArrow.png)";
+                    document.getElementById('advancedButton').style.background="#fff";
+                    document.getElementById('advancedButton').style.color="#000";   
+                }
             });
         })(CORE);
         

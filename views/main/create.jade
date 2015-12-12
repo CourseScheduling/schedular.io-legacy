@@ -292,12 +292,12 @@ block bodyContent
             },
             add:function(e){
                 var courseCode  =   e;
-                var button  =   this.createButton(courseCode);
+                var button  =   chosenCourses.createButton(courseCode);
                 var courseJSON  =   {};
                 courseJSON.button   =   button;
                 courseJSON.code =   courseCode;
-                this.courseList.push(courseJSON);
-                this.container.appendChild(button);
+                chosenCourses.courseList.push(courseJSON);
+                chosenCourses.container.appendChild(button);
                 dropDown.flush();
                 dropDown.up();
                 dropDown.mainInput.element.value='';
@@ -307,6 +307,10 @@ block bodyContent
                     return e.parentNode.getAttribute('data-courseCode')!==a.code
                 });
                 e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
+                if(chosenCourses.courseList.length>0)
+                    localStorage['oldCourses']=chosenCourses.courseList.map(function(a){return a.code}).join('.');
+                else
+                    localStorage['oldCourses']="";                
             }
         };
 
@@ -320,7 +324,11 @@ block bodyContent
                     courseList.push([e.code.split(/(\d)/).shift(),e.code.split(/(\d)/).splice(1).join('')]);
                     return e;
                 });
-                localStorage['oldCourses']=courseList.map(function(a){return a[0]+a[1];}).join('.');
+                
+                if(chosenCourses.courseList.length>0)
+                    localStorage['oldCourses']=chosenCourses.courseList.map(function(a){return a.code}).join('.');
+                else
+                    localStorage['oldCourses']="";
                 document.location   =   '/s/show/?c='+JSON.stringify(courseList);
             },
             init:function(){
@@ -329,6 +337,7 @@ block bodyContent
         }
         submit.init();
         document.location.hash='';
-        localStorage['oldCourses'].split('.').forEach(function(v,i,a){
-            chosenCourses.add(v);
-        });
+        if(localStorage['oldCourses'].length>0)
+            localStorage['oldCourses'].split('.').forEach(function(v,i,a){
+                chosenCourses.add(v);
+            });
