@@ -106,7 +106,10 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
             controlPanel:{
                 timeSort:{}
             },
-            show:{}
+            show:{},
+            daySlider:{
+                elements:{mon:[],tue:[],wed:[],thu:[],fri:[],sat:[]}
+            }
         },
         socket:{
             seatMap:{}
@@ -141,6 +144,13 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
                     if ((((start2>=start)&&(start2<end))||((end2>start)&&(end2<end)))||(((start>=start2)&&(start<end2))||((end>start2)&&(end<end2))))
                         return true;
                     return false;
+                },
+                outTime:function(start,end,start2,end2){
+                    if(isNaN(start)||isNaN(start2))
+                        return false;
+                    if(start>=start2&&end2>=end)
+                        return false
+                    return true;
                 },
                 sameDay:function(day1,day2){
                     if(day1[0]===-1||day2[0]===-1)
@@ -517,6 +527,21 @@ CORE.main.parse =   (function(CORE){
             CLEAR:"Clearbrook"
         }
         return {
+            time:function(){
+                var n = getValues();
+                CORE.scheduleOptions.current    =   CORE.scheduleOptions.all.filter(function(a){
+                    for(var i = a.length;i--;)
+                        for(var g = a[i].times.length;g--;)
+                            for(var h   =   a[i].times[g].day.length;h--;){
+                                if(n.times[a[i].times[g].day[h]]==undefined)
+                                    continue;
+                                if(CORE.helper.time.outTime(a[i].times[g].startTime,a[i].times[g].endTime,n.times[a[i].times[g].day[h]].start,n.times[a[i].times[g].day[h]].end))   
+                                    return false;
+                            }
+                    return true;
+                });
+                
+            },
             campus:function(){
                 var killList    =   [];
                 var campusStates    =   CORE.view.controlPanel.campusFilter.campusOn;
@@ -1281,3 +1306,9 @@ CORE.socket =   (function(CORE){
         CORE.main.show.init();
     });
 })();
+
+        (function init(){
+            var circles =   document.getElementsByClassName('sliderCircle');
+            for(var i = circles.length;i--;)
+                CORE.view.daySlider.elements[circles[i].parentNode.getAttribute('data-day')].push(circles[i]);
+        })();

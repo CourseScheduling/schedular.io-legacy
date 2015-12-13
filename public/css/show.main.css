@@ -266,7 +266,8 @@ border-width: 1px 0 0;
                     border:1px solid #999;
                     border-top:0;
                     margin-left:1px;
-                        display: none;
+                    display: none;
+                    z-index: 100000;
                 }
                     .sort-dropDownItem{
                         font-family:Open Sans;

@@ -52,7 +52,63 @@ block bodyContent
         //Filter by Campus
         br
         br
-        div(id="lowerControls" style="float:right;display:none;width:100%;background-color:#fff;border-bottom:1px solid #DDD;height:100px")
+        div(id="lowerControls" style="float:right;display:none;width:100%;background-color:#fff;border-bottom:1px solid #DDD;height:150px")
+            style.
+
+                .sliderContainer{
+                    height:70px;
+                    width:10px;
+                    margin-left:20px;
+                    margin-right:20px;
+                    margin-top:14px;
+                    text-align: center;
+                    position: relative;
+                    float: left;
+                }
+
+                    .sliderBlock{
+                        height:84px;
+                        width:2px;
+                        background-color:#1abc9c;
+                        margin-left:6px;
+                    }
+                    .sliderCircle{
+                        height:14px;
+                        width:14px;
+                        border-radius:14px;
+                        box-shadow: 0px 0px 3px #999;
+                        background-color:#FFF;
+                        position:absolute;
+                        cursor: pointer;
+                    }
+
+                    .arrow-left {
+                        width: 0; 
+                        height: 0; 
+                        border-top: 10px solid transparent;
+                        border-bottom: 10px solid transparent; 
+                        border-right:10px solid #34495e; 
+                        position:absolute;
+                        top:0px;
+                        left:-5px;
+                    }
+
+            div(id="sliderControls" style="float:left;position:absolute;padding-right:100px;")
+                div(id="toolTip" style="z-index:10000;top:0px;left:0px;display:none;padding:3px 5px 3px 5px;background:#34495e;float:left;position:absolute;color:#FFF;font-weight:300;font-family:Open Sans;font-size:11px;")
+                    div(class="arrow-left")
+                    span(id="toolTip-time" style="padding-left:5px") 10:00
+                div(style="width:100%;font-family:Open Sans;font-weight:300;height:20px;font-size:12px;")
+                    div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Mon
+                    div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Tue
+                    div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Wed
+                    div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Thu
+                    div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Fri
+                    div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Sat
+                each day in ['mon','tue','wed','thu','fri','sat']         
+                    div(class="sliderContainer" data-day=""+day)
+                        div(class="sliderCircle" style="top:-7px;left:0px;" data-loc="0")
+                        div(class="sliderBlock")
+                        div(class="sliderCircle" style="top:77px;left:0px;" data-loc="84")
             // div(style="height:80%;width:10px;border:1px solid rgba(0,0,0,0.1);margin-left:10px;margin-to:10px;border-radius:10px;")
             table(id="campusList" style="float:right;margin-top:25px;margin-right:20px;")
                 tr
@@ -75,7 +131,113 @@ block bodyContent
                         input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
                     td(class="campusFilter-box") 
                         input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
+            script.
+                var times   =   ['8:00 am','8:30 am','9:00 am','9:30 am','10:00 am','10:30 am','11:00 am','11:30 am','12:00 am','12:30 am','1:00 pm','1:30 pm','2:00 pm','2:30 pm','3:00 pm','3:30 pm','4:00 pm','4:30 pm','5:00 pm','5:30 pm','6:00 pm','6:30 pm','7:00 pm','7:30 pm','8:00 pm','8:30 pm','9:00 pm','9:30 pm','10:00 pm'];
+
+                function toolTip(el){
+                    var toolTip =   document.getElementById('toolTip');
+                    el.addEventListener('mouseover',function(e){
+                        toolTip.style.display   =   'block';
+                    });
+                    el.addEventListener('mouseout',function(e){
+                        toolTip.style.display   =   'none';
+                    });
+                    el.addEventListener('mousemove',function(e){
+                        toolTip.style.top=e.target.offsetTop+30+'px';
+                        toolTip.style.left=e.target.parentNode.offsetLeft+20+'px';
+                        document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
+                    });
+                    el.addEventListener('touchmove',function(e){
+                        toolTip.style.top=e.target.offsetTop+30+'px';
+                        toolTip.style.left=e.target.parentNode.offsetLeft+20+'px';
+                        document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
+                        e.preventDefault();
+                    });
+                    el.addEventListener('touchstart',function(e){
+                        toolTip.style.display   =   'block';
+                    });
+                    el.addEventListener('touchend',function(e){
+                        toolTip.style.display   =   'none';
+                    });
+                }
+
+                [].forEach.call(document.getElementsByClassName('sliderCircle'),function(a){
+                    var clicked = 0;
+                    var moved = 0;
+                    var element = a;
+                    toolTip(a);
+                    element.addEventListener("mousedown", function(e){
+                        e.target.style.zIndex="1000";
+                        clicked =   1;
+                    });
+                    document.addEventListener("mouseup",function(e){
+                        e.target.style.zIndex="0";
+                        clicked =   0;
+                    });
+                    document.addEventListener("mousemove", function(e){
+                        if(clicked){
+                            var newTop  =   ((e.clientY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
+                            if(newTop<-7)
+                                newTop   =   -7;
+                            else if(newTop>77)
+                                newTop   =   77;
+                            element.style.top   =   newTop+'px';
+                            a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
+                            CORE.filter.time();
+                            CORE.sort.functions.start();
+                        }
+                    });
+                    a.addEventListener("touchmove", function(e){
+                        var touch = e.targetTouches[0];
+                            var newTop  =   ((touch.pageY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
+                            if(newTop<-7)
+                                newTop   =   -7;
+                            else if(newTop>77)
+                                newTop   =   77;
+                            element.style.top   =   newTop+'px';
+                            a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
+                        console.log(getValues());
+                        e.preventDefault();
+                    });
+                });
+                CORE    =   {
+                    view:{
+                        daySlider:{
+                            elements:{mon:[],tue:[],wed:[],thur:[],fri:[],sat:[]}
+                        }
+                    }
+                };
+
+
+
+                function getValues(){
+                    var json    =   {
+                        days:[],
+                        times:{}
+                    };
                     
+                    for(var day in CORE.view.daySlider.elements){
+                        var start   =   parseInt(CORE.view.daySlider.elements[day][0].getAttribute('data-loc'));
+                        var end     =   parseInt(CORE.view.daySlider.elements[day][1].getAttribute('data-loc'));
+                        if(start==end){
+                            json.days.push(['mon','tue','wed','thu','fri','sat'].indexOf(day));
+                        }
+                        console.log(start*10+480,end*10+480);
+                        
+                        if(start<end)
+                            json.times[['mon','tue','wed','thu','fri','sat'].indexOf(day)]  =   {start:start*10+480,end:end*10+480};
+                        else
+                            json.times[['mon','tue','wed','thu','fri','sat'].indexOf(day)]  =   {end:start*10+480,start:end*10+480};                                
+                    }
+                    return json;
+                }
+                
+                
+                
+
+
+
+
     //  Main part
     div#main-scheduleContainer
     div#yo

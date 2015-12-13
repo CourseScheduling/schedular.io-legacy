@@ -41,7 +41,7 @@
         </style>
     </head>
     <body>
-        <div id="sliderControls" style="float:left;">
+        <div id="sliderControls" style="float:left;position:absolute;">
             <div style="width:100%;font-family:Open Sans;font-weight:300;height:20px;font-size:12px;">
                 <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Mon</div>
                 <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Tue</div>
@@ -97,6 +97,8 @@
                 toolTip.style.display   =   'none';
             });
             el.addEventListener('mousemove',function(e){
+                
+                
                 toolTip.style.top=e.target.getBoundingClientRect().top-7.5+'px';
                 toolTip.style.left=e.target.getBoundingClientRect().left+20+'px';
                 document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
@@ -122,11 +124,11 @@
             element.addEventListener("mousedown", function(e){
                 e.target.style.zIndex="1000";
                 clicked =   1;
-            }, false);
+            });
             document.addEventListener("mouseup",function(e){
                 e.target.style.zIndex="0";
                 clicked =   0;
-            },false);
+            });
             document.addEventListener("mousemove", function(e){
                 if(clicked){
                     var newTop  =   ((e.clientY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
@@ -138,7 +140,7 @@
                     a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
                 console.log(getValues());
                 }
-            }, false);
+            });
             a.addEventListener("touchmove", function(e){
                 var touch = e.targetTouches[0];
                     var newTop  =   ((touch.pageY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
@@ -150,7 +152,7 @@
                     a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
                 console.log(getValues());
                 e.preventDefault();
-            }, false);
+            });
         });
         CORE    =   {
             view:{
