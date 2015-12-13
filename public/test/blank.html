@@ -13,7 +13,7 @@
             }
             
                 .sliderBlock{
-                    height:70px;
+                    height:84px;
                     width:2px;
                     background-color:#1abc9c;
                     margin-left:6px;
@@ -27,6 +27,17 @@
                     position:absolute;
                     cursor: pointer;
                 }
+            
+                .arrow-left {
+                    width: 0; 
+                    height: 0; 
+                    border-top: 10px solid transparent;
+                    border-bottom: 10px solid transparent; 
+                    border-right:10px solid #34495e; 
+                    position:absolute;
+                    top:0px;
+                    left:-5px;
+                }
         </style>
     </head>
     <body>
@@ -39,61 +50,149 @@
                 <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Fri</div>
                 <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Sat</div>
             </div>
-            <div class="sliderContainer">
+            <div class="sliderContainer" data-day="mon">
                 <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:63px;left:0px;" data-loc="70"></div>    
+                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
             </div>
-            <div class="sliderContainer">
-                <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
+            <div class="sliderContainer" data-day="tue">
+                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
             </div>
-            <div class="sliderContainer">
-                <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
+            <div class="sliderContainer" data-day="wed">
+                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
             </div>
-            <div class="sliderContainer">
-                <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
+            <div class="sliderContainer" data-day="thur">
+                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
             </div>
-            <div class="sliderContainer">
-                <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
+            <div class="sliderContainer" data-day="fri">
+                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
             </div>
-            <div class="sliderContainer">
-                <div class="sliderCircle" style="top:-7px;left:0px;"></div>    
+            <div class="sliderContainer" data-day="sat">
+                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
                 <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:63px;left:0px;"></div>    
+                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
+            </div>
+            <div id="toolTip" style="z-index:10000;display:none;padding:3px 5px 3px 5px;background:#34495e;float:left;position:absolute;color:#FFF;font-weight:300;font-family:Open Sans;font-size:11px;">
+                <div class="arrow-left"></div>
+                <span id="toolTip-time" style="padding-left:5px">10:00</span>
             </div>
         </div>
         <script>
+        var times   =   ['8:00 am','8:30 am','9:00 am','9:30 am','10:00 am','10:30 am','11:00 am','11:30 am','12:00 am','12:30 am','1:00 pm','1:30 pm','2:00 pm','2:30 pm','3:00 pm','3:30 pm','4:00 pm','4:30 pm','5:00 pm','5:30 pm','6:00 pm','6:30 pm','7:00 pm','7:30 pm','8:00 pm','8:30 pm','9:00 pm','9:30 pm','10:00 pm'];
+
+        function toolTip(el){
+            var toolTip =   document.getElementById('toolTip');
+            el.addEventListener('mouseover',function(e){
+                toolTip.style.display   =   'block';
+            });
+            el.addEventListener('mouseout',function(e){
+                toolTip.style.display   =   'none';
+            });
+            el.addEventListener('mousemove',function(e){
+                toolTip.style.top=e.target.getBoundingClientRect().top-7.5+'px';
+                toolTip.style.left=e.target.getBoundingClientRect().left+20+'px';
+                document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
+            });
+            el.addEventListener('touchmove',function(e){
+                toolTip.style.top=e.target.getBoundingClientRect().top-7.5+'px';
+                toolTip.style.left=e.target.getBoundingClientRect().left+20+'px';
+                document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
+            });
+            el.addEventListener('touchstart',function(e){
+                toolTip.style.display   =   'block';
+            });
+            el.addEventListener('touchend',function(e){
+                toolTip.style.display   =   'none';
+            });
+        }
+
         [].forEach.call(document.getElementsByClassName('sliderCircle'),function(a){
             var clicked = 0;
             var moved = 0;
             var element = a;
-            element.addEventListener("mousedown", function(){
+            toolTip(a);
+            element.addEventListener("mousedown", function(e){
+                e.target.style.zIndex="1000";
                 clicked =   1;
             }, false);
-            document.addEventListener("mouseup",function(){
+            document.addEventListener("mouseup",function(e){
+                e.target.style.zIndex="0";
                 clicked =   0;
             },false);
             document.addEventListener("mousemove", function(e){
                 if(clicked){
                     var newTop  =   ((e.clientY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
-                    console.log(newTop);
                     if(newTop<-7)
                         newTop   =   -7;
-                    else if(newTop>63)
-                        newTop   =   63;
+                    else if(newTop>77)
+                        newTop   =   77;
                     element.style.top   =   newTop+'px';
-                    a.setAttribute('data-loc',Math.round(newTop/5)*5+5)
+                    a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
+                console.log(getValues());
                 }
             }, false);
+            a.addEventListener("touchmove", function(e){
+                var touch = e.targetTouches[0];
+                    var newTop  =   ((touch.pageY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
+                    if(newTop<-7)
+                        newTop   =   -7;
+                    else if(newTop>77)
+                        newTop   =   77;
+                    element.style.top   =   newTop+'px';
+                    a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
+                console.log(getValues());
+                e.preventDefault();
+            }, false);
         });
+        CORE    =   {
+            view:{
+                daySlider:{
+                    elements:{mon:[],tue:[],wed:[],thur:[],fri:[],sat:[]}
+                }
+            }
+        };
+        
+        
+        (function init(){
+            var circles =   document.getElementsByClassName('sliderCircle');
+            for(var i = circles.length;i--;)
+                CORE.view.daySlider.elements[circles[i].parentNode.getAttribute('data-day')].push(circles[i]);
+        })();
+
+        function getValues(){
+            var days    =   [];
+            for(var day in CORE.view.daySlider.elements){
+                var start   =   parseInt(CORE.view.daySlider.elements[day][0].getAttribute('data-loc'));
+                var end     =   parseInt(CORE.view.daySlider.elements[day][1].getAttribute('data-loc'));
+                if(start==end){
+                    days.push(false);
+                }
+                else{
+                if(start<end)
+                    days.push({start:(start/3)*60+480,end:(end/3)*60+480});
+                else
+                    days.push({end:(start/3)*60+480,start:(end/3)*60+480});
+                
+            }
+            }
+            return days;
+        }
+
+
+
+
+
+
+
+
         </script>
     </body>
 </html>
