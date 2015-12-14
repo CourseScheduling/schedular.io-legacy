@@ -52,7 +52,7 @@ block bodyContent
         //Filter by Campus
         br
         br
-        div(id="lowerControls" style="float:right;display:none;width:100%;background-color:#fff;border-bottom:1px solid #DDD;height:150px")
+        div(id="lowerControls" style="float:right;overflow:hidden;display:none;width:100%;background-color:#fff;border-bottom:1px solid #DDD;height:150px")
             style.
 
                 .sliderContainer{
@@ -93,7 +93,7 @@ block bodyContent
                         left:-5px;
                     }
 
-            div(id="sliderControls" style="float:left;position:absolute;padding-right:100px;")
+            div(id="sliderControls" style="float:left;position:relative;padding-right:100px;")
                 div(id="toolTip" style="z-index:10000;top:0px;left:0px;display:none;padding:3px 5px 3px 5px;background:#34495e;float:left;position:absolute;color:#FFF;font-weight:300;font-family:Open Sans;font-size:11px;")
                     div(class="arrow-left")
                     span(id="toolTip-time" style="padding-left:5px") 10:00
@@ -196,7 +196,6 @@ block bodyContent
                                 newTop   =   77;
                             element.style.top   =   newTop+'px';
                             a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
-                        console.log(getValues());
                         e.preventDefault();
                     });
                 });
@@ -222,7 +221,6 @@ block bodyContent
                         if(start==end){
                             json.days.push(['mon','tue','wed','thu','fri','sat'].indexOf(day));
                         }
-                        console.log(start*10+480,end*10+480);
                         
                         if(start<end)
                             json.times[['mon','tue','wed','thu','fri','sat'].indexOf(day)]  =   {start:start*10+480,end:end*10+480};

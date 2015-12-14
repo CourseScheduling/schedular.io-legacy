@@ -527,22 +527,29 @@ CORE.main.parse =   (function(CORE){
             CLEAR:"Clearbrook"
         }
         return {
-            time:function(){
+            on:['',''],
+            time:function(first){
                 var n = getValues();
-                CORE.scheduleOptions.current    =   CORE.scheduleOptions.all.filter(function(a){
+                var c = 0;
+                
+                first||CORE.filter.campus(true);
+                CORE.scheduleOptions.current    =   CORE.scheduleOptions.current.filter(function(a){
                     for(var i = a.length;i--;)
                         for(var g = a[i].times.length;g--;)
                             for(var h   =   a[i].times[g].day.length;h--;){
                                 if(n.times[a[i].times[g].day[h]]==undefined)
                                     continue;
-                                if(CORE.helper.time.outTime(a[i].times[g].startTime,a[i].times[g].endTime,n.times[a[i].times[g].day[h]].start,n.times[a[i].times[g].day[h]].end))   
+                                if(CORE.helper.time.outTime(a[i].times[g].startTime,a[i].times[g].endTime,n.times[a[i].times[g].day[h]].start,n.times[a[i].times[g].day[h]].end))   {
                                     return false;
+                                    c++;
+                                }
                             }
                     return true;
                 });
                 
             },
-            campus:function(){
+            campus:function(first){
+                first||CORE.filter.time(true);
                 var killList    =   [];
                 var campusStates    =   CORE.view.controlPanel.campusFilter.campusOn;
                 for(var key in campusStates){
@@ -559,6 +566,9 @@ CORE.main.parse =   (function(CORE){
                     return true;
                 });
                 console.log('Filtering Took: '+(Date.now()-start)+'ms');
+                if(killList.length===0){
+
+                }
             }
         }
         
