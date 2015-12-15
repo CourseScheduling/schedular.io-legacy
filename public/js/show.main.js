@@ -110,7 +110,7 @@ THE MAIN SKELETON/STRUCTURE FOR THE Scheduling App
             daySlider:{
                 elements:{mon:[],tue:[],wed:[],thu:[],fri:[],sat:[]}
             }
-        },
+        },  
         socket:{
             seatMap:{}
         }
@@ -532,8 +532,9 @@ CORE.main.parse =   (function(CORE){
                 var n = getValues();
                 var c = 0;
                 
+                first   =   first||false;
                 first||CORE.filter.campus(true);
-                CORE.scheduleOptions.current    =   CORE.scheduleOptions.current.filter(function(a){
+                CORE.scheduleOptions.current    =   CORE.scheduleOptions[(first?'all':'current')].filter(function(a){
                     for(var i = a.length;i--;)
                         for(var g = a[i].times.length;g--;)
                             for(var h   =   a[i].times[g].day.length;h--;){
@@ -549,6 +550,7 @@ CORE.main.parse =   (function(CORE){
                 
             },
             campus:function(first){
+                first   =   first||false;
                 first||CORE.filter.time(true);
                 var killList    =   [];
                 var campusStates    =   CORE.view.controlPanel.campusFilter.campusOn;
@@ -557,8 +559,11 @@ CORE.main.parse =   (function(CORE){
                         killList.push(DBKey[key]);
                     }
                 }
+                if(killList.length==0){
+                    return (CORE.scheduleOptions.current =   CORE.scheduleOptions.all.slice(0));
+                }
                 var start=Date.now();
-                CORE.scheduleOptions.current =   CORE.scheduleOptions.all.filter(function(a){
+                CORE.scheduleOptions.current =   CORE.scheduleOptions[(first?'all':'current')].filter(function(a){
                     for(var i=a.length;i--;)
                         if(killList.indexOf(a[i].campus)>-1)
                             return false;

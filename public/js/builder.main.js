@@ -350,8 +350,21 @@ CORE.schedule   =   (function(CORE){
             CORE.schedule.blockBlur(e.target);
         },
         makeBlock:function(section,time,day){
-            if(day==-1)
-                return document.createElement('div');
+            if(day==-1){
+                var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
+                    CORE.helper.element.changeStyle(timeBlock,{
+                        top     :   [0,'px'].join(''),
+                        left    :   [0,'px'].join(''),
+                        height  :   [(time.endTime-time.startTime)*(560/840),'px'].join(''),
+                        lineHeight  :   [(time.endTime-time.startTime-4)*(560/840),'px'].join(''),
+                        color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.courseName)),
+                        backgroundColor :   CORE.helper.color.getBackgroundColor(section.courseName),
+                        position    :   'relative'
+                    });
+                timeBlock.innerHTML=section.courseName
+
+                return timeBlock;
+            }
             //Make a timeblock element
             var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
             var top =   ((time.startTime-480)*(560/840));
@@ -393,6 +406,8 @@ CORE.schedule   =   (function(CORE){
     };
 })(CORE);
 
+
+/*
 CORE.view.crnInput  =   (function(CORE){
     document.getElementById('b-crnAddButton').addEventListener('click',function(e){
         //When that Add+ button is clicked toggle the crnInput
@@ -433,6 +448,7 @@ CORE.view.crnInput  =   (function(CORE){
     
 })(CORE);
 
+*/
 
 CORE.view.crnBar    =   (function(CORE){
     return {

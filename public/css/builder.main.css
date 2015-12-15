@@ -57,10 +57,11 @@
     .b-scheduleWrap{
         width:704px;
         box-sizing:border-box;
-        border:1px solid #999;
+        border:1px solid #BBB;
         display:inline-block;
         margin-top:10px;
         float:right;
+        border-radius: 3px;
     }
         .b-dayLabelWrap{
             display:inline-block;
