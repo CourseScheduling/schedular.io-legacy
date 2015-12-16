@@ -2,7 +2,6 @@ doctype html
 html
     head
         script(src="/js/global.js")
-        script(src="/js/home.js")
         link(rel="stylesheet" href="/css/home.css")
         link(href='https://fonts.googleapis.com/css?family=Raleway:400,100,300' rel='stylesheet')
         link(href='https://fonts.googleapis.com/css?family=Open Sans:400,100,300' rel='stylesheet')
@@ -19,11 +18,11 @@ html
             div(href="/u/login" id="loginMain")
                 div(style="font-family:Open Sans;font-size:12px;font-weight:300;")
                 a(href="/u/login")
-                    span(class="subTitle" style="float:right;padding:10px;border:1px solid #999;margin-top:20px;") Login
+                    span(class="subTitle" id="loginText") Login
         div(id="mainContainer" )
             p(class="mainTitle")
                 img(src="/images/mainLogo.png" style="float:left;margin-top:5px;" height="50px")
-                |Schedular.
+                |Schedular
             p(class="subTitle") a clean, easy to use, course registration platform
             p(class="subTitle") now in UFV 
             a(href="/u/signup")

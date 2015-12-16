@@ -120,15 +120,25 @@ block headContent
                             margin-right:5px;
                             cursor:pointer;
                         }
+                .seasonToolTip{
+                    font-family:Open Sans;
+                    font-size:12px;
+                    font-weight:100;
+                    color:#FFF;
+                    background-color:#2c3e50;
+                    padding:5px;
+                    border-radius:3px;
+                    position:absolute;
+                }
     title="Create Schedule"
 block bodyContent
     section#mainContent
-        #termContainer(style="margin-left:30px;margin-top:100px")
-            #winterIcon(style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;")
+        #termContainer(style="margin-left:30px;margin-top:120px;height:50px;z-index:100;width:800px;position:absolute;left:50%;margin-left:-400px;")
+            #winterIcon.seasonIcon(data-term="winter 2016 (available)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;")
                 img(src="/images/snowflake.png" width="30px")
-            #summerIcon(style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
+            #summerIcon.seasonIcon(data-term="summer 2016 (coming soon)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
                 img(src="/images/sun.png" width="30px")
-            #summerIcon(style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
+            #fallIcon.seasonIcon(data-term="fall 2016 (coming later)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
                 img(src="/images/leafIcon.png" width="30px")
         #centerContainer
             p#mainTitle Your Courses
@@ -343,3 +353,22 @@ block bodyContent
             localStorage['oldCourses'].split('.').forEach(function(v,i,a){
                 chosenCourses.add(v);
             });
+            
+        [].forEach.call(document.getElementsByClassName('seasonIcon'),function(v,i,a){
+            v.addEventListener('mouseover',function(){
+                var top =   (v.getBoundingClientRect().top-35)+'px';
+                var toolTip =   document.createElement('div');
+                document.body.appendChild(toolTip);
+                toolTip.className   =   'seasonToolTip';
+                toolTip.innerHTML=v.getAttribute('data-term');
+                var left    =   (v.getBoundingClientRect().left-(toolTip.getBoundingClientRect().width-v.getBoundingClientRect().width)/2)+'px';
+                toolTip.style.top   =   top;
+                toolTip.style.left =   left;
+            });
+            v.addEventListener('mouseout',function(){
+                var a = document.getElementsByClassName('seasonToolTip');
+                while(a.length){
+                    a[0].parentNode.removeChild(a[0]);
+                }
+            });
+        });

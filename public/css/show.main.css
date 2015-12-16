@@ -314,7 +314,7 @@ border-width: 1px 0 0;
                             transition: background-color .5s;
                         }
                         #timeSort-ball-active{
-                            background:url(/images/whiteDot.png) #ACEAC5 center center no-repeat;
+                            background:url(/images/radioCircle.png)  #84C0EB center center no-repeat;
                             background-size:100%;
                             transition: background-image 1s;
                         }

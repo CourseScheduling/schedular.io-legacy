@@ -7,16 +7,29 @@ block headContent
         .date-0{
             border-left-color:transparent;
         }
+        .seasonToolTip{
+            font-family:Open Sans;
+            font-size:12px;
+            font-weight:100;
+            color:#FFF;
+            background-color:#2c3e50;
+            padding:5px;
+            border-radius:3px;
+            position:absolute;
+        }
 block bodyContent
     div(id="crnBar-wrap" )
+        input(style="width:200px;color:#222;background:#EEE;border:0;padding:7px;outline:0;font-family:Open Sans;font-size:11px;margin-top:10px;" placeholder="Type to find more courses")
+        input(style="height:29px;width:29px;border:0;padding:0;float:left;margin-top:10px;background:url(/images/magnifyingGlass.png) #EEE center center no-repeat;background-size:60%;outline:0;" type="button" value="")
         ul( id="crnBar" style="float:left;padding-left:0;")
             br
             br
     div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:123px;left:50%;width:704px;")
-        p(style="font-family:Raleway;font-size:20px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
+        p(style="font-family:Raleway;font-size:25px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
         div(style="float:right;width:200px;margin-top:-60px;text-align:right;padding-right:20px;")
-            img(src="/images/cloudSave.png" height="45px" style="cursor:pointer;")
-            img(src="/images/cameraWire.png" height="35px" style="margin-left:10px;margin-bottom:4px;cursor:pointer;")
+            img(class="builder-toolIcon" data-toolText="Save This Schedule" src="/images/cloudSave.png" height="45px" style="cursor:pointer;")
+            img(class="builder-toolIcon" data-toolText="Take a Picture" src="/images/cameraWire.png" height="35px" style="margin-left:10px;margin-bottom:4px;cursor:pointer;")
+            img(class="builder-toolIcon" data-toolText="Generate Link" src="/images/link.png" height="22px" style="margin-left:15px;margin-bottom:10px;cursor:pointer;")
         input(id="b-crnInput" placeholder="Enter CRNs with a comma inbetween e.g. 10973,10981,10921")
         div(class="b-scheduleWrap" data-crn="" style="float:left;")
             div(class="b-dayLabelWrap")
@@ -29,5 +42,24 @@ block bodyContent
 
             div(id="b-timeBlockWrap" class="b-timeBlockWrap")
                 div(style="font-family:Open Sans;font-weight:100;font-size:20px;width:200px;position:absolute;left:200px;top:100px;")
-                    | You haven't put it in any CRNs. click the "Add +" button to add your own
+                    | You haven't put it in any courses. Use the search bar on the left to search for some.
     script(src="/js/builder.main.js")
+    script.    
+        [].forEach.call(document.getElementsByClassName('builder-toolIcon'),function(v,i,a){
+            v.addEventListener('mouseover',function(){
+                var top =   (v.getBoundingClientRect().top-35)+'px';
+                var toolTip =   document.createElement('div');
+                document.body.appendChild(toolTip);
+                toolTip.className   =   'seasonToolTip';
+                toolTip.innerHTML=v.getAttribute('data-toolText');
+                var left    =   (v.getBoundingClientRect().left-(toolTip.getBoundingClientRect().width-v.getBoundingClientRect().width)/2)+'px';
+                toolTip.style.top   =   top;
+                toolTip.style.left =   left;
+            });
+            v.addEventListener('mouseout',function(){
+                var a = document.getElementsByClassName('seasonToolTip');
+                while(a.length){
+                    a[0].parentNode.removeChild(a[0]);
+                }
+            });
+        });

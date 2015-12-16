@@ -350,23 +350,24 @@ CORE.schedule   =   (function(CORE){
             CORE.schedule.blockBlur(e.target);
         },
         makeBlock:function(section,time,day){
+            //Make a timeblock element
+            
+            var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
             if(day==-1){
-                var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
-                    CORE.helper.element.changeStyle(timeBlock,{
-                        top     :   [0,'px'].join(''),
-                        left    :   [0,'px'].join(''),
-                        height  :   [(time.endTime-time.startTime)*(560/840),'px'].join(''),
-                        lineHeight  :   [(time.endTime-time.startTime-4)*(560/840),'px'].join(''),
-                        color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.courseName)),
-                        backgroundColor :   CORE.helper.color.getBackgroundColor(section.courseName),
-                        position    :   'relative'
-                    });
+                //special for online courses ;)
+                CORE.helper.element.changeStyle(timeBlock,{
+                    top     :   [0,'px'].join(''),
+                    left    :   [0,'px'].join(''),
+                    height  :   [(time.endTime-time.startTime)*(560/840),'px'].join(''),
+                    lineHeight  :   [(time.endTime-time.startTime-4)*(560/840),'px'].join(''),
+                    color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.courseName)),
+                    backgroundColor :   CORE.helper.color.getBackgroundColor(section.courseName),
+                    position    :   'relative'
+                });
                 timeBlock.innerHTML=section.courseName
 
                 return timeBlock;
             }
-            //Make a timeblock element
-            var timeBlock   =   CORE.helper.element.createDiv({class:'b-timeBlock','data-crn':section.crn});
             var top =   ((time.startTime-480)*(560/840));
             var left=   (((day+1)%7)*86);
             //Adjust its styles.

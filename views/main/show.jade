@@ -150,7 +150,6 @@ block bodyContent
                     el.addEventListener('touchmove',function(e){
                         toolTip.style.top=e.target.offsetTop+30+'px';
                         toolTip.style.left=e.target.parentNode.offsetLeft+20+'px';
-                        document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
                         e.preventDefault();
                     });
                     el.addEventListener('touchstart',function(e){
@@ -172,6 +171,10 @@ block bodyContent
                     });
                     document.addEventListener("mouseup",function(e){
                         e.target.style.zIndex="0";
+                        if(clicked){
+                            CORE.sort.functions.start();
+                            CORE.filter.time();
+                        }
                         clicked =   0;
                     });
                     document.addEventListener("mousemove", function(e){
@@ -183,8 +186,6 @@ block bodyContent
                                 newTop   =   77;
                             element.style.top   =   newTop+'px';
                             a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
-                            CORE.filter.time();
-                            CORE.sort.functions.start();
                         }
                     });
                     a.addEventListener("touchmove", function(e){
@@ -240,7 +241,7 @@ block bodyContent
     div#main-scheduleContainer
     div#yo
     //Okay, if you're reading this HTML looking for hacks or something I suggest you look at the file below.
-    script(src='/js/show.main.js')
+    script(src='/js/show.main.min.js')
     //Yea, I'm talking about ^ that file. It contains all the scripts for the page you see in front of you.
     
     //--Templates--

@@ -20,16 +20,17 @@
 }
 
     .u-signInput{
-        padding:10px;
+        padding:12px;
         font-family:Open Sans;
         font-size:12px;
         outline:none;
         border-radius:3px;
         border:1px solid #ccc;
         font-weight:100;
-        margin:5px;
-        width:100%;
+        margin:7px 3% 7px 3%;
+        width:94%;
         box-sizing:border-box;
+        
     }
         #u-signSubmit{
             color:#FFF;
@@ -52,6 +53,7 @@
                 font-family:Open sans;
                 font-weight:300;
                 font-size:12px;
+                margin-right:5%;
             }
     .u-largeLogoContainer{
         height:100px;
@@ -62,6 +64,7 @@
             font-size:40px;
             float:right;
             font-weight:100;
+            color:#444;
         }
         img.u-largeLogoImage{
             height:40px;

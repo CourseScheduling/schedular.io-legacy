@@ -458,13 +458,13 @@ CORE.main.parse =   (function(CORE){
                         for(var i = a.length;i--;){
                             var aSeats  =   CORE.socket.seatMap[a[i].crn];
                             var d = (aSeats.m-aSeats.e);
-                            aSum+=((d>0)*100000)-(aSeats.w*100)+d*(d>0);
+                            aSum+=((d>0)*1000)-(aSeats.w*10)+d*(d>0);
 
                         }
                         for(var i = b.length;i--;){
                             var bSeats  =   CORE.socket.seatMap[b[i].crn];
                             var d = (bSeats.m-bSeats.e);
-                            bSum+=((d>0)*100000)-(bSeats.w*100)+d*(d>0);
+                            bSum+=((d>0)*1000)-(bSeats.w*10)+d*(d>0);
                         }
                         return bSum-aSum;
                     },

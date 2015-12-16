@@ -1,200 +1,219 @@
 <html>
     <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
         <style>
-            .sliderContainer{
-                height:70px;
-                width:10px;
-                margin-left:20px;
-                margin-right:20px;
-                margin-top:14px;
-                text-align: center;
-                position: relative;
-                float: left;
+            #b-toolTip-wrap{
+                border:1px solid #AAA;
+                min-height: 186px;
+                min-width: 300px;
+                position:absolute;
+                top:100px;
+                left:100px;
+                border-radius:5px;
+                box-shadow: 0px 0px 3px #DDD;
+                overflow: hidden;
+            }          
+            #c-toolTip-wrap{
+                height:100px;
+                width:100px;
+                border:1px solid #DDD;
+                border-radius: 5px;
+                background-color:#fff;
+                box-shadow: 0px 0px 3px #DDD;
+                position:absolute;
+                top:100px;
+                left:100px;
+                padding:10px;
             }
-            
-                .sliderBlock{
-                    height:84px;
-                    width:2px;
-                    background-color:#1abc9c;
-                    margin-left:6px;
+                #c-toolTip-header{
+                    width:100%;
+                    float: left;
+                    box-sizing: border-box;
+                    font-family:Raleway;
+                    font-size:15px;
+                    font-weight: 300;
+                    margin-bottom: 10px;
                 }
-                .sliderCircle{
-                    height:14px;
-                    width:14px;
-                    border-radius:14px;
-                    box-shadow: 0px 0px 3px #999;
-                    background-color:#FFF;
-                    position:absolute;
+                    #c-toolTip-title{
+                        float:left;
+                    }
+                #c-toolTip-body{
+                    font-family: Open Sans;
+                    font-size:13px;
+                    font-weight:300;
+                }
+                    #c-toolTip-description{
+                        margin-bottom: 20px;
+                    }
+                #c-toolTip-footer{
+                    margin-top:20px;
+                }
+                .c-toolTip-footerButton{
+                    font-family: Open Sans;
+                    font-size:12px;
+                    padding:10px;
+                    background:#FFF;
+                    border:1px solid #EEE;
                     cursor: pointer;
+                    outline: 0;
+                    box-shadow: 0px 0px 2px #EEE;
                 }
-            
-                .arrow-left {
+                .c-toolTip-footerButton:hover{
+                    border:1px solid #DDD;
+                    box-shadow: 0;
+                }
+                .c-toolTip-footerButton:active{
+                    background:rgba(0,0,0,0.2);
+                }
+                .c-toolTip-nub{
                     width: 0; 
                     height: 0; 
-                    border-top: 10px solid transparent;
-                    border-bottom: 10px solid transparent;  
-                    border-right:10px solid #34495e;    
-                    position:absolute;  
-                    top:0px;    
-                    left:-5px;  
-                }   
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-top: 10px solid #eee;
+                    position: absolute;
+                    bottom:-10px;
+                    left:50px;
+                }
+                .c-expandBorder{
+                    z-index: 100000;
+                    height:20px;
+                    width:100px;
+                    position: absolute;
+                    bottom: -20px;
+                    left:100px;
+                }
+
         </style>
     </head>
     <body>
-        <div id="sliderControls" style="float:left;position:absolute;">
-            <div style="width:100%;font-family:Open Sans;font-weight:300;height:20px;font-size:12px;">
-                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Mon</div>
-                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Tue</div>
-                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Wed</div>
-                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Thu</div>
-                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Fri</div>
-                <div style="width:20px;margin-left:15px;margin-right:16px;float:left;">Sat</div>
+        <div id="c-toolTip-wrap" style="display:none;">
+            <div id="loader" style="background:url(./balls.gif) center center no-repeat; background-size:100%;height:100%;width:100%;"></div>
+            <div class="c-toolTip-nub"></div>
+        </div>
+        
+        <div id="c-toolTip-innerTemplate" style="display:none">
+            <div id="c-toolTip-header">
+                <span class="c-toolTip-title">Chem 113</span>
+                <div style="height:20px;width:20px;float:right;background-color:#1abc9c"></div>
             </div>
-            <div class="sliderContainer" data-day="mon">
-                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
+            <div id="c-toolTip-body">
+                <div id="c-toolTip-description">
+                    An introduction to principles of chemistry with the emphasis on theory of atomic and molecular structure and bonding. Work performed in the laboratory complements lecture material. Along with CHEM 114, this course will satisfy requirements for students wishing to pursue an honours or majors program in science.
+                </div>
+                <div id="c-toolTip-prereq">
+                    <strong style="font-weight:400;">Prerequisites:</strong>
+                    CHEM 12, CHEM 093, or CHEM 110; and one of the following: Principles of Mathematics 12, Pre-calculus 12, MATH 094/095, or MATH 096.
+                </div>
             </div>
-            <div class="sliderContainer" data-day="tue">
-                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
+            <!--
+            <div id="c-toolTip-footer">
+                <input type="button" class="c-toolTip-footerButton" style="float:right" value="View Textbooks">
             </div>
-            <div class="sliderContainer" data-day="wed">
-                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
-            </div>
-            <div class="sliderContainer" data-day="thur">
-                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
-            </div>
-            <div class="sliderContainer" data-day="fri">
-                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
-            </div>
-            <div class="sliderContainer" data-day="sat">
-                <div class="sliderCircle" style="top:-7px;left:0px;" data-loc="0"></div>    
-                <div class="sliderBlock"></div>
-                <div class="sliderCircle" style="top:77px;left:0px;" data-loc="84"></div>    
-            </div>
-            <div id="toolTip" style="z-index:10000;display:none;padding:3px 5px 3px 5px;background:#34495e;float:left;position:absolute;color:#FFF;font-weight:300;font-family:Open Sans;font-size:11px;">
-                <div class="arrow-left"></div>
-                <span id="toolTip-time" style="padding-left:5px">10:00</span>
-            </div>
+-->
+        </div>
+        <div style="height:175px;width:282px;border:1px solid #DDD;border-radius:5px;">
+            <div style="height:30px;border-bottom:1px solid#DDD;"
+        
         </div>
         <script>
-        var times   =   ['8:00 am','8:30 am','9:00 am','9:30 am','10:00 am','10:30 am','11:00 am','11:30 am','12:00 am','12:30 am','1:00 pm','1:30 pm','2:00 pm','2:30 pm','3:00 pm','3:30 pm','4:00 pm','4:30 pm','5:00 pm','5:30 pm','6:00 pm','6:30 pm','7:00 pm','7:30 pm','8:00 pm','8:30 pm','9:00 pm','9:30 pm','10:00 pm'];
-
-        function toolTip(el){
-            var toolTip =   document.getElementById('toolTip');
-            el.addEventListener('mouseover',function(e){
-                toolTip.style.display   =   'block';
-            });
-            el.addEventListener('mouseout',function(e){
-                toolTip.style.display   =   'none';
-            });
-            el.addEventListener('mousemove',function(e){
-                
-                
-                toolTip.style.top=e.target.getBoundingClientRect().top-7.5+'px';
-                toolTip.style.left=e.target.getBoundingClientRect().left+20+'px';
-                document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
-            });
-            el.addEventListener('touchmove',function(e){
-                toolTip.style.top=e.target.getBoundingClientRect().top-7.5+'px';
-                toolTip.style.left=e.target.getBoundingClientRect().left+20+'px';
-                document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
-            });
-            el.addEventListener('touchstart',function(e){
-                toolTip.style.display   =   'block';
-            });
-            el.addEventListener('touchend',function(e){
-                toolTip.style.display   =   'none';
-            });
-        }
-
-        [].forEach.call(document.getElementsByClassName('sliderCircle'),function(a){
-            var clicked = 0;
-            var moved = 0;
-            var element = a;
-            toolTip(a);
-            element.addEventListener("mousedown", function(e){
-                e.target.style.zIndex="1000";
-                clicked =   1;
-            });
-            document.addEventListener("mouseup",function(e){
-                e.target.style.zIndex="0";
-                clicked =   0;
-            });
-            document.addEventListener("mousemove", function(e){
-                if(clicked){
-                    var newTop  =   ((e.clientY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
-                    if(newTop<-7)
-                        newTop   =   -7;
-                    else if(newTop>77)
-                        newTop   =   77;
-                    element.style.top   =   newTop+'px';
-                    a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
-                console.log(getValues());
-                }
-            });
-            a.addEventListener("touchmove", function(e){
-                var touch = e.targetTouches[0];
-                    var newTop  =   ((touch.pageY - a.parentNode.getBoundingClientRect().top-element.getBoundingClientRect().height/2));
-                    if(newTop<-7)
-                        newTop   =   -7;
-                    else if(newTop>77)
-                        newTop   =   77;
-                    element.style.top   =   newTop+'px';
-                    a.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
-                console.log(getValues());
-                e.preventDefault();
-            });
-        });
-        CORE    =   {
-            view:{
-                daySlider:{
-                    elements:{mon:[],tue:[],wed:[],thur:[],fri:[],sat:[]}
-                }
+            function grow(){
+                document.getElementById("c-toolTip-wrap").innerHTML='';
             }
-        };
+            CORE    =   {
+                view:{
+                    tooltips:{
+                        course:{}
+                    }
+                }
+            };
         
-        
-        (function init(){
-            var circles =   document.getElementsByClassName('sliderCircle');
-            for(var i = circles.length;i--;)
-                CORE.view.daySlider.elements[circles[i].parentNode.getAttribute('data-day')].push(circles[i]);
-        })();
 
-        function getValues(){
-            var days    =   [];
-            for(var day in CORE.view.daySlider.elements){
-                var start   =   parseInt(CORE.view.daySlider.elements[day][0].getAttribute('data-loc'));
-                var end     =   parseInt(CORE.view.daySlider.elements[day][1].getAttribute('data-loc'));
-                if(start==end){
-                    days.push(false);
+            CORE.view.tooltips.course   =   (function(CORE){
+                var container   =   document.getElementById("c-toolTip-wrap");
+                return {
+                    animating:false,
+                    shown:false,
+                    container:container,
+                    add:function(element){
+                        var top =   (element.getBoundingClientRect().top-parseInt(window.getComputedStyle(container).height)-30)+'px';
+                        var left    =   element.getBoundingClientRect().left-(parseInt(window.getComputedStyle(container).width)/2)+'px';
+                        var showMain    =   function(){
+                            if(CORE.view.tooltips.animating||CORE.view.tooltips.shown)
+                                return;
+                            container.style.top =   top;
+                            container.style.left =   left;
+                            Velocity(container,'fadeIn',{complete:function(){
+                                setTimeout(function(){
+                                    CORE.view.tooltips.course.expandData(element);
+                                },100);
+                            }});
+                        }
+                        element.addEventListener('mouseover',showMain);
+                        document.addEventListener('mouseover',function(e){
+                            if(element.contains(e.target)||container.contains(e.target))
+                                return;
+                            container.style.display =   'none';
+                            container.style.top='';
+                            container.style.left='';
+                            container.style.minHeight='';
+                            container.style.minWidth='';
+                            container.innerHTML='';
+                            CORE.view.tooltips.animating    =   false;
+                            CORE.view.tooltips.shown    =   false;
+                        });
+                    },
+                    expandData:function(element){
+                        
+                        
+                            var top =   (element.getBoundingClientRect().top-250-20)+'px';
+                            var left    =   element.getBoundingClientRect().left-(300/2)+'px';
+                        var inner=document.getElementById('c-toolTip-innerTemplate').cloneNode(true);
+                        inner.style.display =   'block';
+                        Velocity(document.getElementById("c-toolTip-wrap"),{minHeight:'250px',minWidth:'300px',top:top,left:left},{complete:function(e){
+                            document.getElementById('c-toolTip-wrap').innerHTML='';
+                            document.getElementById('c-toolTip-wrap').appendChild(inner);
+                            document.getElementById('c-toolTip-wrap').innerHTML+='<div class="c-expandBorder"></div>';
+                            CORE.view.tooltips.animating    =   false;
+                            CORE.view.tooltips.shown=true;
+                        }},100);
+                        Velocity(document.getElementsByClassName("c-toolTip-nub")[0],{left:'150px'});
+                    }
                 }
-                else{
-                if(start<end)
-                    days.push({start:(start/3)*60+480,end:(end/3)*60+480});
-                else
-                    days.push({end:(start/3)*60+480,start:(end/3)*60+480});
-                
-            }
-            }
-            return days;
-        }
+            })(CORE);
 
 
 
 
 
 
-
-
+        </script>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="hey" style="margin-left:300px;padding-top:10px;">CHEM 113</div>
+        <script>
+            CORE.view.tooltips.course.add(document.getElementById('hey'));
         </script>
     </body>
 </html>
