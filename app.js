@@ -10,8 +10,10 @@ var MemcachedStore = require('connect-memcached')(session);
 var nodalytics = require('nodalytics')
 
 var routes = require('./routes/index');
+
+var review = require('./routes/review/course');
+
 var users = require('./routes/users');
-var manage = require('./routes/manage');
 var search = require('./routes/search');
 
 var signupAuth = require('./routes/auth/signup');
@@ -72,8 +74,8 @@ app.use('/signupAuth', signupAuth);
 app.use('/loginAuth', loginAuth);
 app.use('/continue', continueAuth);
 app.use('/s', search);
-app.use('/m', manage);
 app.use('/u', users);
+app.use('/r', review);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
