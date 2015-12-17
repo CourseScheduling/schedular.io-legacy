@@ -19,7 +19,7 @@ block headContent
         }
 block bodyContent
     div(style="position:absolute;top:70px;left:0px;text-align:center;width:100%;")
-        label( id="notif" style="padding:5px 20px 5px 20px;background:#1abc9c;color:#FFF;font-size:12px;font-weight:300;font-family:Open Sans;") auto-saved at 2:05am
+        label( id="notif" style="box-shadow:0px 0px 3px #999;padding:7px 20px 7px 20px;width:400px;background:#1abc9c;color:#FFF;font-size:12px;font-weight:300;font-family:Open Sans;") auto-saved at 2:05am
     div(id="crnBar-wrap" )
         input(style="width:200px;color:#222;background:#EEE;border:0;padding:7px;outline:0;font-family:Open Sans;font-size:11px;margin-top:10px;" placeholder="Type to find more courses")
         input(style="height:29px;width:29px;border:0;padding:0;float:left;margin-top:10px;background:url(/images/magnifyingGlass.png) #EEE center center no-repeat;background-size:60%;outline:0;" type="button" value="")
@@ -27,12 +27,15 @@ block bodyContent
         ul( id="crnBar" style="margin-top:-20px;float:left;padding-left:0;")
             br
             br
-    div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:123px;left:50%;width:704px;")
+    div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:140px;left:50%;width:704px;")
         p(style="font-family:Raleway;font-size:25px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
+        div(style="float:left;padding-top:18px;;width:200px;margin-top:-60px;text-align:left;padding-left:20px;")
+            input(type="checkbox")
+            label(style="font-weight:300;font-family:Open Sans;font-size:12px;") Show Overlapping
         div(style="float:right;width:200px;margin-top:-60px;text-align:right;padding-right:20px;")
-            img(class="builder-toolIcon" data-toolText="Save This Schedule" src="/images/cloudSave.png" height="45px" style="cursor:pointer;")
-            img(class="builder-toolIcon" data-toolText="Take a Picture" src="/images/cameraWire.png" height="35px" style="margin-left:10px;margin-bottom:4px;cursor:pointer;")
-            img(class="builder-toolIcon" data-toolText="Generate Link" src="/images/link.png" height="22px" style="margin-left:15px;margin-bottom:10px;cursor:pointer;")
+            //div(class="b-toolIcon" style="background-position:center left" data-toolText="Take a Picture")
+            div(class="b-toolIcon" style="background-position:center center" data-toolText="Save This Schedule")
+            div(class="b-toolIcon" style="background-position:center right" data-toolText="Generate Link")
         input(id="b-crnInput" placeholder="Enter CRNs with a comma inbetween e.g. 10973,10981,10921")
         div(class="b-scheduleWrap" data-crn="" style="float:left;")
             div(class="b-dayLabelWrap")
@@ -48,7 +51,7 @@ block bodyContent
                     | You haven't put it in any courses. Use the search bar on the left to search for some.
     script(src="/js/builder.main.js")
     script.    
-        [].forEach.call(document.getElementsByClassName('builder-toolIcon'),function(v,i,a){
+        [].forEach.call(document.getElementsByClassName('b-toolIcon'),function(v,i,a){
             v.addEventListener('mouseover',function(){
                 var top =   (v.getBoundingClientRect().top-35)+'px';
                 var toolTip =   document.createElement('div');

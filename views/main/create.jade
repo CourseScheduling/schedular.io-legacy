@@ -78,6 +78,7 @@ block headContent
                         padding:7px;
                         padding-left:10px;
                         cursor:pointer;
+                        width:100%;
                     }
                         .instant-resultContainer-hover{
                             background-color:#89C4F4;
@@ -87,6 +88,7 @@ block headContent
                             font-size:13px;
                             font-weight:600;
                             display:inline-block;
+                            margin-top:5px;
                         }
                         .instant-resultCourseCode{
                             font-family:Open Sans;
@@ -95,6 +97,7 @@ block headContent
                             color:#666;
                             margin-left:10px;
                             display:inline-block;
+                            margin-top:5px;
                         }
                         .courseChoice-wrap{
                             list-style-type:none;
@@ -250,7 +253,7 @@ block bodyContent
                     courseCode.innerHTML    =   v.courseCode;
                     
                     instantContainer.appendChild(courseName);
-                    instantContainer.appendChild(courseCode);
+                    instantContainer.appendChild(courseCode); 
                     
                     _this.dropDown.appendChild(instantContainer);
                     instantContainer.addEventListener('click',function(){

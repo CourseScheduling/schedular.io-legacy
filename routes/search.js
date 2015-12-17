@@ -33,7 +33,7 @@ router.use(function(req,res,next){
 router.get('/get', function(req, res, next) {
     
     
-    connection.query('SELECT * FROM instant WHERE ( MATCH (courseName) AGAINST ("?") OR courseCode LIKE CONCAT(?,"%") OR courseName LIKE CONCAT(?,"%") OR  courseCode LIKE CONCAT(?,"%") ) GROUP BY(courseCode) LIMIT 8',[req.query.courseInput, req.query.courseInput, req.query.courseInput, req.query.courseInput.replace(' ','')],function(err, rows, fields) {
+    connection.query('SELECT * FROM instant WHERE ( MATCH (courseName) AGAINST ("?") OR courseCode LIKE CONCAT(?,"%") OR courseName LIKE CONCAT(?,"%") OR  courseCode LIKE CONCAT(?,"%") ) GROUP BY(courseCode) LIMIT 5',[req.query.courseInput, req.query.courseInput, req.query.courseInput, req.query.courseInput.replace(' ','')],function(err, rows, fields) {
         if(err) throw(err);
         res.send(JSON.stringify(rows));
         return;
