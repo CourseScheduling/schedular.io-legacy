@@ -94,14 +94,14 @@ var InsertMod   =   {
 
 
 router.post('/',function(req,res,next){  
-    req.body.u  =   req.body.u.toLowerCase();
-    ValidateMod.validate(req.body.u,req.body.p,req.body.s,req.body.aT,function(good,reason){
+    req.body.username  =   req.body.username.toLowerCase();
+    ValidateMod.validate(req.body.username,req.body.password,req.body.student,req.body.accountType,function(good,reason){
         if(!good){
             res.send([reason]);
             return;
         }
         console.log('good');
-        InsertMod.insertUser(req.body.u,req.body.p,req.body.s,req.body.aT,function(){
+        InsertMod.insertUser(req.body.username,req.body.password,req.body.student,req.body.accountType,function(){
             res.send(['SUCCESS']);
         });
     });

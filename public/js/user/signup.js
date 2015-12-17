@@ -128,7 +128,14 @@ CORE.signup =   (function(CORE){
                 CORE.notif.display(CORE.validate(inputValues)[1]);  //Show the error if there is one
                 CORE.signup.load.hide();
             }else{
-            
+                //if inputs are valid, send to server for double checking and registration
+                $.post({
+                    url:'/signupAuth',
+                    data:inputValues,
+                    done:function(a){
+                        console.log(a);
+                    }
+                });
             }
         },
         init:function(){
@@ -147,12 +154,12 @@ CORE.signup.load    =   (function(CORE){
         submitValue:'',
         show:function(){
             CORE.elements.signupButton.style.background   =   "url(/images/loginAjax.gif) #3498db center center / 25px no-repeat";
-            this.submitValue    =   CORE.elements.signupButton.innerHTML;
-            CORE.elements.signupButton.innerHTML    =   '';
+            this.submitValue    =   CORE.elements.signupButton.value;
+            CORE.elements.signupButton.value    =   '';
         },
         hide:function(){
             CORE.elements.signupButton.style.background =   '';
-            CORE.elements.signupButton.innerHTML    =   this.submitValue;
+            CORE.elements.signupButton.value    =   this.submitValue;
         }
     }
 })(CORE);
