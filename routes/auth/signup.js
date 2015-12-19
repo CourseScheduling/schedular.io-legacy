@@ -1,24 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var crypto  =   require('crypto');
-var mysql      = require('mysql');
-var ses     =   require('node-ses')
+var express	=	require('express');
+var router	=	express.Router();
+
+var crypto	=	require('crypto');
+
+var mysql		=	require('mysql');
+var ses			=	require('node-ses');
+
 var sesClient   =   ses.createClient({
     key:'AKIAIWVGEVPTLIA5GI7Q',
     secret:'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',
     amazon:'https://email.us-west-2.amazonaws.com'
 });
-var connection = mysql.createConnection({
-  host     : 'schedule.cpfi2ocm03x0.us-west-2.rds.amazonaws.com',
-  user     : 'joseph',
-  password : 'joseph123',
-  database : 'ufv'
-});
+
+var DB      =   require('../../bin/db.js');
 
 
 
-
-connection.connect();
 var ValidateMod   =   {
     validate:function(username,password,student,account,cb){
         var _this   =   this;

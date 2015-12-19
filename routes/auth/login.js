@@ -38,8 +38,10 @@ var Login    =   (function(){
         Validate, anything that involves validating inputs    
     */
     function validate(username,password,cb){
-        var searchSQL   =   'SELECT userId,active,password FROM userlogin WHERE(username=?)';   
+			
+        var searchSQL   =   'SELECT userId,active,password FROM user.userlogin WHERE(username=?)';   
         DB.query(searchSQL,[username],function(err,result){
+					if(err) throw err;
             //return if user does not exist 
             if(result.length==0)
                 return cb&&cb(false,'BAD_USERNAME');
@@ -67,7 +69,7 @@ var Login    =   (function(){
         });
     }
     function getUser(userId,cb){
-        var searchSQL   =   'SELECT id,studentNumber,firstname,lastname,title,accountType FROM user WHERE id=?'
+        var searchSQL   =   'SELECT userInfo.*,uni.availableTerm  FROM user.user userInfo JOIN general.university uni ON uni.id=userInfo.universityId WHERE userInfo.id=?'
         DB.query(searchSQL,userId,function(err,results){
             cb&&cb(results[0]);
         });
