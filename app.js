@@ -11,8 +11,6 @@ var nodalytics = require('nodalytics')
 
 var routes = require('./routes/index');
 
-var review = require('./routes/review/course');
-
 var users = require('./routes/users');
 var search = require('./routes/search');
 
@@ -75,7 +73,6 @@ app.use('/loginAuth', loginAuth);
 app.use('/continue', continueAuth);
 app.use('/s', search);
 app.use('/u', users);
-app.use('/r', review);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

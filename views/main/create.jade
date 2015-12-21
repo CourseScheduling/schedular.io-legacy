@@ -152,7 +152,7 @@ block bodyContent
             br
             div(style="width:100%;text-align:center")
                 button#scheduleCreate(type="submit") Create Schedule
-                button#scheduleCreate(type="submit" style="margin-left:20px;background:#2ecc71") Show Reviews
+                //button#scheduleCreate(type="submit" style="margin-left:20px;background:#2ecc71") Show Reviews
 
 
     footer
@@ -335,16 +335,16 @@ block bodyContent
                 if(chosenCourses.courseList.length==0)
                     return false;
                 var courseList  =   [];
-                /*chosenCourses.courseList=chosenCourses.courseList.map(function(e){
-                    courseList.push([e.code.split(/(\d)/).shift(),e.code.split(/(\d)/).splice(1).join('')]);
+                chosenCourses.courseList=chosenCourses.courseList.map(function(e)courseList.push([e.code.split(/(\d)/).shift(),e.code.split(/(\d)/).splice(1).join('')]);
                     return e;
-                });*/
+                });
                 
                 if(chosenCourses.courseList.length>0)
                     localStorage['oldCourses']=chosenCourses.courseList.map(function(a){return a.code}).join('.');
                 else
                     localStorage['oldCourses']="";
-                document.location   =   '/s/show/?c='+chosenCourses.courseList.join('|');
+                console.log(chosenCourses);
+                //document.location   =   '/s/show/?c='+JSON.stringify(chosenCourses)
             },
             init:function(){
                 this.button.addEventListener('click',this.submit)
