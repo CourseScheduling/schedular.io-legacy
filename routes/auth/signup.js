@@ -26,6 +26,7 @@ router.post('/',function(req,res,next){
 		if(!body[0])
 			return res.send([body[1]]);
 		console.log(body);
+		Signup.validateDB(body);
 		res.send(body);
 	});
 });
@@ -39,7 +40,7 @@ var Signup  =	(function(){
 			return cb&&cb([false,'NO_PASSWORD']);
 		if(body.email==undefined||body.email=="")
 			return cb&&cb([false,'NO_EMAIL']);
-		
+
 		//check if the values are good
 		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
 
@@ -52,15 +53,22 @@ var Signup  =	(function(){
 		if(!emailRegex.test(body.email))
 			return cb&&cb([false,'BAD_EMAIL']);
 		if(body.email.split('@')[0].match(/[a-zA-Z]/g)==null)
-            return [false,'NUMBER_EMAIL'];
-		
+						return [false,'NUMBER_EMAIL'];
+
 		return cb&&cb([true]);
-		
-		
+
 	}
-	
+
+	function validateDB(body,cb){
+		//first check if email is taken/is possible email
+		DB.query("SELECT domain FROM general.university_emails e WHERE e.domain=? UNION ALL SELECT username FROM user.userlogin u WHERE u.username=?",[body.email,body.username],function(e,r){
+			console.log(r);
+		});
+	}
+
 	return {
-		checkBody:checkBody
+		checkBody:checkBody,
+		validateDB:validateDB
 	};
 	
 })();
