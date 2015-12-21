@@ -16,6 +16,57 @@ var DB      =   require('../../bin/db.js');
 
 
 
+var Signup;
+
+
+
+router.post('/',function(req,res,next){  
+	req.body.username  =   req.body.username.toLowerCase();
+  Signup.checkBody(req.body,function(body){
+		if(!body[0])
+			return res.send([body[1]]);
+		console.log(body);
+		res.send(body);
+	});
+});
+
+var Signup  =	(function(){
+	function checkBody(body,cb){
+		// Check if the values even exist
+		if(body.username==undefined||body.username=="")
+			return cb&&cb([false,'NO_USERNAME']);
+		if(body.password==undefined||body.password=="")
+			return cb&&cb([false,'NO_PASSWORD']);
+		if(body.email==undefined||body.email=="")
+			return cb&&cb([false,'NO_EMAIL']);
+		
+		//check if the values are good
+		var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
+
+		if(body.username.match(/[^a-zA-Z\d_-]/g)!==null)
+			return cb&&cb([false,'INVALID_USERNAME']);
+		if(body.username.length>40)
+			return cb&&cb([false,'LONG_USERNAME']);
+		if(body.password.length>200)
+			return cb&&cb([false,'LONG_PASSWORD']);
+		if(!emailRegex.test(body.email))
+			return cb&&cb([false,'BAD_EMAIL']);
+		if(body.email.split('@')[0].match(/[a-zA-Z]/g)==null)
+            return [false,'NUMBER_EMAIL'];
+		
+		return cb&&cb([true]);
+		
+		
+	}
+	
+	return {
+		checkBody:checkBody
+	};
+	
+})();
+
+
+/*
 var ValidateMod   =   {
     validate:function(username,password,student,account,cb){
         var _this   =   this;
@@ -37,7 +88,6 @@ var ValidateMod   =   {
     },
         
     good:function(username,password,student,account,email,cb){
-        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
         var _this   =   this;
         
         if(["student","faculty"].indexOf(account)==-1)
@@ -90,19 +140,6 @@ var InsertMod   =   {
 }
 
 
-router.post('/',function(req,res,next){  
-    req.body.username  =   req.body.username.toLowerCase();
-    ValidateMod.validate(req.body.username,req.body.password,req.body.student,req.body.accountType,function(good,reason){
-        if(!good){
-            res.send([reason]);
-            return;
-        }
-        console.log('good');
-        InsertMod.insertUser(req.body.username,req.body.password,req.body.student,req.body.accountType,function(){
-            res.send(['SUCCESS']);
-        });
-    });
-});
 
 var EmailMod    =   {
     sendWelcome:function(uniq,student,account,cb){
@@ -118,5 +155,5 @@ var EmailMod    =   {
     }
 }
     
-
+*/
 module.exports  =   router;
