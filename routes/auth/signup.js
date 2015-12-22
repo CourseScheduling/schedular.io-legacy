@@ -25,9 +25,10 @@ router.post('/',function(req,res,next){
   Signup.checkBody(req.body,function(body){
 		if(!body[0])
 			return res.send([body[1]]);
-		console.log(body);
-		Signup.validateDB(body);
-		res.send(body);
+		console.log(Signup.validateDB(body[1],function(a){
+			console.log(a);
+		}));
+		res.send(body[1]);
 	});
 });
 
@@ -55,14 +56,34 @@ var Signup  =	(function(){
 		if(body.email.split('@')[0].match(/[a-zA-Z]/g)==null)
 						return [false,'NUMBER_EMAIL'];
 
-		return cb&&cb([true]);
+		return cb&&cb([true,body]);
 
 	}
 
 	function validateDB(body,cb){
-		//first check if email is taken/is possible email
-		DB.query("SELECT domain FROM general.university_emails e WHERE e.domain=? UNION ALL SELECT username FROM user.userlogin u WHERE u.username=?",[body.email,body.username],function(e,r){
-			console.log(r);
+		//check if email domain is legit, if so, grab the uni associated with it.
+		DB.query("SELECT universityId FROM general.university_emails WHERE general.university_emails.domain=?",[body.email.split('@')[1]],function(e,r){
+			if(e) throw e;
+			//if the email domain is invalid
+			if(r==undefined||r.length==0)
+				return cb&&cb([false,'BAD_DOMAIN']);
+			//Okay, this is a valid thingy, 
+			var sql	=	"SELECT username FROM user.userLogin WHERE username=?"+
+					"UNION"+
+					" SELECT emailUser FROM user.user WHERE universityId=? AND user.user.emailUser=?";
+			//The values needed are the username, uni Id, and emailId
+			DB.query(sql,[body.username,r[0].universityId,body.email.split('@')[0]],function(e,r){
+				if(e) throw e;
+				if(r==undefined||r.length==0)
+					return cb&&cb([true]);
+				
+				if(r[0].username==body.username)
+					return cb&&cb([false,'USERNAME_EXISTS']);
+				else
+					return cb&&cb([false,'EMAIL_EXISTS']);
+					
+				
+			});
 		});
 	}
 
