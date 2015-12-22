@@ -53,8 +53,8 @@ CORE.notif  =   (function(CORE){
 							case    'USERNAME_EXISTS':     
 									this.show('Sorry dude, that username is already taken.');
 							break;
-							case    'STUDENT_EXISTS':     
-									this.show('That student number already has an account registered to it.');
+							case    'EMAIL_EXISTS':     
+									this.show('Yo, that student email already has an account registered to it.');
 							break;
 							case    'INVALID_USERNAME':     
 									this.show('Whoa, your username is invalid. Usernames can only contain alphanumeric characters and dashes.');
@@ -67,6 +67,15 @@ CORE.notif  =   (function(CORE){
 							break;
 							case    'SUCCESS':
 									this.show('Alright! Your account has been created! Please check your student email to activate it.')    
+							break;
+							case	'NO_USERNAME':
+								this.show('Please enter an awesome username to signup');
+							break;
+							case	'NO_PASSWORD':
+								this.show('Please enter a good password to signup');
+							break;
+							case	'NO_EMAIL':
+								this.show('Please enter a valid student email to signup');
 							break;
             }
         },
