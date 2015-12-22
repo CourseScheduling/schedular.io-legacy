@@ -69,8 +69,10 @@ var Login    =   (function(){
         });
     }
     function getUser(userId,cb){
-        var searchSQL   =   'SELECT userInfo.*,uni.availableTerm  FROM user.user userInfo JOIN general.university uni ON uni.id=userInfo.universityId WHERE userInfo.id=?'
+				//Gotta love joins
+        var searchSQL   =   'SELECT terms.term,terms.year,uni.dbName,user.* FROM general.university_terms terms JOIN general.university uni JOIN user.user user ON uni.id=terms.universityId=user.universityId WHERE user.id=1'
         DB.query(searchSQL,userId,function(err,results){
+					if(err) throw err;
             cb&&cb(results[0]);
         });
     }

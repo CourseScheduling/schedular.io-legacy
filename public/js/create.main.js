@@ -17,7 +17,10 @@ CORE.main.input	=	(function(CORE){
 			url:'/s/get?courseInput='+e.target.value,
 			done:function(a){
 				//Activate the dropdown and add all the possible courses
-				a.forEach(function(
+				a.forEach(function(v,i,a){
+					console.log(v);
+				});
+
 			}
 		});
 		

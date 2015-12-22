@@ -50,23 +50,23 @@ CORE.notif  =   (function(CORE){
 							case 'NUMBER_EMAIL':
 								this.show('Hey, we know student numbers can be used as emails but please use your firstname.lastname@university.com email')	
 							break;
-							case    'USERNAME_EXISTS':     
-									this.show('Sorry dude, that username is already taken.');
+							case	'USERNAME_EXISTS':     
+								this.show('Sorry dude, that username is already taken.');
 							break;
-							case    'EMAIL_EXISTS':     
-									this.show('Yo, that student email already has an account registered to it.');
+							case	'EMAIL_EXISTS':     
+								this.show('Yo, that student email already has an account registered to it.');
 							break;
-							case    'INVALID_USERNAME':     
-									this.show('Whoa, your username is invalid. Usernames can only contain alphanumeric characters and dashes.');
+							case	'INVALID_USERNAME':     
+								this.show('Whoa, your username is invalid. Usernames can only contain alphanumeric characters and dashes.');
 							break;
-							case    'LONG_PASSWORD':     
-									this.show('Holy Moley, your password is way too long. Keep it under 200 characters.');
+							case	'LONG_PASSWORD':     
+								this.show('Holy Moley, your password is way too long. Keep it under 200 characters.');
 							break;
-							case    'BAD_EMAIL':     
-									this.show("Well. this email is inherently invalid. Please check it again and make sure it's your student email");
+							case	'BAD_EMAIL':     
+								this.show("Well. this email is inherently invalid. Please check it again and make sure it's your student email");
 							break;
-							case    'SUCCESS':
-									this.show('Alright! Your account has been created! Please check your student email to activate it.')    
+							case	'SUCCESS':
+								this.show('Alright! Your account has been created! Please check your student email to activate it.')    
 							break;
 							case	'NO_USERNAME':
 								this.show('Please enter an awesome username to signup');
@@ -74,8 +74,12 @@ CORE.notif  =   (function(CORE){
 							case	'NO_PASSWORD':
 								this.show('Please enter a good password to signup');
 							break;
+							case	'BAD_DOMAIN':
 							case	'NO_EMAIL':
 								this.show('Please enter a valid student email to signup');
+							break;
+							case	'SUCCESS':
+								this.show('Awesome!  Your account has been registered, please check your student email to activate it.');
 							break;
             }
         },
@@ -147,7 +151,9 @@ CORE.signup =   (function(CORE){
                     url:'/signupAuth',
                     data:inputValues,
                     done:function(a){
-                        console.log(a);
+											//if bad, show the error
+											console.log(a[0]);
+											CORE.notif.display(a[0]);
                     }
                 });
             }
