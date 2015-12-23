@@ -9,10 +9,12 @@ var crypto  =   require('crypto');
 var MemcachedStore = require('connect-memcached')(session);
 var nodalytics = require('nodalytics')
 
-var routes = require('./routes/index');
 
-var users = require('./routes/users');
-var search = require('./routes/search');
+var routes	= require('./routes/index');
+
+var users		= require('./routes/users');
+var search	= require('./routes/search');
+var grab		= require('./routes/grab');
 
 var signupAuth = require('./routes/auth/signup');
 var loginAuth = require('./routes/auth/login');
