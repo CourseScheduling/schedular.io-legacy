@@ -15,6 +15,7 @@ var routes	= require('./routes/index');
 var users		= require('./routes/users');
 var search	= require('./routes/search');
 var grab		= require('./routes/grab');
+var profile		= require('./routes/profile');
 
 var signupAuth = require('./routes/auth/signup');
 var loginAuth = require('./routes/auth/login');
@@ -75,6 +76,7 @@ app.use('/loginAuth', loginAuth);
 app.use('/continue', continueAuth);
 app.use('/s', search);
 app.use('/u', users);
+app.use('/p', profile);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

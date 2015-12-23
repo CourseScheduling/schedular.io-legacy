@@ -14,7 +14,7 @@ connection.connect();
 
 
 router.get('/', function(req,res,next){
-    res.render('user/continue'); 
+    res.render('auth/continue'); 
     if(req.query.code===undefined){
         //res.redirect('/');
         return;

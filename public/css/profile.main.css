@@ -1,0 +1,70 @@
+#contentContainer{
+	height:100%;
+	width:1000px;
+	position:absolute;
+	top:100px;
+	left:50%;
+	margin-left:-500px;
+}
+
+	#p-nameContainer{
+		font-size:50px;
+		font-weight:100;
+		font-family:Open Sans;
+	}
+		#p-nameCallToAction{
+			font-size:12px;
+			font-weight:100;
+			font-family:Open Sans;
+		}
+	#p-passChange{
+		font-size:12px;
+		padding:10px;
+		font-family:Open Sans;
+		color:#000;
+		background-color:#FFF;
+		border:1px solid #DDD;
+		font-weight:400;
+		margin-right:20px;
+		margin-top:100px;
+	}
+	
+	#p-infoContainer{
+		width:300px;
+		height:200px;
+		float:right;
+		font-size:12px;
+		padding:10px;
+		font-family:Raleway;
+		color:#000;
+		background-color:#FFF;
+		font-weight:400;
+		float:right;
+		text-align: right;
+	}
+		#p-infoPofilePhoto{
+			width:150px;
+			height: 150px;
+			border:1px solid #DDD;
+			margin:auto;
+			overflow: hidden;
+			position: relative;
+		}
+		#p-infoTitle{
+			margin-top:60px;
+			margin-bottom:40px;
+			font-weight:400;
+			font-size:15px;
+		}
+		.p-infoSection{
+			font-size:12px;
+			font-weight:300;
+		}
+			.p-infoSectionHead{
+				font-weight:400;
+				float:left;
+			}
+			.p-infoSectionBody{
+				font-weight:300;
+				line-height: 20px;
+			}
