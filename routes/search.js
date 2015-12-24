@@ -1,13 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'schedule.cpfi2ocm03x0.us-west-2.rds.amazonaws.com',
-  user     : 'joseph',
-  password : 'joseph123',
-  database : 'ufv'
-});
+var connection = require('../bin/db.js');
 
 function jadeData(req){
     return {
@@ -17,8 +11,6 @@ function jadeData(req){
             username:req.session.userData.username
            }
 }
-
-connection.connect();
 
 
 router.use(function(req,res,next){

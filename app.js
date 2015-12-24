@@ -74,6 +74,7 @@ app.use('/forgotAuth', forgotAuth);
 app.use('/signupAuth', signupAuth);
 app.use('/loginAuth', loginAuth);
 app.use('/continue', continueAuth);
+app.use('/g', grab);
 app.use('/s', search);
 app.use('/u', users);
 app.use('/p', profile);
