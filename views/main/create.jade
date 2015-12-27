@@ -1,30 +1,33 @@
 extends ../MainTemplate
 
 block headContent
-    link(rel="stylesheet" href="/css/create.main.css")
-    title="Create Schedule"
+	link(rel="stylesheet" href="/css/create.main.css")
+	title="Create Schedule"
 block bodyContent
-    section#mainContent
-        #termContainer(style="margin-left:30px;margin-top:120px;height:50px;z-index:100;width:800px;position:absolute;left:50%;margin-left:-400px;")
-            #winterIcon.seasonIcon(data-term="winter 2016 (available)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;")
-                img(src="/images/snowflake.png" width="30px")
-            #summerIcon.seasonIcon(data-term="summer 2016 (coming soon)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
-                img(src="/images/sun.png" width="30px")
-            #fallIcon.seasonIcon(data-term="fall 2016 (coming later)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
-                img(src="/images/leafIcon.png" width="30px")
-        #centerContainer
-            p#mainTitle Your Courses
-            input#courseInput(type="text",placeholder="Enter your courses, e.g. Academic Writing, ENGL105")
-            div#instantDropDown(style="display:none")
-            br
-            br
-            p(style="font-family:Open Sans;font-size:12px;font-weight:100;padding-left:100px;") Your Current Schedule Contains:
-            ul#courseChoiceContainer(style="margin-left:100px;width:550px;padding-right:50px;float:left;")
-            br
-            div(style="width:100%;text-align:center")
-                button#scheduleCreate(type="submit") Create Schedule
-                //button#scheduleCreate(type="submit" style="margin-left:20px;background:#2ecc71") Show Reviews
-
-
-    footer
-    script(src="/js/create.main.js")
+	section#mainContent
+		#termContainer(style="margin-left:30px;margin-top:120px;height:50px;z-index:100;width:800px;position:absolute;left:50%;margin-left:-400px;")
+			#winterIcon.seasonIcon(data-term="winter 2016 (available)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;")
+				img(src="/images/snowflake.png" width="30px")
+			#summerIcon.seasonIcon(data-term="summer 2016 (coming soon)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
+				img(src="/images/sun.png" width="30px")
+			#fallIcon.seasonIcon(data-term="fall 2016 (coming later)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
+				img(src="/images/leafIcon.png" width="30px")
+		#centerContainer
+			p#mainTitle Your Courses
+			input#courseInput(type="text",placeholder="Enter your courses, e.g. Academic Writing, ENGL105")
+			div#instantDropDown(style="display:none")
+			br
+			br
+			p(style="font-family:Open Sans;font-size:12px;font-weight:100;padding-left:100px;") Your Current Schedule Contains:
+			ul#courseChoiceContainer(style="margin-left:100px;width:550px;padding-right:50px;float:left;")
+			br
+			div(style="width:100%;text-align:center")
+				button#scheduleCreate(type="submit") Create Schedule
+			//button#scheduleCreate(type="submit" style="margin-left:20px;background:#2ecc71") Show Reviews
+		script.
+			CORE={g:{},a:{sort:{},input:{},o:{}},b:{add:{}}};CORE.g.element={m:function(c,b){for(var a in b)c.style[a]=b[a]},create:function(c,b){var a=document.createElement(c);void 0!==b.f&&(a.innerHTML=b.f,delete b.f);for(var g in b)a.setAttribute(g,b[g]);return a}};
+			CORE.a.sort=function(c,b){function a(a,b){var c;a+="";b+="";if(0>=b.length)return a.length+1;var h=0,f=0;for(c=c?1:b.length;;)if(f=a.indexOf(b,f),0<=f)++h,f+=c;else break;return h}c.sort(function(c,d){for(var e=0,h=0,f=b.split(" "),k=f.length;k--;)e+=a(c.tags,f[k]),h+=a(d.tags,f[k]);return e-h});return c};
+			CORE.a.input=function(c){var b=document.getElementById("courseInput"),a=document.getElementById("instantDropDown");b.addEventListener("keyup",function(g){if(""==g.target.value)return Velocity(a,"slideUp",50);$.get({url:"/g/course?q="+g.target.value,done:function(d){if(0==d.length)Velocity(a,"slideUp",50);else{d=c.a.sort(d,g.target.value);for(var e=c.g.element.create;a.children.length;)a.removeChild(a.children[0]);d.every(function(g,f){if(5<=f)return!1;var d=e("div",{class:"instant-resultContainer"});
+			d.appendChild(e("strong",{class:"instant-resultCourseName",f:g.name}));d.appendChild(e("span",{class:"instant-resultCourseCode",f:g.code}));a.appendChild(d);d.addEventListener("click",function(){c.a.b.add(g.code);b.value=""});return!0});"none"==a.style.display&&0<d.length&&Velocity(a,"slideDown",50)}}})});return{flush:function(){Velocity(document.getElementById("instantDropDown"),"slideUp",50)}}}(CORE);
+			CORE.a.b=function(c){var b=[];return{list:b,add:function(a){if(-1<b.indexOf(a))return c.a.input.flush();b.push(a);c.a.input.flush();c.a.b.h(a)},h:function(a){var b=c.g.element.create,d=b("li",{class:"courseChoice-wrap","data-code":a}),e=b("div",{class:"courseChoice",f:a}),b=b("div",{class:"courseKill"});b.addEventListener("click",function(){c.a.b.j(a)});e.appendChild(b);d.appendChild(e);document.getElementById("courseChoiceContainer").appendChild(d)},j:function(a){var c=document.querySelectorAll('[data-code="'+
+			a+'"]')[0];c.parentNode.removeChild(c);b.splice(b.indexOf(a),1)},i:function(){return b.join("|")}}}(CORE);CORE.a.go=function(c){document.getElementById("scheduleCreate").addEventListener("click",function(){document.location="/s/show?c="+c.a.b.i()})}(CORE);

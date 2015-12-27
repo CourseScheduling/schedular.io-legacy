@@ -18,9 +18,10 @@ router.get('/course', function(req, res, next) {
 	req.query.q	=	req.query.q.toLowerCase();
 	if(req.query.q.match(/\d/g)!==null)
 		req.query.q=req.query.q.replace(/\s/,'');
-	var sql	=	'SELECT &DB.course_instant.name,&DB.course_instant.code FROM &DB.course_instant WHERE &DB.course_instant.code LIKE CONCAT(?,"%") LIMIT 5'.replace(/\&DB/g,req.session.userData.dbName);
-	DB.query(sql,[req.query.q],function(e,r,v){
+	var sql	=	'SELECT course.utoronto_course_instant.name,course.utoronto_course_instant.code,course.utoronto_course_instant.tags FROM course.utoronto_course_instant WHERE course.utoronto_course_instant.code LIKE CONCAT(?,"%") OR MATCH(course.utoronto_course_instant.tags) AGAINST(?) LIMIT 50';
+	DB.query(sql,[req.query.q,req.query.q],function(e,r,v){
 		if(e) throw e;
+		console.log(r.length);
 		res.send(JSON.stringify(r));
 	});
 });

@@ -27,14 +27,14 @@ router.get('/show',function(req,res){
 	if(courses[0]==""&&courses.length==1)
 		return res.redirect('/');
 	//WOOOHOO SQL!!!!!
-	var sqlQuery	=	'SELECT &DB.course.name,&DB.course.code,&DB.course_section.campus,&DB.course_section.sectionUniq,&DB.course_section.type,&DB.course_time.days,&DB.course_time.startTime,&DB.course_time.endTime FROM &DB.course JOIN &DB.course_section JOIN &DB.course_time on (&DB.course.id=&DB.course_section.courseId and &DB.course_section.courseId=&DB.course_time.sectionId) WHERE &DB.course.code IN(?'+(',?'.repeat(courses.length-1))+') AND &DB.course_section.status	=	"Open"';
-	sqlQuery	=	sqlQuery.replace(/\&DB/g,req.session.userData.dbName);
-	DB.query(sqlQuery,courses,function(e,r){
+// I'm only keeping the following below because that was only the beginning of what would have
+// happened had we not switched to mongo
+//	var sqlQuery	=	'SELECT &DB.course.name,&DB.course.code,&DB.course_section.campus,&DB.course_section.sectionUniq,&DB.course_section.type,&DB.course_time.days,&DB.course_time.startTime,&DB.course_time.endTime FROM &DB.course JOIN &DB.course_section JOIN &DB.course_time on (&DB.course.id=&DB.course_section.courseId and &DB.course_section.courseId=&DB.course_time.sectionId) WHERE &DB.course.code IN(?'+(',?'.repeat(courses.length-1))+') AND &DB.course_section.status	=	"Open"';
+	req.mongo.get('course').find({code:{$in:courses}},function(err,docs){
 		var data	=	jadeData(req);
-		data.courseData	=	r;
+		data.courseData	=	docs;
 		res.render('main/show',data);
 	});
-	
 });
 
 

@@ -23,6 +23,7 @@ router.post('/',function(req,res,next){
         //Get the userdata
         Login.getUser(data.userId,function(data){
             //add username to the data
+						console.log(data);
             data.username   = req.body.u;
             Login.setUser(req,data,function(){
                 res.send('["SUCCESS"]');
@@ -70,7 +71,7 @@ var Login    =   (function(){
     }
     function getUser(userId,cb){
 				//Gotta love joins
-        var searchSQL   =   'SELECT terms.term,terms.year,uni.dbName,user.* FROM general.university_terms terms JOIN general.university uni JOIN user.user user ON uni.id=terms.universityId=user.universityId WHERE user.id=1'
+        var searchSQL   =   'SELECT terms.term,terms.year,uni.dbName,user.* FROM general.university_terms terms JOIN general.university uni JOIN user.user user ON uni.id=terms.universityId=user.universityId WHERE user.id=?'
         DB.query(searchSQL,userId,function(err,results){
 					if(err) throw err;
             cb&&cb(results[0]);

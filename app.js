@@ -9,7 +9,6 @@ var crypto  =   require('crypto');
 var MemcachedStore = require('connect-memcached')(session);
 var nodalytics = require('nodalytics')
 
-
 var routes	= require('./routes/index');
 
 var users		= require('./routes/users');
@@ -22,6 +21,7 @@ var loginAuth = require('./routes/auth/login');
 var continueAuth = require('./routes/auth/continue');
 var forgotAuth = require('./routes/auth/forgot');
 var DB = require('./bin/db.js');
+var mongo	=	require('monk')('localhost/schedular');
 
 var app = express();
 
@@ -59,6 +59,7 @@ var io  = require('socket.io').listen(app.listen(8080));
 app.use(function(req,res,next){
     if(req.session.loggedIn){
         req.io  = io;
+				req.mongo	=	mongo;
     }
     next();
 });

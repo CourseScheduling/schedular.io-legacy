@@ -1,6 +1,7 @@
 CORE	=	{
 	helper:{},
 	main:{
+		sort:{},
 		input:{},
 		dropDown:{},
 	},
@@ -31,6 +32,33 @@ CORE.helper.element =  (function(CORE){
 		}
 })(CORE);
 				
+CORE.main.sort	=	(function(CORE){
+	return function(array,query){
+		function occurrences(c, a, d) {
+			c += "";
+			a += "";
+			if (0 >= a.length) return c.length + 1;
+			var e = 0,
+					b = 0;
+			for (d = d ? 1 : a.length;;)
+					if (b = c.indexOf(a, b), 0 <= b) ++e, b += d;
+					else break;
+			return e
+		};
+		array.sort(function(a,b){
+			var aSum	=	0,bSum	=	0;
+			var qA	=	query.split(' ')
+			for(var i = qA.length;i--;){
+				aSum+=occurrences(a.tags,qA[i]);
+				bSum+=occurrences(b.tags,qA[i]);
+			}
+			
+			console.log(aSum,bSum);
+			return aSum-bSum;
+		});
+		return array;
+	}
+})(CORE);
 
 
 CORE.main.input	=	(function(CORE){
@@ -44,15 +72,18 @@ CORE.main.input	=	(function(CORE){
 			url:'/g/course?q='+e.target.value,
 			done:function(a){
 				//Activate the dropdown and add all the possible courses
-				if(a.length==0)
+				if(a.length==0){
 					Velocity(instantContainer,'slideUp',50);
-				
+					return;
+				}
+				var a = CORE.main.sort(a,e.target.value);
 				var make	=	CORE.helper.element.create;
-				
 				while(instantContainer.children.length)
 					instantContainer.removeChild(instantContainer.children[0]);
 				
-				a.forEach(function(v,i,a){
+				a.every(function(v,i,a){
+					if(i>=5)
+						return false;
 					var instant	=	make('div',{class:'instant-resultContainer'});
 					instant.appendChild(make('strong',{class:'instant-resultCourseName',html:v.name}));
 					instant.appendChild(make('span',{class:'instant-resultCourseCode',html:v.code}));
@@ -61,6 +92,7 @@ CORE.main.input	=	(function(CORE){
 						CORE.main.chosen.add(v.code);
 						input.value	=	"";
 					});
+					return true;
 				});
 				if(instantContainer.style.display=='none'&&a.length>0)
 					Velocity(instantContainer,'slideDown',50);
