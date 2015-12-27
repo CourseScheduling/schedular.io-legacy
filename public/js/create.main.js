@@ -3,35 +3,128 @@ CORE	=	{
 	main:{
 		input:{},
 		dropDown:{},
+	},
+	chosen:{
+		add:{}
 	}
 }
 
 
 
 
+CORE.helper.element =  (function(CORE){
+		return {
+				changeStyle:function(element,styles){
+						for(var attributes in styles)
+								element.style[attributes]=styles[attributes];
+				},
+				create:function(type,attributes){
+						var element =   document.createElement(type);
+						if(attributes.html!==undefined){
+							element.innerHTML	=	attributes.html;
+							delete attributes.html;
+						}
+						for(var attributeName in attributes)
+								element.setAttribute(attributeName,attributes[attributeName]);
+						return element;
+				}
+		}
+})(CORE);
+				
+
+
 CORE.main.input	=	(function(CORE){
 	var input =	document.getElementById('courseInput');
-	input.addEventListener('keydown',function(e){
+	var instantContainer	=	document.getElementById('instantDropDown');
+	input.addEventListener('keyup',function(e){
 		//when someone types into the input ajax and get all the possible course codes
 		if(e.target.value=="")
-			return;
+			return Velocity(instantContainer,'slideUp',50);
 		$.get({
 			url:'/g/course?q='+e.target.value,
 			done:function(a){
 				//Activate the dropdown and add all the possible courses
+				if(a.length==0)
+					Velocity(instantContainer,'slideUp',50);
+				
+				var make	=	CORE.helper.element.create;
+				
+				while(instantContainer.children.length)
+					instantContainer.removeChild(instantContainer.children[0]);
+				
 				a.forEach(function(v,i,a){
-					console.log(v);
+					var instant	=	make('div',{class:'instant-resultContainer'});
+					instant.appendChild(make('strong',{class:'instant-resultCourseName',html:v.name}));
+					instant.appendChild(make('span',{class:'instant-resultCourseCode',html:v.code}));
+					instantContainer.appendChild(instant);
+					instant.addEventListener('click',function(){
+						CORE.main.chosen.add(v.code);
+						input.value	=	"";
+					});
 				});
-
+				if(instantContainer.style.display=='none'&&a.length>0)
+					Velocity(instantContainer,'slideDown',50);
 			}
 		});
 		
 	});
 	
-	
-	
-	return	{
-		bar:input
+	return {
+		flush:function(){
+			//Remove all the courses in the dropdown and hide the dropdown
+			var instantContainer	=	document.getElementById('instantDropDown');
+			Velocity(instantContainer,'slideUp',50);
+		}
 	};
 	
 })(CORE);
+	
+CORE.main.chosen	=	(function(CORE){
+	var list	=	[];
+	return {
+		list:list,
+		add:function(a){
+			//put the course in the list (if already not there)
+			// display it on the screen.
+			//hide the dropdown
+			if(list.indexOf(a)>-1)
+				return CORE.main.input.flush();
+			list.push(a);
+			CORE.main.input.flush();
+			CORE.main.chosen.addButton(a);
+		},
+		
+		addButton:function(a){
+			var make	=	CORE.helper.element.create;
+			var container	=	make('li',{class:'courseChoice-wrap','data-code':a});
+				var name	=	make('div',{class:'courseChoice',html:a});
+					var kill	=	make('div',{class:'courseKill'});
+			
+			kill.addEventListener('click',function(){
+				CORE.main.chosen.killButton(a);
+			});
+			
+			name.appendChild(kill);
+			container.appendChild(name)
+			
+			document.getElementById('courseChoiceContainer').appendChild(container);
+		},
+		killButton:function(b){
+			var button	=	document.querySelectorAll('[data-code="'+b+'"]')[0];
+			button.parentNode.removeChild(button);
+			list.splice(list.indexOf(b),1);
+		},
+		genQuery:function(){
+			return list.join('|');
+		}
+	};
+})(CORE);
+	
+
+CORE.main.go	=	(function(CORE){
+	var button	=	document.getElementById('scheduleCreate')
+	button.addEventListener('click',function(){
+		document.location	=	"/s/show?c="+CORE.main.chosen.genQuery();
+	});
+})(CORE);
+	

@@ -72,15 +72,16 @@
         }
 
     #notificationContainer{
-        font-family:Open Sans;
-        font-size:12px;
-        width:100%;
-        padding:10px;
-        box-sizing: border-box;
-        margin:0 5px 20px 5px ;
-        color:#FFF;
-        background-color:#1abc9c;
-        display: none;
+			font-family:Open Sans;
+			font-size:12px;
+			width:100%;
+			padding:10px;
+			box-sizing: border-box;
+			margin-top:20px;
+			color:#FFF;
+			background-color:#1abc9c;
+			display: none;
+			margin-bottom:10px;
     }
 
 

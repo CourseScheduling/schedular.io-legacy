@@ -1,16 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-var connection = require('../bin/db.js');
+var DB	=	require('../bin/db.js');
 
-function jadeData(req){
-    return {
-            firstname:req.session.userData.firstname,
-            lastname:req.session.userData.lastname,
-            student:req.session.userData.studentNumber,
-            username:req.session.userData.username
-           }
-}
+
+
+
 
 
 router.use(function(req,res,next){
@@ -19,9 +14,58 @@ router.use(function(req,res,next){
     else
         next();
     return;
-})
+});
+
+router.get('/',function(req,res){
+	res.render('main/create',jadeData(req));
+});
 
 
+router.get('/show',function(req,res){
+	
+	var courses	=	(req.query.c||"").split('|');
+	if(courses[0]==""&&courses.length==1)
+		return res.redirect('/');
+	//WOOOHOO SQL!!!!!
+	var sqlQuery	=	'SELECT &DB.course.name,&DB.course.code,&DB.course_section.campus,&DB.course_section.sectionUniq,&DB.course_section.type,&DB.course_time.days,&DB.course_time.startTime,&DB.course_time.endTime FROM &DB.course JOIN &DB.course_section JOIN &DB.course_time on (&DB.course.id=&DB.course_section.courseId and &DB.course_section.courseId=&DB.course_time.sectionId) WHERE &DB.course.code IN(?'+(',?'.repeat(courses.length-1))+') AND &DB.course_section.status	=	"Open"';
+	sqlQuery	=	sqlQuery.replace(/\&DB/g,req.session.userData.dbName);
+	DB.query(sqlQuery,courses,function(e,r){
+		var data	=	jadeData(req);
+		data.courseData	=	r;
+		res.render('main/show',data);
+	});
+	
+});
+
+
+
+
+
+
+router.get('/getTeacher',function(req,res){
+	res.send('[]');
+});
+
+
+
+
+
+
+function jadeData(req){
+	return {
+		firstname:req.session.userData.firstname,
+		lastname:req.session.userData.lastname,
+		student:req.session.userData.studentNumber,
+		username:req.session.userData.username
+	 }
+}
+
+
+
+
+
+
+/*
 router.get('/get', function(req, res, next) {
     
     
@@ -32,9 +76,6 @@ router.get('/get', function(req, res, next) {
     });
     
 });
-router.get('/',function(req,res){
-    res.render('main/create',jadeData(req));
-})
 router.get('/builder',function(req,res){
     res.render('main/builder',jadeData(req));
 })
@@ -61,12 +102,6 @@ router.get('/show',function(req,res){
         if(err) throw err;
         var jData    =   jadeData(req);
         jData.courseData =   rows;
-        /* 
-        
-            Okay, this section is important.
-            Here we're going to update the user session to include an array of all the CRNs he may need, we're going to add him to the socket list with the CRN array and then we'll push all necessary data to him
-            
-        */
         var crnMap  =   {};
         var crnArray    =   [];
         var crnData    =   [];
@@ -89,7 +124,6 @@ router.get('/show',function(req,res){
         });
         
         
-        /* Important section ends here */
         
         res.render('main/show',jData);                 
     });
@@ -148,7 +182,7 @@ router.get('/fetch',function(req,res){
     
     
 });
-
+*/
 
 module.exports = router;
 
