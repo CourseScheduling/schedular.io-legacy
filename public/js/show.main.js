@@ -21,7 +21,13 @@
                 endTime:Int,
                 day:[Int,Int],
                 building*:String,
-                instructor:Teacher Object,
+                instructor:    [
+										{
+												teacherName:String,
+												rating:Float,
+												votes:Int,
+										}
+								],
                 room*:String,
             }],
             students:{
@@ -31,16 +37,6 @@
             }
         }
     }
-    
-    New Teacher Schema
-    [
-        {
-            teacherName:String,
-            rating:Float,
-            votes:Int,
-            newRating
-        }
-    ]
     
     
 
