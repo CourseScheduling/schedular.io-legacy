@@ -1,11 +1,3 @@
-/*var aws = require("aws-lib");
-
-prodAdv = aws.createProdAdvClient(,,);
-
-prodAdv.call("ItemSearch", {SearchIndex: "Books", Keywords: "Physics 14th"}, function(err, result) {
-  console.dir(result.Items.Item[0].ItemLinks);
-})
-*/
 var paapi = require('apac').OperationHelper;
 
 var Searcher = new paapi({
@@ -20,5 +12,5 @@ Searcher.execute('ItemSearch', {
     'ResponseGroup': 'ItemAttributes,Offers'
 }, function(error, results) {
     if (error) { console.log('Error: ' + error + "\n"); }
-    console.log(results.ItemSearchResponse.Items[0].Item[0].ItemAttributes);
+    console.log(results.ItemSearchResponse.Items[0].Item[0].OfferSummary[0]);
 });
