@@ -5,17 +5,18 @@ block headContent
 	title="Create Schedule"
 block bodyContent
 	section#mainContent
-		#termContainer(style="margin-left:30px;margin-top:120px;height:50px;z-index:100;width:800px;position:absolute;left:50%;margin-left:-400px;")
-			#winterIcon.seasonIcon(data-term="winter 2016 (available)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid #DDD;float:left;cursor:pointer;")
-				img(src="/images/snowflake.png" width="30px")
-			#summerIcon.seasonIcon(data-term="summer 2016 (coming soon)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
-				img(src="/images/sun.png" width="30px")
-			#fallIcon.seasonIcon(data-term="fall 2016 (coming later)" style="height:42px;width:42px;padding:5px;box-sizing:border-box;border:1px solid transparent;float:left;cursor:pointer;margin-left:2px;opacity:0.2")
-				img(src="/images/leafIcon.png" width="30px")
+		#termContainer
+			div(style="float:left;background:#FFF;")
+				.seasonIcon.activeTermIcon(data-gTTLbl="winter 2016 (available)" class="gTT-act")
+					img(src="/images/snowflake.png" width="30px")
+				.seasonIcon(data-gTTLbl="summer 2016 (coming soon)" class="gTT-act")
+					img(src="/images/sun.png" width="30px")
+				.seasonIcon(data-gTTLbl="fall 2016 (coming later)" class="gTT-act")
+					img(src="/images/leafIcon.png" width="30px")
 		#centerContainer
 			p#mainTitle Your Courses
 			input#courseInput(type="text",placeholder="Enter your courses, e.g. Academic Writing, ENGL105")
-			div#instantDropDown(style="display:none")
+			div#instantDropDown(style="display:none;background-color:#FFF;")
 			br
 			br
 			p(style="font-family:Open Sans;font-size:12px;font-weight:100;padding-left:100px;") Your Current Schedule Contains:
