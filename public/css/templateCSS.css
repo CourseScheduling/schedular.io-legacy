@@ -17,7 +17,7 @@ body{
         top:0px;
         left:0px;
         width:100%;
-        height:50px;
+        height:45px;
         border-bottom:1px solid #eee;
         z-index:1000;;
 			box-shadow: 0px 0px 1px #EEE;
@@ -25,7 +25,7 @@ body{
     #innerNavbar{
         position:absolute;
         width:1000px;
-        height:50px;
+        height:45px;
         left:50%;
         top:0px;
         margin-left:-500px;
@@ -37,7 +37,7 @@ body{
             #logo{
                 background:url(/images/mainLogo-25px.png) center center no-repeat;
                 width:50px;
-                height:50px;
+                height:45px;
                 float:left;
                 background-size:25px;
             }
@@ -49,14 +49,14 @@ body{
                 font-family:Open Sans;
                 font-size:13px;
                 font-weight:100;
-                padding-top:15px;
+                padding-top:12.5px;
                 float:left;
             }
             #menuDrop{
                 background:url(/images/menuIcon.png) center center no-repeat;
-                margin:15px;
-                height:20px;
-                width:20px;
+                margin:13.5px;
+                height:18px;
+                width:18px;
                 float:right;
                 background-size:100%;
                 cursor:pointer;
@@ -64,8 +64,8 @@ body{
             }
             .menuDrop-active{
                 transition:transform .25s;
-                -ms-transform: rotate(180deg); /* IE 9 */
-                -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+                -ms-transform: rotate(180deg); 
+                -webkit-transform: rotate(180deg); 
                 transform: rotate(180deg);
                 cursor:pointer;
             }

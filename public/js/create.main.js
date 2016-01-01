@@ -53,7 +53,6 @@ CORE.main.sort	=	(function(CORE){
 				bSum+=occurrences(b.tags,qA[i]);
 			}
 			
-			console.log(aSum,bSum);
 			return aSum-bSum;
 		});
 		return array;
@@ -65,6 +64,7 @@ CORE.main.input	=	(function(CORE){
 	var input =	document.getElementById('courseInput');
 	var instantContainer	=	document.getElementById('instantDropDown');
 	input.addEventListener('keyup',function(e){
+
 		//when someone types into the input ajax and get all the possible course codes
 		if(e.target.value=="")
 			return Velocity(instantContainer,'slideUp',50);
@@ -96,6 +96,7 @@ CORE.main.input	=	(function(CORE){
 				});
 				if(instantContainer.style.display=='none'&&a.length>0)
 					Velocity(instantContainer,'slideDown',50);
+
 			}
 		});
 		
@@ -124,6 +125,8 @@ CORE.main.chosen	=	(function(CORE){
 			list.push(a);
 			CORE.main.input.flush();
 			CORE.main.chosen.addButton(a);
+			//Update coursecahe
+			localStorage['courseCache']	=	CORE.main.chosen.genQuery();
 		},
 		
 		addButton:function(a){
@@ -145,6 +148,8 @@ CORE.main.chosen	=	(function(CORE){
 			var button	=	document.querySelectorAll('[data-code="'+b+'"]')[0];
 			button.parentNode.removeChild(button);
 			list.splice(list.indexOf(b),1);
+			//Update coursecahe
+			localStorage['courseCache']	=	CORE.main.chosen.genQuery();
 		},
 		genQuery:function(){
 			return list.join('|');
@@ -153,10 +158,17 @@ CORE.main.chosen	=	(function(CORE){
 })(CORE);
 	
 
-CORE.main.go	=	(function(CORE){
+CORE.main.init	=	(function(CORE){
 	var button	=	document.getElementById('scheduleCreate')
-	button.addEventListener('click',function(){
+	button.addEventListener('click',function(){	
+		localStorage['courseCache']	=	CORE.main.chosen.genQuery();
 		document.location	=	"/s/show?c="+CORE.main.chosen.genQuery();
 	});
-})(CORE);
 	
+	if(!(localStorage.courseCache==undefined||localStorage.courseCache.split('|')[0]=="")){
+		localStorage.courseCache.split('|').map(function(course){
+			CORE.main.chosen.add(course);
+		});
+	}
+		
+})(CORE);
