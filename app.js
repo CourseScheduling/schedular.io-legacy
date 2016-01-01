@@ -9,18 +9,19 @@ var crypto  =   require('crypto');
 var MemcachedStore = require('connect-memcached')(session);
 var nodalytics = require('nodalytics')
 
-var routes = require('./routes/index');
+var routes	= require('./routes/index');
 
-var review = require('./routes/review/course');
-
-var users = require('./routes/users');
-var search = require('./routes/search');
+var users		= require('./routes/users');
+var search	= require('./routes/search');
+var grab		= require('./routes/grab');
+var profile		= require('./routes/profile');
 
 var signupAuth = require('./routes/auth/signup');
 var loginAuth = require('./routes/auth/login');
 var continueAuth = require('./routes/auth/continue');
 var forgotAuth = require('./routes/auth/forgot');
 var DB = require('./bin/db.js');
+var mongo	=	require('monk')('localhost/schedular');
 
 var app = express();
 
@@ -58,6 +59,7 @@ var io  = require('socket.io').listen(app.listen(8080));
 app.use(function(req,res,next){
     if(req.session.loggedIn){
         req.io  = io;
+				req.mongo	=	mongo;
     }
     next();
 });
@@ -73,9 +75,10 @@ app.use('/forgotAuth', forgotAuth);
 app.use('/signupAuth', signupAuth);
 app.use('/loginAuth', loginAuth);
 app.use('/continue', continueAuth);
+app.use('/g', grab);
 app.use('/s', search);
 app.use('/u', users);
-app.use('/r', review);
+app.use('/p', profile);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

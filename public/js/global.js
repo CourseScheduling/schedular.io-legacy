@@ -104,3 +104,46 @@ googleAna(window, document, 'script', '//www.google-analytics.com/analytics.js',
 
 }
 
+
+
+
+
+var ToolTip	=	{
+	HOOK_CLASS:'gTT-act',
+	HOOK_LABEL:'data-gTTLbl',
+	TIP_CLASS:'gTT-pop',
+	hook:function(element){
+	
+	},
+	add:function(element){
+		
+	},
+	init:function(){
+		$this	=	this;
+		document.addEventListener('DOMContentLoaded',function(){
+			[].forEach.call(
+				document.getElementsByClassName($this.HOOK_CLASS),
+				function(el){
+					el.addEventListener('mouseover',function(){
+						var top =   (el.getBoundingClientRect().top-35)+'px';
+						var toolTip =   document.createElement('div');
+						document.body.appendChild(toolTip);
+						toolTip.className   =   $this.TIP_CLASS;
+						toolTip.innerHTML=el.getAttribute($this.HOOK_LABEL);
+						var left    =   (el.getBoundingClientRect().left-(toolTip.getBoundingClientRect().width-el.getBoundingClientRect().width)/2)+'px';
+						toolTip.style.top   =   top;
+						toolTip.style.left =   left;
+					});
+					el.addEventListener('mouseout',function(){
+						var a = document.getElementsByClassName($this.TIP_CLASS);
+						while(a.length){
+							a[0].parentNode.removeChild(a[0]);
+						}
+					});
+				}
+			);
+			
+		});
+	}
+}
+ToolTip.init();

@@ -17,6 +17,9 @@ block headContent
             border-radius:3px;
             position:absolute;
         }
+          .pushed{
+            box-shadow:0px 0px 3px #999 inset;
+          }
 block bodyContent
     div(style="position:absolute;top:70px;left:0px;text-align:center;width:100%;")
         label( id="notif" style="box-shadow:0px 0px 3px #999;padding:7px 20px 7px 20px;width:400px;background:#1abc9c;color:#FFF;font-size:12px;font-weight:300;font-family:Open Sans;") auto-saved at 2:05am
@@ -29,9 +32,6 @@ block bodyContent
             br
     div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:140px;left:50%;width:704px;")
         p(style="font-family:Raleway;font-size:25px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
-        div(style="float:left;padding-top:18px;;width:200px;margin-top:-60px;text-align:left;padding-left:20px;")
-            input(type="checkbox")
-            label(style="font-weight:300;font-family:Open Sans;font-size:12px;") Show Overlapping
         div(style="float:right;width:200px;margin-top:-60px;text-align:right;padding-right:20px;")
             //div(class="b-toolIcon" style="background-position:center left" data-toolText="Take a Picture")
             div(class="b-toolIcon" style="background-position:center center" data-toolText="Save This Schedule")
@@ -68,4 +68,8 @@ block bodyContent
                     a[0].parentNode.removeChild(a[0]);
                 }
             });
+        });
+        document.getElementById('overlap').addEventListener('click',function(e){
+          CORE.search.findAll=!(CORE.search.findAll);
+          document.getElementById('overlap').classList.toggle('pushed');
         });

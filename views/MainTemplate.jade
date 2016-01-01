@@ -1,59 +1,59 @@
 doctype html
 html
-    head
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
-        script(src="https://cdn.socket.io/socket.io-1.3.7.js")
-        script(src="/js/global.js")
-        link(href='https://fonts.googleapis.com/css?family=Open Sans:600,400,100,300' rel='stylesheet')
-        link(href='https://fonts.googleapis.com/css?family=Raleway:400,300,100',rel='stylesheet')
-        link(href='/css/templateCSS.css' rel='stylesheet')
-        style.
-            #homeIconCover{
-                transition:background .25s;
-            }
-            #homeIconCover:hover{
-                background:#34495e;
-                transition:background .25s;
-            }
-        block headContent
-    body     
-    
-        nav#navbar
-            #innerNavbar
-                a(href="/")
-                    #logoWrap
-                        #logo
-                        span(style="height:50px;line-height:50px;font-size:14px;font-family:Raleway;font-weight:300;color:#444;") Schedular
-                #accountWrap
-                    div#accountName=username
-                    div(style="padding:12px;display:inline-block;")
-                        a(title="Home" href="/")
-                            div(id="homeIconCover" style="height:26px;width:26px;border:1px solid transparent;border-radius:25px;overflow:hidden;padding:4px 4px 4px 5px;cursor:pointer;box-sizing:border-box;")
-                                img(src="/images/homeIcon.png" height="15px")
-                    #menuDrop
-                            
-                #menuContainer
-                    #menuNub
-                    ul#menuItems-list
-                        a(href="/m" title="Manage Schedule")
-                            li.menuItems-listItem.clearfix
-                                img(src="/images/calendarManage.png" height="30px" style="display:inline;float:left;")
-                                span(style="display:inline;padding:5px;margin-left:10px;float:right;") Manage Schedules
-                        a(href="/s/builder" title="Schedule Builder")
-                            li.menuItems-listItem.clearfix
-                                img(src="/images/calendarWork.png" height="30px" style="display:inline;float:left;")   
-                                span(style="display:inline;padding:5px;margin-left:10px;float:right;") Schedule Builder
-                        //
-                            a(href="/directory" title="Course Directory")
-                                li.menuItems-listItem.clearfix
-                                    img(src="/images/directory.png" height="30px" style="display:inline;float:left;")
-                                    span(style="display:inline;padding:5px;margin-left:10px;float:right;") Course Directory
-                            a(href="/info" title="My Info")
-                                li.menuItems-listItem(style="padding-left:20px;") My Info
-                        a(href="/u/logout" title="Logout")
-                            li.menuItems-listItem(style="border-top:1px solid #EEE;margin-top:5px;text-align:center;padding-left:20px;") Logout
-        script.
-            
-            navbarMenu.init();
-            
-        block bodyContent
+	head
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+		script(src="https://cdn.socket.io/socket.io-1.3.7.js")
+		script(src="/js/global.js")
+		link(href='https://fonts.googleapis.com/css?family=Open Sans:600,400,100,300' rel='stylesheet')
+		link(href='https://fonts.googleapis.com/css?family=Raleway:400,300,100',rel='stylesheet')
+		link(href='/css/templateCSS.css' rel='stylesheet')
+		style.
+			#homeIconCover{
+				transition:background .25s;
+			}
+			#homeIconCover:hover{
+				background:#34495e;
+				transition:background .25s;
+			}
+		block headContent
+	body     
+		nav#navbar
+			#innerNavbar
+				a(href="/")
+					#logoWrap
+						#logo
+						span(style="height:45px;line-height:45px;font-size:14px;font-family:Raleway;font-weight:300;color:#444;") Schedular
+				#accountWrap
+					div#accountName=username
+					div(style="padding:10px;display:inline-block;")
+						a(title="Home" href="/")
+							div(id="homeIconCover" style="height:26px;width:26px;border:1px solid transparent;border-radius:25px;overflow:hidden;padding:4px 4px 4px 5px;cursor:pointer;box-sizing:border-box;")
+								img(src="/images/homeIcon.png" height="15px")
+					#menuDrop
+
+				#menuContainer
+					#menuNub
+					ul#menuItems-list
+						a(href="/m" title="Manage Schedule")
+							li.menuItems-listItem.clearfix
+								img(src="/images/calendarManage.png" height="30px" style="display:inline;float:left;")
+								span(style="display:inline;padding:5px;margin-left:10px;float:right;") Manage Schedules
+						a(href="/s/builder" title="Schedule Builder")
+							li.menuItems-listItem.clearfix
+								img(src="/images/calendarWork.png" height="30px" style="display:inline;float:left;")   
+								span(style="display:inline;padding:5px;margin-left:10px;float:right;") Schedule Builder
+						//
+								a(href="/directory" title="Course Directory")
+										li.menuItems-listItem.clearfix
+												img(src="/images/directory.png" height="30px" style="display:inline;float:left;")
+												span(style="display:inline;padding:5px;margin-left:10px;float:right;") Course Directory
+								a(href="/info" title="My Info")
+										li.menuItems-listItem(style="padding-left:20px;") My Info
+						hr(style="width:100%;border:0;background-color:#EEE;")
+						a(href="/u/logout" title="Logout")
+							li.menuItems-listItem(style="margin-top:5px;text-align:center;padding-left:20px;") Logout
+		script.
+
+				navbarMenu.init();
+
+		block bodyContent

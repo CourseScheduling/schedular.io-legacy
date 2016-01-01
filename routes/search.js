@@ -1,24 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'schedule.cpfi2ocm03x0.us-west-2.rds.amazonaws.com',
-  user     : 'joseph',
-  password : 'joseph123',
-  database : 'ufv'
-});
+var DB	=	require('../bin/db.js');
 
-function jadeData(req){
-    return {
-            firstname:req.session.userData.firstname,
-            lastname:req.session.userData.lastname,
-            student:req.session.userData.studentNumber,
-            username:req.session.userData.username
-           }
-}
 
-connection.connect();
+
+
 
 
 router.use(function(req,res,next){
@@ -27,9 +14,58 @@ router.use(function(req,res,next){
     else
         next();
     return;
-})
+});
+
+router.get('/',function(req,res){
+	res.render('main/create',jadeData(req));
+});
 
 
+router.get('/show',function(req,res){
+	
+	var courses	=	(req.query.c||"").split('|');
+	if(courses[0]==""&&courses.length==1)
+		return res.redirect('/');
+	//WOOOHOO SQL!!!!!
+// I'm only keeping the following below because that was only the beginning of what would have
+// happened had we not switched to mongo
+//	var sqlQuery	=	'SELECT &DB.course.name,&DB.course.code,&DB.course_section.campus,&DB.course_section.sectionUniq,&DB.course_section.type,&DB.course_time.days,&DB.course_time.startTime,&DB.course_time.endTime FROM &DB.course JOIN &DB.course_section JOIN &DB.course_time on (&DB.course.id=&DB.course_section.courseId and &DB.course_section.courseId=&DB.course_time.sectionId) WHERE &DB.course.code IN(?'+(',?'.repeat(courses.length-1))+') AND &DB.course_section.status	=	"Open"';
+	req.mongo.get(req.session.userData.dbName+'Course').find({code:{$in:courses}},function(err,docs){
+		var data	=	jadeData(req);
+		data.courseData	=	docs;
+		res.render('main/show',data);
+	});
+});
+
+
+
+
+
+
+router.get('/getTeacher',function(req,res){
+	res.send('[]');
+});
+
+
+
+
+
+
+function jadeData(req){
+	return {
+		firstname:req.session.userData.firstname,
+		lastname:req.session.userData.lastname,
+		student:req.session.userData.studentNumber,
+		username:req.session.userData.username
+	 }
+}
+
+
+
+
+
+
+/*
 router.get('/get', function(req, res, next) {
     
     
@@ -40,9 +76,6 @@ router.get('/get', function(req, res, next) {
     });
     
 });
-router.get('/',function(req,res){
-    res.render('main/create',jadeData(req));
-})
 router.get('/builder',function(req,res){
     res.render('main/builder',jadeData(req));
 })
@@ -69,12 +102,6 @@ router.get('/show',function(req,res){
         if(err) throw err;
         var jData    =   jadeData(req);
         jData.courseData =   rows;
-        /* 
-        
-            Okay, this section is important.
-            Here we're going to update the user session to include an array of all the CRNs he may need, we're going to add him to the socket list with the CRN array and then we'll push all necessary data to him
-            
-        */
         var crnMap  =   {};
         var crnArray    =   [];
         var crnData    =   [];
@@ -97,7 +124,6 @@ router.get('/show',function(req,res){
         });
         
         
-        /* Important section ends here */
         
         res.render('main/show',jData);                 
     });
@@ -156,7 +182,7 @@ router.get('/fetch',function(req,res){
     
     
 });
-
+*/
 
 module.exports = router;
 

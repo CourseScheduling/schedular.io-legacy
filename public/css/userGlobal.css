@@ -61,9 +61,9 @@
     }
         span.u-largeLogoText{
             font-family:Raleway;
-            font-size:40px;
+            font-size:30px;
             float:right;
-            font-weight:100;
+            font-weight:300;
             color:#444;
         }
         img.u-largeLogoImage{
@@ -72,15 +72,16 @@
         }
 
     #notificationContainer{
-        font-family:Open Sans;
-        font-size:12px;
-        width:100%;
-        padding:10px;
-        box-sizing: border-box;
-        margin:0 5px 20px 5px ;
-        color:#FFF;
-        background-color:#1abc9c;
-        display: none;
+			font-family:Open Sans;
+			font-size:12px;
+			width:100%;
+			padding:15px;
+			box-sizing: border-box;
+			margin-top:0px;
+			color:#FFF;
+			background-color:#1ABEEE;
+			display: none;
+			margin-bottom:10px;
     }
 
 

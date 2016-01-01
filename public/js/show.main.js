@@ -8,21 +8,30 @@
     COURSE  =   {
         courseName:String,
         lab:bool,
-        preReqs*:[
-            [courseCode,courseCode]
+        preReqs:[
+            [[courseCode]]
+        ],
+        coReqs:[
+            [[courseCode]]
         ],
         sections{
-            crn:Int,
+            uniq:String,
             courseId:Int,
             section:String,
             campus:String,
             times:[{
                 startTime:Int,
                 endTime:Int,
-                day:[Int,Int],
-                building*:String,
-                instructor:Teacher Object,
-                room*:String,
+                day:[Int],
+                building:String,
+                instructors:    [
+										{
+												teacherName:String,
+												rating:Float,
+												votes:Int,
+										}
+								],
+                room:String,
             }],
             students:{
                 enrolled:Int,
@@ -31,16 +40,6 @@
             }
         }
     }
-    
-    New Teacher Schema
-    [
-        {
-            teacherName:String,
-            rating:Float,
-            votes:Int,
-            newRating
-        }
-    ]
     
     
 

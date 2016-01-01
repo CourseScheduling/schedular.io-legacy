@@ -1,0 +1,148 @@
+body{
+	overflow-y:scroll;
+}
+#mainContent{
+		height:100%;
+		width:1000px;
+		margin-left:-500px;
+		position:absolute;
+		top:0px;
+		left:50%;
+}
+		#centerContainer{
+				position:absolute;
+				top:50%;
+				margin-top:-250px;
+				width:800px;
+				margin-left:100px;
+		}
+				#mainTitle{
+						font-size:50px;
+						font-family:Raleway;
+						font-weight:100;
+						text-align:center;
+				}
+				#courseInput{
+						width:600px;
+						position:relative;
+						margin-left:-300px;
+						left:50%;
+						padding:10px;
+						border:1px solid #AAA;
+						font-family:Open Sans;
+						outline:0;
+						font-weight:300;
+						font-size:13px;
+				}
+				#scheduleCreate{
+						padding:5px;
+						border:3px solid rgba(255,255,255,0.1);
+						color:#FFF;
+						font-size:12px;
+						font-family:Open Sans;
+						width:150px;
+						background:#3498db;
+						margin-top:50px;
+						font-weight:400;
+						border-radius:2px;
+						cursor:pointer;
+				}
+				.clearfix:after {
+					 content: " "; /* Older browser do not support empty content */
+					 visibility: hidden;
+					 display: block;
+					 height: 0;
+					 clear: both;
+				}
+				a{
+						color:inherit;
+						outline:0;
+						text-decoration:none;
+					}
+				#instantDropDown{
+					position:relative;
+					left:100px;
+					width:620px;
+					border:1px solid #BBB;
+					top:-1px;
+				}
+						.instant-resultContainer{
+								padding:7px;
+								padding-left:10px;
+								cursor:pointer;
+								width:100%;
+								box-sizing:border-box;
+								position:relative;
+						}
+								.instant-resultContainer:hover{
+										background-color:#89C4F4;
+								}
+								.instant-resultCourseName{
+										font-family:Raleway;
+										font-size:13px;
+										font-weight:600;
+										display:inline-block;
+										margin-top:5px;
+								}
+								.instant-resultCourseCode{
+										font-family:Open Sans;
+										font-size:12px;
+										font-weight:300;
+										color:#666;
+										margin-left:10px;
+										display:inline-block;
+										margin-top:5px;
+								}
+								.courseChoice-wrap{
+										list-style-type:none;
+										display:block;
+								}
+									.courseChoice{
+											padding:10px;
+											border-radius:30px;
+											border:1px solid #000;
+											font-family:Open Sans;
+											font-size:12px;
+											font-weight:300;
+											display:block;
+											float:left;
+											margin:3px;
+										background-color:#FFF;
+									}
+										.courseKill{
+												background:url(/images/kill.png) center center no-repeat;
+												height:15px;
+												width:15px;
+												float:left;
+												display:inline-block;
+												margin-right:5px;
+												margin-top:1px;
+												background-size:100%;
+												cursor:pointer;
+										}
+
+
+#termContainer{
+	margin-left:30px;
+	margin-top:120px;
+	height:50px;
+	z-index:100;
+	width:800px;
+	position:absolute;
+	left:50%;
+	margin-left:-400px;
+}
+.seasonIcon{
+	height:42px;
+	width:42px;
+	padding:5px;
+	box-sizing:border-box;
+	border:1px solid #BBB;
+	float:left;
+	cursor:pointer;
+	margin-left:2px;
+	opacity:0.1
+}
+	.activeTermIcon{
+		opacity: 1;
+	}

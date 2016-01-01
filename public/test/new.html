@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,300' rel='stylesheet' type='text/css'>
+		<style>
+			.courseContainer{
+				min-height:220px;
+				width:603px;
+				margin:10px;
+				float:left;
+				position: relative;
+				box-sizing: border-box;
+				border:1px solid #CCC;
+				border-radius:4px;
+				box-shadow: 0px 0px 5px #DDD;
+				padding:10px 10px 10px 14px;
+			}
+        #checkButton{
+					color:#000;
+					cursor:pointer;
+					padding:10px;
+					margin-left: 10%;
+					padding:10px;
+					font-family:Open Sans;
+					font-size:12px;
+					outline:none;
+					border-radius:3px;
+					border:1px solid #3498db;
+					font-weight:100;
+					margin:7px 3% 7px 3%;
+					box-sizing:border-box;
+					float: right;
+					background-color:#FFF
+        }
+            #checkButton:hover{
+							border:1px solid #3498db;
+							box-shadow: 0px 0px 5px #DDD;
+							background-color:#3498db;
+							color:#FFF;
+						}
+            #checkButton:active{
+							box-shadow: 0px 0px 10px #777 inset;
+            }
+		</style>
+	</head>
+	<body>
+	<input type="text" style="width:1000px;font-size:16px;font-weight:300;font-family:Raleway;padding:10px;border:1px solid #DDD;border-radius:3px;" placeholder="Enter courses, profs, etc.">
+		<br>
+		<div class="courseContainer">
+			<div style="position:absolute;top:0px;left:-1px;height:100%;width:4px;background-color:#3498db;border-bottom-left-radius:4px;border-top-left-radius:4px;"></div>
+				<p style="text-align:left;font-size:16px;font-weight:300;font-family:Raleway;margin-top:0;">Engineering Large Software Systems
+					<span style="float:right;font-size:14px;font-weight:600;font-family:Source Sans Pro;margin-top:0;color:#551a8b;margin-top:0;margin-left:20px;">CSC302H1S</span>
+			</p>
+			<p style="text-align:justify;font-size:13px;font-family:Open Sans;font-weight:300;">
+			An introduction to the theory and practice of large-scale software system design, development, and deployment. Project management; advanced UML; reverse engineering; requirements inspection; verification and validation; software architecture; performance modeling and analysis.
+			</p>
+			<p style="font-weight:300;font-family:Open Sans;font-size:12px;">"This course made my ass hurt"
+				<br>
+				-- Joseph Thomas
+			</p>
+			<ul style="float:left;padding:0px;margin-bottom:0;">
+				<li style="display:inline-block;margin-left:10px;text-align:center;margin-right:20px;">
+					<div class="ball" style="margin:auto;height:30px;width:30px;order-radius:30px;box-shadow:0px 0px 10px #2ecc71;text-align:center;line-height:30px;font-size:11px;font-family:Open Sans;font-weight:300;">1.0</div>
+					<p style="font-size:11px;font-family:Open Sans;font-weight:300;">Difficulty</p>
+				</li>
+				<li style="display:inline-block;margin-left:10px;text-align:center;margin-right:20px;">
+					<div class="ball" style="margin:auto;height:30px;width:30px;order-radius:30px;box-shadow:0px 0px 10px #2ecc71;text-align:center;line-height:30px;font-size:11px;font-family:Open Sans;font-weight:300;">1.0</div>
+					<p style="font-size:11px;font-family:Open Sans;font-weight:300;">Fun</p>
+				</li>
+				<li style="display:inline-block;margin-left:10px;text-align:center;margin-right:20px;">
+					<div class="ball" style="margin:auto;height:30px;width:30px;order-radius:30px;box-shadow:0px 0px 10px #2ecc71;text-align:center;line-height:30px;font-size:11px;font-family:Open Sans;font-weight:300;">1.0</div>
+					<p style="font-size:11px;font-family:Open Sans;font-weight:300;">Workload</p>
+				</li>
+			</ul>
+			<button id="checkButton">More Info</button>
+		</div>
+		<script>
+			[].forEach.call(document.getElementsByClassName('ball'),function(a){
+				var b = Math.random()*120
+				a.style.boxShadow	=	"hsl("+b+",100%,45%) 0px 0px 10px";
+				a.style.border	=	"1px solid hsl("+b+",100%,45%)";
+				console.log(a.style.boxShadow);
+				a.innerHTML	=	(b/1.2).toFixed(1);
+			});
+		</script>
+	</body>
+</html>
