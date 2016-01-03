@@ -75,19 +75,9 @@ CORE.main.search	=	(function(CORE){
 		},
 		start:function(){
 			CORE.courses[CORE.courses.length-1].forEach(function(section,index){
-				console.log(section);
 				depth([section],CORE.courses.length-2);
 			});
-				return possible;
-		},
 			
-		check:function(mangle1,mangle2){
-				
-		}
-	};
-})(CORE);
-
-
 			var possible	=	[];
 
 			function depth(pos,index){
@@ -97,8 +87,12 @@ CORE.main.search	=	(function(CORE){
 				var layerI	=	CORE.courses[index].length;
 				up:
 				while(layerI--){
+					var posI	=	pos.length;
+					if(course[layerI].times[0].days[0]==-1)
+						posI=0;
 					while(posI--){
 						var timeP	=	pos[posI].times.length;
+						
 						while(timeP--){
 							var timeL	=	course[layerI].times.length;
 							while(timeL--){
@@ -119,6 +113,17 @@ CORE.main.search	=	(function(CORE){
 						depth(pos.concat(course[layerI]),index-1);
 				}
 			}
+			
+			return possible;
+		},
+			
+		check:function(mangle1,mangle2){
+				
+		}
+	};
+})(CORE);
+
+
 var d = new Date();
 CORE.courses	=	CORE.main.search.prep();
 console.log('Prep took: '+((new Date())-d)+'ms');
