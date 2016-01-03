@@ -307,7 +307,7 @@ border-width: 1px 0 0;
                         transition: background-color .5s;
                         float:left;
                         box-sizing: border-box;
-                        background:url(/images/radioCircle.png) center center no-repeat;
+                        background: #DDD;
                     }
                         .timeSort-ball:hover{
                             background-color:#ecf0f1;
