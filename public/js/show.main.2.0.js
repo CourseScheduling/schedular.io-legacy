@@ -179,8 +179,6 @@ console.log('Scheduling took: '+((new Date())-d)+'ms');
 
 
 
-
-
 CORE.views.schedule  =   (function(CORE){
 	return {
 		flatten:function(schedule){
@@ -250,3 +248,10 @@ CORE.views.schedule  =   (function(CORE){
 
 
 
+
+
+var d = new Date();
+CORE.schedules.all	=	CORE.schedules.all.map(function(schedule){
+	return CORE.views.schedule.flatten(schedule);
+});
+console.log('Flattening took: '+((new Date())-d)+'ms');
