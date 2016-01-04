@@ -1,11 +1,36 @@
+
+
+
 CORE	=	{
 	raw	:	RAW_COURSE_DATA,
+	schedules	:	{
+		all:[],
+		current:[]
+	},
 	courses	:	[],
 	helper	:	{},
 	main	:	{
 		search	:	{}
+	},
+	views	:	{
+		schedule:{},
 	}
 }
+
+        CORE.helper.element =  (function(CORE){
+            return {
+                changeStyle:function(element,styles){
+                    for(var attributes in styles)
+                        element.style[attributes]=styles[attributes];
+                },
+                createDiv:function(attributes){
+                    var element =   document.createElement('div');
+                    for(var attributeName in attributes)
+                        element.setAttribute(attributeName,attributes[attributeName]);
+                    return element;
+                }
+            }
+        })(CORE)
 CORE.helper.time	=	(function(CORE){
 	return {
 		inTime:function(start,end,start2,end2){
@@ -43,6 +68,7 @@ CORE.helper.array	=(function(HELPER){
 })(CORE.helper);
 
 CORE.main.search	=	(function(CORE){
+	var possible	=	[];
 	return {
 		prep:function(){
 			var mangledArray	=	[];
@@ -59,10 +85,11 @@ CORE.main.search	=	(function(CORE){
 					v.forEach(function(uniq,i){
 						var i = 0;
 						var found = false;
-						while(!found&&i<3){
-							found	=	CORE.helper.array.returnByField(typeArray[i++],'uniq',uniq);
+						while(!found){
+							found	=	CORE.helper.array.returnByField(typeArray[i],'uniq',uniq);
+							i++;
 						}
-						mJ[i]	=found;
+						mJ[i-1]	=found;
 						mJ.times	=	mJ.times.concat(found.times);
 						mJ.length = i;
 					});
@@ -77,9 +104,8 @@ CORE.main.search	=	(function(CORE){
 			CORE.courses[CORE.courses.length-1].forEach(function(section,index){
 				depth([section],CORE.courses.length-2);
 			});
-			
-			var possible	=	[];
 
+			
 			function depth(pos,index){
 				if(index<0)
 					return possible.push(pos);
@@ -130,5 +156,97 @@ console.log('Prep took: '+((new Date())-d)+'ms');
 
 
 var d = new Date();
-	CORE.main.search.start();
+CORE.schedules.all	=	CORE.main.search.start();
 console.log('Scheduling took: '+((new Date())-d)+'ms');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CORE.views.schedule  =   (function(CORE){
+	return {
+		flatten:function(schedule){
+			var sections	=	[];
+			for(var i = 0;i<schedule.length;i++){
+				for(var g = 0;g<schedule[i].length;g++){
+					sections.push(schedule[i][g]);
+				}
+			}
+			return sections;
+		},
+		gen:function(options){
+			var Schedule	=	document.getElementById('scheduleWrapTemplate').cloneNode(true);
+			Schedule.id	='';
+			options	=	this.flatten(options);
+			options.forEach(function(section){
+				section.times.forEach(function(time){
+					CORE.views.schedule.makeBlocks(time,section).map(function(a){
+						Schedule.getElementsByClassName('s-timeBlockWrap')[0].appendChild(a);
+					});
+				});
+			});	
+			return Schedule;
+		},
+		makeBlocks:function(time,section){
+			var days	=	[];
+			
+			time.days.forEach(function(day){
+				if(day==-1)
+					return document.createElement('div');
+            //Make a timeblock element
+				var timeBlock   =   CORE.helper.element.createDiv({class:'s-timeBlock'});
+            
+            //Adjust its styles.
+				CORE.helper.element.changeStyle(timeBlock,{
+					top     :   [(time.start-480)/2,'px'].join(''),
+					left    :   [((day+1)%7)*71,'px'].join(''),
+					height  :   [(time.end-time.start)/2,'px'].join(''),
+					lineHeight  :   [(time.end-time.start-4)/2,'px'].join(''),
+				//		color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.courseName)),
+				//	backgroundColor :   CORE.helper.color.getBackgroundColor(section.courseName)
+				});
+				timeBlock.innerHTML=section.title
+            //return the timeblock
+				days.push(timeBlock);
+			});
+			return days;
+		}
+	}
+})(CORE);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

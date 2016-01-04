@@ -307,17 +307,20 @@ border-width: 1px 0 0;
                         transition: background-color .5s;
                         float:left;
                         box-sizing: border-box;
-                        background: #DDD;
+                        background: #1ABEEE;
                     }
                         .timeSort-ball:hover{
                             background-color:#ecf0f1;
-                            transition: background-color .5s;
+                            transition: background-color .2s;
                         }
-                        #timeSort-ball-active{
-                            background:url(/images/radioCircle.png)  #84C0EB center center no-repeat;
-                            background-size:100%;
-                            transition: background-image 1s;
-                        }
+												.timeSort-ball-inner{
+													height: 14px;
+													width: 14px;
+													margin: 2px;
+													border-radius:10px;
+													background:#FFF;
+													border: 0;
+												}
                     .timeSort-connector{
                         float:left;
                         width:50px;
@@ -361,9 +364,15 @@ border-width: 1px 0 0;
                 user-select: none;
                 transition:border-radius .5s;
             }
+						.customCheck:not(.customCheckbox-checked):hover {
+							background:rgba(26,190,238,0.2);
+                border-radius:3px;
+                transition:border-radius .5s;
+                border-color:transparent;
+						}
             .customCheckbox-checked{
-                border-color:#2980b9;
-                background:url(/images/checkBoxX.png) #3498db center center no-repeat;
+                border-color:transparent;
+                background:url(/images/checkBoxX.png) #1ABEEE center center no-repeat;
                 background-size:60%;
                 border-radius:3px;
                 transition:border-radius .5s;
