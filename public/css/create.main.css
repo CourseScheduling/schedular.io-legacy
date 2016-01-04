@@ -99,15 +99,13 @@ body{
 								}
 									.courseChoice{
 											padding:10px;
-											border-radius:30px;
-											border:1px solid #000;
 											font-family:Open Sans;
 											font-size:12px;
 											font-weight:300;
 											display:block;
 											float:left;
 											margin:3px;
-										background-color:#FFF;
+										color:#FFF;
 									}
 										.courseKill{
 												background:url(/images/kill.png) center center no-repeat;
