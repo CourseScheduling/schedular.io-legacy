@@ -250,7 +250,7 @@ CORE.views.schedule  =   (function(CORE){
 				if(section==undefined)
 					return;
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<span style="font-family:Open Sans;font-weight:100;">'+section.title+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+'</span><br>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+					'<span style="font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+'</span><br>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -346,6 +346,58 @@ CORE.views.schedule  =   (function(CORE){
 
 
 
+CORE.views.lowerControlPanel	=	(function(CORE){
+	return {
+		container:document.getElementById('lowerControls'),
+		on:function(){
+			Velocity(document.getElementById('lowerControls'),'fadeIn',100);
+		},
+		off:function(){
+			console.log(this.container);
+			Velocity(document.getElementById('lowerControls'),'fadeOut',100);
+		},
+		toggle:function(){
+			if(this.container.style.diplay	==	'none'){
+				this.on();
+			}else{
+				this.off();
+			}
+		}
+	}
+})(CORE);
+
+
+
+CORE.views.advanced	=	(function(CORE){
+	var container = document.getElementById('advancedButton')
+	container.addEventListener('click',function(){
+		CORE.views.lowerControlPanel.toggle();
+	});
+})(CORE);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -398,10 +450,136 @@ CORE.main.show	=	(function(){
 
 
 
-CORE.main.show.render();
 CORE.views.gear.off();
 
 
 
 
+            CORE.sort   =   (function(CORE){
+                return  {
+                    type:'Starting Time',
+                    time:{
+                        mornings:function(a,b){
+                            var aSum=0,bSum=0,aCount=0,bCount=0;
+                            for(var section=a.length;section--;){
+                                for(var time=a[section].times.length;time--;){
+                                    if(a[section].times[time].days[0]==-1){
+                                        break;
+                                    }
+                                    //Add the time to the start 
+                                    aSum+=((a[section].times[time].start)*a[section].times[time].days.length);
+                                    aCount+=a[section].times[time].days.length;
+                                }
+                            }
+                            for(var section=b.length;section--;){
+                                for(var time=b[section].times.length;time--;){
+                                    if(b[section].times[time].days[0]==-1){
+                                        break;
+                                    }
+                                    //Add the time to the start 
+                                    bSum+=((b[section].times[time].start)*b[section].times[time].days.length);
+                                    bCount+=b[section].times[time].days.length;
+                                }
+                            }
+                            
+                            
+                            
+                            return (aSum/aCount)-(bSum/bCount);
+                        },
+                        noon:function(a,b){
+                            var aSum=0,bSum=0,aCount=0,bCount=0;
+                            //Iterate through each a schedule time
+                            for(var section=a.length;section--;){
+                                for(var time=a[section].times.length;time--;){
+                                    if(a[section].times[time].days[0]==-1){
+                                        break;
+                                    }
+                                    //Add the difference between the middle of the timeblock to aSum
+                                    aSum+=(Math.abs(720-(a[section].times[time].start-a[section].times[time].end)/2));
+                                    aCount++
+                                }
+                            }
+                            //Iterate through each b schedule time
+                            for(var section=b.length;section--;){
+                                for(var time=b[section].times.length;time--;){
+                                    if(b[section].times[time].days[0]==-1){
+                                        break;
+                                    }
+                                    //Add the difference between the middle of the timeblock to bSum
+                                    bSum+=(Math.abs(720-(b[section].times[time].start-b[section].times[time].end)/2));
+                                    bCount++
+                                }
+                            }
+                            return  (aSum/aCount-bSum/bCount);
+                        },
+                        evenings:function(a,b){
+                            var aSum=0,bSum=0,aCount=0,bCount=0;
+                            for(var section=a.length;section--;){
+                                for(var time=a[section].times.length;time--;){
+																	if(a[section].times[time].days[0]==-1){
+																		break;
+																	}
+                                    //Add the time to the start 
+																	try{
+                                    aSum+=((a[section].times[time].start)*a[section].times[time].days.length);
+																	}catch(e){
+																		console.log(a[section].times[time]);
+																	} aCount+=a[section].times[time].days.length;
+                                }
+                            }
+                            for(var section=b.length;section--;){
+                                for(var time=b[section].times.length;time--;){
+                                    if(b[section].times[time].days[0]==-1){
+                                        break;
+                                    }
+                                    //Add the time to the start 
+                                    bSum+=((b[section].times[time].start)*b[section].times[time].days.length);
+                                    bCount+=b[section].times[time].days.length;
+                                }
+                            }
+                            
+                            return (bSum/bCount)-(aSum/aCount);
+                        },
+                        timeOfDay:'mornings'
+                    },
+                    teacherRating:function(a,b) {
+                        var aSum=0,bSum=0,aCount=0,bCount=0;
+                        for(var i=a.length;i--;){
+                            aSum+=CORE.main.teacher.ratings.map[a[i].times[0].instructor];
+                            aCount++;
+                        }
+                            
+                        for(var i=b.length;i--;){
+                            bSum+=CORE.main.teacher.ratings.map[b[i].times[0].instructor];
+                            bCount++;
+                        }
+                        
+                        return (bSum/bCount)-(aSum/aCount);
+                            
+                    },
+                    availability:function(a,b){
+                        var aSum=0,bSum=0;
+                        for(var i = a.length;i--;){
+                            var aSeats  =   CORE.socket.seatMap[a[i].crn];
+                            var d = (aSeats.m-aSeats.e);
+                            aSum+=((d>0)*1000)-(aSeats.w*10)+d*(d>0);
 
+                        }
+                        for(var i = b.length;i--;){
+                            var bSeats  =   CORE.socket.seatMap[b[i].crn];
+                            var d = (bSeats.m-bSeats.e);
+                            bSum+=((d>0)*1000)-(bSeats.w*10)+d*(d>0);
+                        }
+                        return bSum-aSum;
+                    },
+                    blockAmount:function(a,b){
+                        return b.times.length-a.times.length;
+                    }
+                }
+            })(CORE);
+
+
+
+
+CORE.schedules.all.sort(CORE.sort.time.evenings);
+CORE.main.show.render();

@@ -309,7 +309,7 @@ border-width: 1px 0 0;
                         transition: background-color .5s;
                         float:left;
                         box-sizing: border-box;
-                        background: #1ABEEE;
+                        background: #3498db;
                     }
                         .timeSort-ball:hover{
                             background-color:#ecf0f1;
@@ -374,7 +374,7 @@ border-width: 1px 0 0;
 						}
             .customCheckbox-checked{
                 border-color:transparent;
-                background:url(/images/checkBoxX.png) #1ABEEE center center no-repeat;
+                background:url(/images/checkBoxX.png) #3498db center center no-repeat;
                 background-size:60%;
                 border-radius:3px;
                 transition:border-radius .5s;
@@ -403,7 +403,46 @@ border-width: 1px 0 0;
                 float:left;
                 margin-top:18px;
             }
+/* sliders for controlling individual days */
 
+
+				.sliderContainer{
+					height:70px;
+					width:10px;
+					margin-left:20px;
+					margin-right:20px;
+					margin-top:14px;
+					text-align: center;
+					position: relative;
+					float: left;
+				}
+
+				.sliderBlock{
+					height:84px;
+					width:2px;
+					background-color:#2ecc71;
+					margin-left:6px;
+				}
+				.sliderCircle{
+					height:14px;
+					width:14px;
+					border-radius:14px;
+					box-shadow: 0px 0px 3px #999;
+					background-color:#FFF;
+					position:absolute;
+					cursor: pointer;
+				}
+
+				.arrow-left {
+					width: 0; 
+					height: 0; 
+					border-top: 10px solid transparent;
+					border-bottom: 10px solid transparent; 
+					border-right:10px solid #34495e; 
+					position:absolute;
+					top:0px;
+					left:-5px;
+				}
 
 
 /* Template CSS */
