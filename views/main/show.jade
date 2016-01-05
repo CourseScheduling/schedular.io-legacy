@@ -39,7 +39,7 @@ block bodyContent
 		br
 		br
 		br
-		div(id="lowerControls" style="float:right;overflow:hidden;display:block;width:100%;background-color:#fff;border-bottom:1px solid #f9f9f9;padding-top:20px;height:150px;box-shadow:0px 0px 4px #DDD ;")
+		div(id="lowerControls" style="float:right;overflow:hidden;display:block;width:100%;background-color:#fff;border-bottom:1px solid #f9f9f9;padding-top:20px;height:150px;")
 			div(id="sliderControls" style="float:left;position:relative;padding-right:100px;")
 				div(id="toolTip" style="z-index:10000;top:0px;left:0px;display:none;padding:3px 5px 3px 5px;background:#34495e;float:left;position:absolute;color:#FFF;font-weight:300;font-family:Open Sans;font-size:11px;")
 					div(class="arrow-left")
@@ -171,14 +171,13 @@ block bodyContent
 		
 		
 		//--Templates--
-		div(class="possibleContainer" style="float:right" id="scheduleWrapTemplate" )
+		div(class="possibleContainer" style="float:right;margin-top:20px;" id="scheduleWrapTemplate" )
 			//This below is the template for ratings
 			div(class="r-ratingWrap")
 				div(class="r-averageRatingTitle") Average Rating:
 				div(class="r-ratingContainer")
-					button(data-crn="11257" class="s-useMeButton" style="background-color:#2c3e50;" title="Modify This Schedule") Modify
-					button(data-crn="11257" class="s-useMeButton" style="margin-left:10px;background-color:#8e44ad" title="Save This Schedule") Save
-
+					button(data-crn="11257" class="s-useMeButton" style="padding-left:45px;background-color:#2c3e50;" title="Modify This Schedule") Modify
+					button(data-crn="11257" class="s-useMeButton" style="padding-left:45px;margin-left:10px;background-color:#8e44ad" title="Save This Schedule") Save
 			div(class="s-scheduleWrap" data-crn="")
 				div(class="s-dayLabelWrap")
 					each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']

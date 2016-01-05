@@ -249,8 +249,14 @@ CORE.views.schedule  =   (function(CORE){
 			options.forEach(function(section){
 				if(section==undefined)
 					return;
+				
+				var rating;
+				if(CORE.main.teachers.teacherMap[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
+					rating	=	('unrated')
+				else
+					rating	=	(CORE.main.teachers.teacherMap[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)].rating)
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<span style="font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+'</span><br>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+					'<span style="font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</span><br>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -381,6 +387,51 @@ CORE.views.advanced	=	(function(CORE){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CORE.main.teachers	=	(function(CORE){
+	
+	return {
+		teacherMap:{},
+		fetch:function(cb){
+			var instructors	=	[];
+			this.teacherMap['none']	=	{teacherName:'No Instructor',rating:'None'};
+			CORE.raw.map(function(i){
+				return instructors=instructors.concat(i.instructors);
+			});
+			$.get({
+				url:'/g/instructors?names='+JSON.stringify(instructors),
+				json:true,
+				done:function(e){
+					
+					e.map(function(a){
+						CORE.main.teachers.teacherMap[a.teacherName]	=	a;
+					});
+					
+					cb&&cb();
+				}
+			})
+		}
+	}
+	
+})(CORE);
 
 
 
@@ -582,4 +633,25 @@ CORE.views.gear.off();
 
 
 CORE.schedules.all.sort(CORE.sort.time.evenings);
-CORE.main.show.render();
+CORE.main.teachers.fetch(function(){
+	CORE.main.show.render();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

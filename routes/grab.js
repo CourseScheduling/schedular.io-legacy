@@ -27,5 +27,21 @@ router.get('/course', function(req, res, next) {
 	});
 });
 
+router.get('/instructors',function(req,res,next){
+	try{
+		req.query.names	=	JSON.parse(req.query.names);
+	}catch(e){
+		return res.send('[]');
+	}
+	
+	var sql	=	('SELECT course.&UNI_teacher_rating.teacherName,course.&UNI_teacher_rating.rating,course.&UNI_teacher_rating.votes FROM course.&UNI_teacher_rating WHERE course.&UNI_teacher_rating.teacherName IN ('+(',?'.repeat(req.query.names.length).substr(1))+')').replace(/\&UNI/g,req.session.userData.dbName);
+	console.log(sql);
+	
+	DB.query(sql,req.query.names,function(e,r){
+		if(e) throw e;
+		console.log(r.length);
+		res.send(JSON.stringify(r));
+	});
+});
 
 module.exports = router;
