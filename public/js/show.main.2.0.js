@@ -246,15 +246,19 @@ CORE.views.schedule  =   (function(CORE){
 		gen:function(options){
 			var Schedule	=	document.getElementById('scheduleWrapTemplate').cloneNode(true);
 			Schedule.id	='';
+			avgRating	=	[0,0];
 			options.forEach(function(section){
 				if(section==undefined)
 					return;
 				
 				var rating;
-				if(CORE.main.teachers.teacherMap[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
+				if(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
 					rating	=	('unrated')
-				else
-					rating	=	(CORE.main.teachers.teacherMap[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)].rating)
+				else{
+					rating	=	(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)].rating)
+					avgRating[0]+=rating;
+					avgRating[1]++;
+				}
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
 					'<span style="font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</span><br>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
@@ -264,6 +268,7 @@ CORE.views.schedule  =   (function(CORE){
 					});
 				});
 			});	
+			Schedule.getElementsByClassName('r-averageRatingTitle')[0].innerHTML+='<label style="margin-left:10px;color:#333;font-weight:300;">'+(avgRating[0]/avgRating[1]).toFixed(2)+'</label>'	;
 			return Schedule;
 		},
 		makeBlocks:function(time,section){
@@ -356,17 +361,19 @@ CORE.views.lowerControlPanel	=	(function(CORE){
 	return {
 		container:document.getElementById('lowerControls'),
 		on:function(){
-			Velocity(document.getElementById('lowerControls'),'fadeIn',100);
+			Velocity(document.getElementById('lowerControls'),'slideDown',300);
 		},
 		off:function(){
 			console.log(this.container);
-			Velocity(document.getElementById('lowerControls'),'fadeOut',100);
+			Velocity(document.getElementById('lowerControls'),'slideUp',300);
 		},
-		toggle:function(){
-			if(this.container.style.diplay	==	'none'){
+		toggle:function(on,off){
+			if(this.container.style.display	==	'none'){
 				this.on();
+				on&&on()
 			}else{
 				this.off();
+				off&&off()
 			}
 		}
 	}
@@ -377,7 +384,11 @@ CORE.views.lowerControlPanel	=	(function(CORE){
 CORE.views.advanced	=	(function(CORE){
 	var container = document.getElementById('advancedButton')
 	container.addEventListener('click',function(){
-		CORE.views.lowerControlPanel.toggle();
+		CORE.views.lowerControlPanel.toggle(function(){
+		
+		},function(){
+		
+		});
 	});
 })(CORE);
 
@@ -409,10 +420,10 @@ CORE.views.advanced	=	(function(CORE){
 CORE.main.teachers	=	(function(CORE){
 	
 	return {
-		teacherMap:{},
+		map:{},
 		fetch:function(cb){
 			var instructors	=	[];
-			this.teacherMap['none']	=	{teacherName:'No Instructor',rating:'None'};
+			this.map['none']	=	{teacherName:'No Instructor',rating:'None'};
 			CORE.raw.map(function(i){
 				return instructors=instructors.concat(i.instructors);
 			});
@@ -422,7 +433,7 @@ CORE.main.teachers	=	(function(CORE){
 				done:function(e){
 					
 					e.map(function(a){
-						CORE.main.teachers.teacherMap[a.teacherName]	=	a;
+						CORE.main.teachers.map[a.teacherName]	=	a;
 					});
 					
 					cb&&cb();
@@ -486,7 +497,14 @@ CORE.views.gear	=	(function(){
 
 
 CORE.main.show	=	(function(){
+
 	
+	window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-100) {
+        CORE.main.show.render();
+			console.log('bottom');
+    }
+	};
 	return {
 		container:document.getElementById('main-scheduleContainer'),
 		counter:0,
@@ -596,12 +614,12 @@ CORE.views.gear.off();
                     teacherRating:function(a,b) {
                         var aSum=0,bSum=0,aCount=0,bCount=0;
                         for(var i=a.length;i--;){
-                            aSum+=CORE.main.teacher.ratings.map[a[i].times[0].instructor];
+                            aSum+=CORE.main.teachers.map[a[i].times[0].instructor];
                             aCount++;
                         }
                             
                         for(var i=b.length;i--;){
-                            bSum+=CORE.main.teacher.ratings.map[b[i].times[0].instructor];
+                            bSum+=CORE.main.teachers.map[b[i].times[0].instructor];
                             bCount++;
                         }
                         
