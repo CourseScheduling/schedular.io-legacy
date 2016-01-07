@@ -139,7 +139,7 @@ body{
 	float:left;
 	cursor:pointer;
 	margin-left:2px;
-	opacity:0.1
+	opacity:0.3
 }
 	.activeTermIcon{
 		opacity: 1;

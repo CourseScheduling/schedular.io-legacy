@@ -127,6 +127,10 @@ border-width: 1px 0 0;
     line-height: 30px;
     width:300px;
 }
+	.r-ratingContainer{
+		padding:0;	
+		list-style-type:none;
+	}
     .r-averageRatingTitle{
         font-size:20px;
         font-weight:100;
@@ -161,6 +165,18 @@ border-width: 1px 0 0;
     .s-useMeButton:active{
         box-shadow: 0px 0px 10px #999 inset;
     }
+
+.s-modifyIcon{
+	padding-left:45px;
+	background:url(/images/wrench.png) #2c3e50 center left 5px no-repeat;
+	background-size:30px;
+}
+.s-saveIcon{
+	padding-left:45px;
+	margin-left:10px;
+	background:url(/images/save.png) #8e44ad center left 5px no-repeat;
+	background-size:30px;
+}
 /* Tool Tip Styling */
 
 #t-toolTipWrap{

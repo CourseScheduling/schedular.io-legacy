@@ -247,11 +247,12 @@ CORE.views.schedule  =   (function(CORE){
 			var Schedule	=	document.getElementById('scheduleWrapTemplate').cloneNode(true);
 			Schedule.id	='';
 			avgRating	=	[0,0];
+			var sections	=	[];
 			options.forEach(function(section){
 				if(section==undefined)
 					return;
 				
-				var rating;
+				sections.push(section.uniq);
 				if(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
 					rating	=	('unrated')
 				else{
@@ -260,7 +261,7 @@ CORE.views.schedule  =   (function(CORE){
 					avgRating[1]++;
 				}
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<span style="font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</span><br>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -268,6 +269,8 @@ CORE.views.schedule  =   (function(CORE){
 					});
 				});
 			});	
+			Schedule.getElementsByClassName('s-modifyIcon')[0].setAttribute('data-queryCode',sections.join('.'));
+			Schedule.getElementsByClassName('s-saveIcon')[0].setAttribute('data-queryCode',sections.join('.'));
 			Schedule.getElementsByClassName('r-averageRatingTitle')[0].innerHTML+='<label style="margin-left:10px;color:#333;font-weight:300;">'+(avgRating[0]/avgRating[1]).toFixed(2)+'</label>'	;
 			return Schedule;
 		},
@@ -405,6 +408,19 @@ CORE.views.advanced	=	(function(CORE){
 
 
 
+
+
+CORE.views.save	=	(function(CORE){
+	return function(el){
+		var code	=	el.getAttribute('data-queryCode').split('.').sort().join('.');
+		$.get({
+			url:'/m/save?codes='+code,
+			done:function(a){
+				console.log(a);
+			}
+		});
+	};
+})(CORE);
 
 
 

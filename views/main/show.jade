@@ -171,13 +171,15 @@ block bodyContent
 			})();
 		
 		//--Templates--
+		div#main-scheduleContainer
+		script(src='/js/show.main.2.0.js')
 		div(class="possibleContainer" style="float:right;margin-top:20px;" id="scheduleWrapTemplate" )
 			//This below is the template for ratings
 			div(class="r-ratingWrap")
 				div(class="r-averageRatingTitle") Average Rating:
-				div(class="r-ratingContainer")
-					button(data-crn="11257" class="s-useMeButton" style="padding-left:45px;background:url(/images/wrench.png) #2c3e50 center left 5px no-repeat;background-size:30px;" title="Modify This Schedule") Modify
-					button(data-crn="11257" class="s-useMeButton" style="padding-left:45px;margin-left:10px;background:url(/images/save.png) #8e44ad center left 5px no-repeat;background-size:30px;" title="Save This Schedule") Save
+				ul(class="r-ratingContainer")
+					button(data-crn="11257" class="s-useMeButton s-modifyIcon" title="Modify This Schedule") Modify
+					button(data-crn="11257" class="s-useMeButton s-saveIcon" onclick="CORE.views.save(this)" title="Save This Schedule") Save
 			div(class="s-scheduleWrap" data-crn="")
 				div(class="s-dayLabelWrap")
 					each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
@@ -189,8 +191,6 @@ block bodyContent
 
 				div(class="s-timeBlockWrap")
 		//This is the template for the actual schedule
-		div#main-scheduleContainer
-		script(src='/js/show.main.2.0.js')
 		// div(style="height:80%;width:10px;border:1px solid rgba(0,0,0,0.1);margin-left:10px;margin-to:10px;border-radius:10px;")
 			
 	//Control Course Start Time
