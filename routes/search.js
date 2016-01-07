@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var DB	=	require('../bin/db.js');
-
+var mongo	=	require('../bin/mongo.js');
 
 
 
@@ -30,7 +30,7 @@ router.get('/show',function(req,res){
 // I'm only keeping the following below because that was only the beginning of what would have
 // happened had we not switched to mongo
 //	var sqlQuery	=	'SELECT &DB.course.name,&DB.course.code,&DB.course_section.campus,&DB.course_section.sectionUniq,&DB.course_section.type,&DB.course_time.days,&DB.course_time.startTime,&DB.course_time.endTime FROM &DB.course JOIN &DB.course_section JOIN &DB.course_time on (&DB.course.id=&DB.course_section.courseId and &DB.course_section.courseId=&DB.course_time.sectionId) WHERE &DB.course.code IN(?'+(',?'.repeat(courses.length-1))+') AND &DB.course_section.status	=	"Open"';
-	req.mongo.get(req.session.userData.dbName+'Course').find({title:{$in:courses}},function(err,docs){
+	mongo.get(req.session.userData.dbName+'Course').find({title:{$in:courses}},function(err,docs){
 		var data	=	jadeData(req);
 		data.courseData	=	docs;
 		res.render('main/show',data);

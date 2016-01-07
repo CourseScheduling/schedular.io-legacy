@@ -81,6 +81,7 @@ border-width: 1px 0 0;
             border-top:0;
             border-right:0;
             display:inline-block;
+					background-position:-1px -1px;
         }
             .s-timeBlock{
                 position:absolute;

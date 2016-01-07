@@ -70,8 +70,12 @@ CORE.main.input	=	(function(CORE){
 		//when someone types into the input ajax and get all the possible course codes
 		if(e.target.value=="")
 			return Velocity(instantContainer,'slideUp',50);
+		
+		
+		var term	=	CORE.main.term.currentTerm;
+		var year	=	CORE.main.term.currentYear;
 		$.get({
-			url:'/g/course?q='+e.target.value,
+			url:'/g/course?term='+term+'&year='+year+'&q='+e.target.value,
 			done:function(a){
 				//Activate the dropdown and add all the possible courses
 				if(a.length==0){
@@ -179,13 +183,26 @@ CORE.main.init	=	(function(CORE){
 
 
 
-
-
-
-
-
-
-
+CORE.main.term	=	(function(CORE){
+	$.get({
+		url:'/g/currentTerms',
+		json:true,
+		done:function(result){
+			result	=	result.filter(function(a){return a.available==true});
+			CORE.main.term.currentTerm	=	result[0].term;
+			CORE.main.term.currentYear	=	result[0].year;
+			[].forEach.call(document.getElementsByClassName('seasonIcon'),function(a){
+				if(parseInt(a.getAttribute('data-termid'))==result[0].term){
+					a.classList.add('activeTermIcon');
+				}
+			});
+		}
+	});
+	return {
+		currentTerm:0,
+		currentYear:0
+	}
+})(CORE);
 
 
 

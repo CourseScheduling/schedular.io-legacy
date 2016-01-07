@@ -13,14 +13,19 @@ router.use(function(req,res,next){
 	return;
 })
 
-
+router.get('/currentTerms',function(req,res,next){
+	DB.query('SELECT * FROM general.university_terms WHERE universityId	=	?',[req.session.userData.universityId],function(e,r){
+		if(e) throw e;
+		res.send(r);
+	});
+});
 router.get('/course', function(req, res, next) {
 	req.query.q	=	req.query.q.toLowerCase();
 	if(req.query.q.match(/\d/g)!==null)
 		req.query.q=req.query.q.replace(/\s/,'');
-	var sql	=	'SELECT course.&UNI_course_instant.name,course.&UNI_course_instant.code,course.&UNI_course_instant.tags FROM course.&UNI_course_instant WHERE course.&UNI_course_instant.code LIKE CONCAT(?,"%") OR MATCH(course.&UNI_course_instant.tags) AGAINST(?) LIMIT 50'.replace(/\&UNI/g,req.session.userData.dbName);
+	var sql	=	'SELECT course.&UNI_course_instant.name,course.&UNI_course_instant.code,course.&UNI_course_instant.tags FROM course.&UNI_course_instant WHERE (course.&UNI_course_instant.code LIKE CONCAT(?,"%") OR MATCH(course.&UNI_course_instant.tags) AGAINST(?)) AND term=? AND year=? LIMIT 50'.replace(/\&UNI/g,req.session.userData.dbName);
 	console.log(sql);
-	DB.query(sql,[req.query.q,req.query.q],function(e,r,v){
+	DB.query(sql,[req.query.q,req.query.q,req.query.term,req.query.year],function(e,r,v){
 		if(e) throw e;
 		console.log(r.length);
 		res.send(JSON.stringify(r));

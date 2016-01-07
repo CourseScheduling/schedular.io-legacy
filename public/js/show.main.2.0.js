@@ -421,6 +421,10 @@ CORE.main.teachers	=	(function(CORE){
 	
 	return {
 		map:{},
+		addTemplate:function(section,Schedule){
+			//Schedule.
+			
+		},
 		fetch:function(cb){
 			var instructors	=	[];
 			this.map['none']	=	{teacherName:'No Instructor',rating:'None'};
@@ -664,6 +668,28 @@ CORE.main.teachers.fetch(function(){
 
 
 
+
+
+
+
+CORE.main.filter	=	(function(CORE){
+	return	{
+		enabled:[]
+	}
+})(CORE);
+
+CORE.main.filter.campus	=	(function(CORE){
+	DBKey   =   {
+		ABBY:"Abbotsford",
+		CHIL:"Chilliwack",
+		HOPE:"Hope",
+		MIS:"Mission",
+		ONL:"Online",
+		CLEAR:"Clearbrook"
+	}
+	
+	
+})(CORE);
 
 
 
