@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var DB      =   require('../bin/db');
+var mongo		=		require('../bin/mongo.js');
 var fs	=	require('fs');
 
 router.use(function(req,res,next){
@@ -29,6 +30,30 @@ router.get('/course', function(req, res, next) {
 		if(e) throw e;
 		console.log(r.length);
 		res.send(JSON.stringify(r));
+	});
+});
+
+router.get('/byUniq',function(req,res,next){
+	var uniq;
+	try{
+		uniq	=	JSON.parse(req.query.uniq);
+	}catch(e){
+		return res.send('[]');
+	}
+	console.log([
+			{"sections.C.uniq":{$in:uniq.C.map(parseFloat)}},
+			{"sections.L.uniq":{$in:uniq.L.map(parseFloat)}},
+			{"sections.T.uniq":{$in:uniq.T.map(parseFloat)}}
+	]);
+	mongo.get(req.session.userData.dbName+'Course').find({
+		$or:[
+			{"sections.C.uniq":{$in:uniq.C.map(parseFloat)}},
+			{"sections.L.uniq":{$in:uniq.L.map(parseFloat)}},
+			{"sections.T.uniq":{$in:uniq.T.map(parseFloat)}}
+		]	
+	},function(err,docs){
+		if(err) throw err;
+		res.send(docs);
 	});
 });
 

@@ -158,10 +158,9 @@ CORE.main.search	=	(function(CORE){
 				depth([section],CORE.courses.length-2);
 			});
 
-			
 			function depth(pos,index){
 				if(index<0)
-					return possible.push(pos);
+					return CORE.schedules.all.push(pos);
 				var course = CORE.courses[index];
 				var layerI	=	CORE.courses[index].length;
 				up:
@@ -187,13 +186,11 @@ CORE.main.search	=	(function(CORE){
 						
 					}
 					if(index==0)
-						possible.push(pos.concat(course[layerI]));
+						CORE.schedules.all.push(pos.concat(course[layerI]));
 					else
 						depth(pos.concat(course[layerI]),index-1);
 				}
 			}
-			
-			return possible;
 		},
 			
 		check:function(mangle1,mangle2){
@@ -209,7 +206,7 @@ console.log('Prep took: '+((new Date())-d)+'ms');
 
 
 var d = new Date();
-CORE.schedules.all	=	CORE.main.search.start();
+CORE.main.search.start();
 console.log('Scheduling took: '+((new Date())-d)+'ms');
 
 
@@ -252,7 +249,7 @@ CORE.views.schedule  =   (function(CORE){
 				if(section==undefined)
 					return;
 				
-				sections.push(section.uniq);
+				sections.push(section.uniq+section.type);
 				if(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
 					rating	=	('unrated')
 				else{
@@ -269,8 +266,8 @@ CORE.views.schedule  =   (function(CORE){
 					});
 				});
 			});	
-			Schedule.getElementsByClassName('s-modifyIcon')[0].setAttribute('data-queryCode',sections.join('.'));
-			Schedule.getElementsByClassName('s-saveIcon')[0].setAttribute('data-queryCode',sections.join('.'));
+			Schedule.getElementsByClassName('s-modifyIcon')[0].setAttribute('data-queryCode',sections.sort().join('.'));
+			Schedule.getElementsByClassName('s-saveIcon')[0].setAttribute('data-queryCode',sections.sort().join('.'));
 			Schedule.getElementsByClassName('r-averageRatingTitle')[0].innerHTML+='<label style="margin-left:10px;color:#333;font-weight:300;">'+(avgRating[0]/avgRating[1]).toFixed(2)+'</label>'	;
 			return Schedule;
 		},
@@ -413,18 +410,48 @@ CORE.views.advanced	=	(function(CORE){
 CORE.views.save	=	(function(CORE){
 	return function(el){
 		var code	=	el.getAttribute('data-queryCode').split('.').sort().join('.');
+		if(el.getAttribute('data-state')=='active')
+			return;
 		$.get({
 			url:'/m/save?codes='+code,
 			done:function(a){
 				console.log(a);
+				CORE.views.save.setSaved(el);
 			}
 		});
 	};
 })(CORE);
 
 
+CORE.views.save.setSaved	=	function(el){	
+	el.setAttribute('data-state','active');
+	el.style.backgroundImage	=	'url("/images/check.png")';
+	el.style.backgroundColor	=	'#2ecc71';
+	el.innerHTML	=	'Saved';
+}
 
 
+CORE.main.save	=	(function(CORE){
+	return {
+		map:[],
+		fetch:function(){
+			$.get({
+				url:'/m/get',
+				done:function(a){
+					CORE.main.save.map	=	a;
+					CORE.main.save.render();
+				}
+			});
+		},
+		render:function(){
+			CORE.main.save.map.forEach(function(v,i,a){
+				[].forEach.call(document.querySelectorAll('.s-saveIcon[data-queryCode="'+v.sections+'"]'),function(a){
+					CORE.views.save.setSaved(a);
+				});
+			});
+		}
+	}
+})(CORE);
 
 
 
@@ -521,7 +548,8 @@ CORE.main.show	=	(function(){
 	
 	window.onscroll = function(ev) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-100) {
-        CORE.main.show.render();
+			CORE.main.show.render();
+			CORE.main.save.render();
 			console.log('bottom');
     }
 	};
@@ -532,14 +560,14 @@ CORE.main.show	=	(function(){
 			for(var i = this.counter;i<this.counter+10;i++){
 				this.container.appendChild(CORE.views.schedule.gen(CORE.schedules.current[i]));
 			}
-			this.counter++;
+			this.counter+=10;
+			CORE.views.gear.off();
 		}
 	}
 })(CORE);
 
 
 
-CORE.views.gear.off();
 
 
 
@@ -673,6 +701,7 @@ CORE.views.gear.off();
 CORE.schedules.all.sort(CORE.sort.time.evenings);
 CORE.main.teachers.fetch(function(){
 	CORE.main.show.render();
+	CORE.main.save.fetch();
 });
 
 
@@ -714,4 +743,8 @@ CORE.main.filter.campus	=	(function(CORE){
 
 
 
-
+var tempMap = {};
+CORE.schedules.all.map(function(a){
+	var key	=	a.map(function(b){return b.uniq;}).sort().join('.');
+	tempMap[key]=a;
+});

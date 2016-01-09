@@ -27,7 +27,7 @@ block bodyContent
 					div(class="timeSort-ball gTT-act" data-gTTLbl="Mornings")
 						div(class="timeSort-ball-inner")
 					div(class="timeSort-connector")
-					div(class="timeSort-ball gTT-act" data-gTTLbl="Noon")
+					div(class="timeSort-ball gTT-act"  id="timeSort-ball-active" data-gTTLbl="Noon")
 						div(class="timeSort-ball-inner")
 					div(class="timeSort-connector")
 					div(class="timeSort-ball gTT-act" data-gTTLbl="Evenings")
@@ -172,7 +172,6 @@ block bodyContent
 		
 		//--Templates--
 		div#main-scheduleContainer
-		script(src='/js/show.main.2.0.js')
 		div(class="possibleContainer" style="float:right;margin-top:20px;" id="scheduleWrapTemplate" )
 			//This below is the template for ratings
 			div(class="r-ratingWrap")
@@ -190,6 +189,7 @@ block bodyContent
 						div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
 
 				div(class="s-timeBlockWrap")
+		script(src='/js/show.main.2.0.js')
 		//This is the template for the actual schedule
 		// div(style="height:80%;width:10px;border:1px solid rgba(0,0,0,0.1);margin-left:10px;margin-to:10px;border-radius:10px;")
 			

@@ -340,6 +340,9 @@ border-width: 1px 0 0;
 													background:#FFF;
 													border: 0;
 												}
+												.timeSort-ball:hover :nth-child(1){
+													display:none;
+												}
                     .timeSort-connector{
                         float:left;
                         width:50px;
