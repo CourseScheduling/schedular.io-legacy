@@ -5,7 +5,7 @@ var shortid	=		require('shortid');
 var DB      =   require('../../bin/db');
 
 router.get('/',function(req,res,next){
-	res.render('main/manage');
+	res.render('main/manage',jadeData(req));
 });
 router.get('/save',function(req,res,next){
 	var id	=	shortid.generate();
@@ -48,4 +48,21 @@ router.get('/:sId',function(req,res,next){
 		next();
 	}
 });
+
+
+
+
+
+
+
+
+function jadeData(req){
+	return {
+		firstname:req.session.userData.firstname,
+		lastname:req.session.userData.lastname,
+		student:req.session.userData.studentNumber,
+		username:req.session.userData.username
+	 }
+}
+
 module.exports = router;

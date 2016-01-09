@@ -3,7 +3,8 @@ CORE	=	{
 	helper:{},
 	courseCache:[],
 	crnMap:{},
-	box:{}
+	box:{},
+	gear:{}
 }
 
 
@@ -32,16 +33,25 @@ CORE.helper.element =  (function(CORE){
 CORE.box	=	(function(CORE){
 	
 	return {
+		setToolbar:function(el){
+			
+			el.addEventListener('mouseover',function(){
+				
+			});
+		},
 		render:function(){
 			CORE.schedules.forEach(function(v,i,a){
 				var box	=	CORE.helper.element.create('div',{class:'box'});
 				var sched	=	CORE.helper.element.create('canvas',{class:'m-schedule-thumb',height:'200px',width:'200px'});
-				v.forEach(function(g,n,l){
+				v.crn.forEach(function(g,n,l){
 					CORE.box.gen(CORE.crnMap[g],sched);
 				});
+				
 				box.appendChild(sched);
+				box.appendChild(CORE.helper.element.create('div',{class:'box-title',html:v.data.name}));
 				document.getElementById('box-container').appendChild(box);
 			});
+			CORE.gear.off();
 		},
 		gen:function(section,thumb){
 			var ctx	=	thumb.getContext('2d');
@@ -64,9 +74,12 @@ $.get({
 		
 		//Add the schedules
 		CORE.schedules	=	a.map(function(a){
-			return a.sections.split('.').map(function(b){
-				return parseInt(b.slice(0,-1),10);
-			});
+			return {
+				data:a,
+				crn:a.sections.split('.').map(function(b){
+					return parseInt(b.slice(0,-1),10);
+				})
+			}
 		});
 		
 		//Create a map to send
@@ -107,3 +120,20 @@ $.get({
 		});
 	}
 });
+
+
+CORE.gear	=	(function(){
+	return	{
+		gear:document.getElementById('main-loadingGear'),
+		on:function(){
+			this.gear.style.display	=	'block';
+		},
+		off:function(){
+			this.gear.style.display	=	'none';
+		}
+	}
+})(CORE);
+
+
+
+
