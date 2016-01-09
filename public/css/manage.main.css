@@ -9,8 +9,8 @@
 	font-size:14px;
 }
 #box-container{
-	width:900px;
-	margin-left:-450px;
+	width:1100px;
+	margin-left:-550px;
 	left:50%;
 	position:absolute;
 	top:150px;
@@ -21,7 +21,7 @@
 		width:200px;
 		border:1px solid #DDD;
 		margin-left:-1px;
-		margin-top:-5px;
+		margin-top:-4px;
 		display:inline-block;
 	}	
 	.box:hover{
@@ -31,3 +31,7 @@
 	.box:active{
 		box-shadow:0px 0px 20px #DDD inset;
 	}
+
+
+.m-schedule-thumb{
+}

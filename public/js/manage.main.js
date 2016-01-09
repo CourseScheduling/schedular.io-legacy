@@ -1,6 +1,9 @@
 CORE	=	{
 	schedules:[],
-	helper:{}
+	helper:{},
+	courseCache:[],
+	crnMap:{},
+	box:{}
 }
 
 
@@ -23,6 +26,36 @@ CORE.helper.element =  (function(CORE){
 						return element;
 				}
 		}
+})(CORE);
+
+
+CORE.box	=	(function(CORE){
+	
+	return {
+		render:function(){
+			CORE.schedules.forEach(function(v,i,a){
+				var box	=	CORE.helper.element.create('div',{class:'box'});
+				var sched	=	CORE.helper.element.create('canvas',{class:'m-schedule-thumb',height:'200px',width:'200px'});
+				v.forEach(function(g,n,l){
+					CORE.box.gen(CORE.crnMap[g],sched);
+				});
+				box.appendChild(sched);
+				document.getElementById('box-container').appendChild(box);
+			});
+		},
+		gen:function(section,thumb){
+			var ctx	=	thumb.getContext('2d');
+			var color	=	randomColor({luminosity:"bright",format:"hex",seed:parseInt(section.title,36)});
+			ctx.fillStyle	=	color;
+			console.log(section);
+			section.times.forEach(function(v,i,a){
+				v.days.forEach(function(g,n,l){
+					ctx.fillRect(g*26+g+28,(v.start-480)/5,26,(v.end-v.start)/6);
+				});
+			});			
+		}
+	};
+	
 })(CORE);
 
 $.get({
@@ -53,8 +86,23 @@ $.get({
 		$.get({
 			url:'/g/byUniq?uniq='+crns,
 			done:function(e){
-				//send the result to 
-				console.log(e);
+				//save the results to a cache
+				CORE.courseCache	=	e;
+				
+				//create a map of the crns to easily get them
+				e.map(function(a){
+					a.sections.C.map(function(b){
+						CORE.crnMap[b.uniq]	=	b;
+					});
+					a.sections.L.map(function(b){
+						CORE.crnMap[b.uniq]	=	b;
+					});
+					a.sections.T.map(function(b){
+						CORE.crnMap[b.uniq]	=	b;
+					});
+				});
+				CORE.box.render();
+				//show the boxes to the user;
 			}
 		});
 	}

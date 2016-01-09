@@ -245,6 +245,8 @@ CORE.views.schedule  =   (function(CORE){
 			Schedule.id	='';
 			avgRating	=	[0,0];
 			var sections	=	[];
+			if(options==undefined)
+				return;
 			options.forEach(function(section){
 				if(section==undefined)
 					return;
@@ -557,10 +559,12 @@ CORE.main.show	=	(function(){
 		container:document.getElementById('main-scheduleContainer'),
 		counter:0,
 		render:function(){
-			for(var i = this.counter;i<this.counter+10;i++){
+			var increment	=	(CORE.schedules.current.length-this.counter<10?CORE.schedules.current.length-this.counter:10);
+			console.log(increment);
+			for(var i = this.counter;i<this.counter+increment;i++){
 				this.container.appendChild(CORE.views.schedule.gen(CORE.schedules.current[i]));
 			}
-			this.counter+=10;
+			this.counter+=increment;
 			CORE.views.gear.off();
 		}
 	}
