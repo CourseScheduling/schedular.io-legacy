@@ -1,19 +1,19 @@
 #m-large-name{
 	width:900px;
 	position:absolute;
-	top:100px;
+	top:120px;
 	left:50%;
 	margin-left:-450px;
 	font-family:Open Sans;
 	font-weight:100;
-	font-size:14px;
+	font-size:20px;
 }
 #box-container{
-	width:1100px;
-	margin-left:-550px;
+	width:800px;
+	margin-left:-400px;
 	left:50%;
 	position:absolute;
-	top:150px;
+	top:180px;
 	text-align:center;
 }
 	.box{
@@ -29,6 +29,9 @@
 		background-color:rgba(0,0,0,0.05);
 		cursor:pointer;
 	}
+	.box:hover .box-toolBar{
+		display:block;
+	}
 	.box:active{
 		box-shadow:0px 0px 20px #DDD inset;
 	}
@@ -43,4 +46,106 @@
 		}
 		.box-toolBar{
 			width:100%;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			background: rgba(0,0,0,0.3);
+			width: 100%;
+			padding: 4px;
+			box-sizing: border-box; 	
+			display:none;
 		}
+			.box-chiclet{
+				background-size:80%;
+				height: 21px;
+				width: 30px;
+				background-color:#FFF;
+				border-radius:20px;
+				border: 1px solid rgba(0,0,0,0.3);
+				margin-left: 3px;
+			}
+				.box-chiclet:hover{
+					box-shadow:0px 0px 2px #DDD inset;
+				}
+				.box-trash-chiclet{
+					background:url(/images/trash.png) #FFF center center no-repeat;
+					float:left;
+				}
+				.box-pencil-chiclet{
+					background:url(/images/pencil.png) #FFF center center no-repeat;
+					background-size:50%;
+					float:right;
+				}
+				.box-book-chiclet{
+					background:url(/images/book.png) #FFF center center no-repeat;
+					background-size:50%;
+					float:right;
+				}
+#boxPossibleTemplate{
+	display:none;
+}
+
+/* Box template styling*/
+
+			.box-container{
+				height:230px;
+				width:370px;
+				border:1px solid #999;	
+				position:relative;
+				float: left;
+				margin:10px;
+			}
+				.box-image{
+					height:200px;
+					width:200px;
+					border-right:1px solid #DDD;
+					border-bottom:1px solid #DDD;
+					float:left;
+				}
+				.box-infoContainer{
+					width:168px;
+					float:right;
+					font-family:Open Sans;
+					font-size:13px;
+					height:200px;
+					border-bottom:1px solid #DDD;
+				}
+					.box-infoTitle{
+						margin:3px 0px 3px 0px;
+						padding:5px;
+						font-weight:100;
+						text-align:center;
+					}
+					.box-courseTab{
+						background-color:#999;
+						font-weight:100;
+						float:left;
+						margin:3px;
+						font-size:10px;
+						text-align:center;
+						padding:3px;
+						color:#FFF;
+					}
+					.box-createTime{
+						color:#666;
+						position:absolute;
+						bottom:35px;
+						right:5px;
+						font-size:10px;
+						font-family:Open Sans;
+						font-weight:100;
+					}
+				.box-actionContainer{
+					font-family:Open Sans;
+					font-size:12px;
+					font-weight:100;
+					max-width:200px;
+				}
+					.box-actionTab{
+						border-right:1px solid #DDD;
+						float:left;
+						padding:0 10px 0 10px;
+						line-height:30px;
+						height:30px;
+						box-sizing:border-box;
+					}

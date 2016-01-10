@@ -12,8 +12,13 @@ block bodyContent
 	script(src="/js/manage.main.js")
 	
 	
-	div(class="box" id="boxPossibleTemplate")
-		div(style="position: absolute;top: 0px;left: 0px;/* height: 40px; */background: rgba(0,0,0,0.3);width: 100%;padding: 4px;box-sizing: border-box;")
-			div(style="height: 21px;width: 30px;background-color:#FFF;border-radius:20px;border: 1px solid rgba(0,0,0,0.3);float: left;margin-left: 3px;")
-			div(style="height: 21px;width: 30px;background-color:#FFF;border-radius:20px;border: 1px solid rgba(0,0,0,0.3);float: left;margin-left: 3px;")
-			div(style="height: 21px;width: 30px;background-color:#FFF;border-radius:20px;border: 1px solid rgba(0,0,0,0.3);float: left;margin-left: 3px;")
+	div(class="box-container" id="boxPossibleTemplate")
+		canvas(height="200px" width="200px" class="box-image")
+		div(class="box-infoContainer")
+			div(class="box-infoTitle") A Schedule
+			div(class="box-createTime") Thursday, Jan 12
+		span(class="box-actionContainer")
+			div(class="box-actionTab" style="padding:0px 9px 0px 9px") Delete
+			div(class="box-actionTab") Edit
+			div(class="box-actionTab") Books
+			div(class="box-actionTab") Share

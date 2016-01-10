@@ -9,7 +9,17 @@ CORE	=	{
 
 
 
-
+CORE.helper.section	=	(function(CORE){
+	return {
+		typeName:function(section){
+			switch(section.type){
+				case 'C': return'Lec'; break; 
+				case 'L': return'Lab'; break; 
+				case 'T': return'Tut'; break; 
+			}
+		}
+	};
+})(CORE);
 CORE.helper.element =  (function(CORE){
 		return {
 				changeStyle:function(element,styles){
@@ -33,22 +43,26 @@ CORE.helper.element =  (function(CORE){
 CORE.box	=	(function(CORE){
 	
 	return {
-		setToolbar:function(el){
-			
-			el.addEventListener('mouseover',function(){
-				
-			});
-		},
 		render:function(){
 			CORE.schedules.forEach(function(v,i,a){
-				var box	=	CORE.helper.element.create('div',{class:'box'});
-				var sched	=	CORE.helper.element.create('canvas',{class:'m-schedule-thumb',height:'200px',width:'200px'});
+				var box	=	document.getElementById('boxPossibleTemplate').cloneNode(true);
+				box.id='';
+				var sched	=	box.getElementsByClassName('box-image')[0];
 				v.crn.forEach(function(g,n,l){
+					
+					var label	=	CORE.helper.element.create('div',{
+						class:'box-courseTab',
+						html:CORE.crnMap[g].title+' '+CORE.helper.section.typeName(CORE.crnMap[g])
+					});
+					
+					CORE.helper.element.changeStyle(label,{
+						backgroundColor:randomColor({luminosity:"bright",format:"hex",seed:parseInt(CORE.crnMap[g].title,36)})
+					});
+					box.getElementsByClassName('box-infoContainer')[0].appendChild(label);
+					
 					CORE.box.gen(CORE.crnMap[g],sched);
 				});
-				
-				box.appendChild(sched);
-				box.appendChild(CORE.helper.element.create('div',{class:'box-title',html:v.data.name}));
+				box.getElementsByClassName('box-infoTitle')[0].innerHTML	=	v.data.name;
 				document.getElementById('box-container').appendChild(box);
 			});
 			CORE.gear.off();
