@@ -28,7 +28,6 @@ router.get('/save',function(req,res,next){
 });
 
 router.get('/get',function(req,res,next){
-	console.log(req.session.userData);
 	DB.query('SELECT sections,name,term,year FROM user.user_saved_schedules WHERE user=?',[req.session.userData.id],function(e,r){
 		if(e) throw e;
 		res.send(r);
@@ -38,7 +37,7 @@ router.get('/get',function(req,res,next){
 router.get('/:sId',function(req,res,next){
 	if(shortid.isValid(req.params.sId)){
 			DB.query('SELECT sections,name,term,year FROM user.user_saved_schedules WHERE shortid=?',[req.params.sId],function(e,r){
-				if(e) throw e;
+				if(e) throw e;	
 				if(r.length==undefined||r.length<=0)
 					return next();
 				

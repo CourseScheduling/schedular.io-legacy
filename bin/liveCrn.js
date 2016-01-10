@@ -66,7 +66,7 @@ app.pushSockets = function() {
       crnData.push([crn, global.fillData[crn]]);
     });
     //Push that data to the socket
-    global.sockets[socketId].socket.emit('crnData', crnData);
+    global.sockets[socketId].socket.emit('sectionSeatData', crnData);
   }
 
 };

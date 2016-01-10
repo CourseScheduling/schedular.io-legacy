@@ -25,12 +25,12 @@ router.get('/course', function(req, res, next) {
 	if(req.query.q.match(/\d/g)!==null)
 		req.query.q=req.query.q.replace(/\s/,'');
 	var sql	=	'SELECT course.&UNI_course_instant.name,course.&UNI_course_instant.code,course.&UNI_course_instant.tags FROM course.&UNI_course_instant WHERE (course.&UNI_course_instant.code LIKE CONCAT(?,"%") OR MATCH(course.&UNI_course_instant.tags) AGAINST(?)) AND term=? AND year=? LIMIT 50'.replace(/\&UNI/g,req.session.userData.dbName);
-	console.log(sql);
 	DB.query(sql,[req.query.q,req.query.q,req.query.term,req.query.year],function(e,r,v){
 		if(e) throw e;
-		console.log(r.length);
 		res.send(JSON.stringify(r));
 	});
+
+
 });
 
 router.get('/byUniq',function(req,res,next){
@@ -40,11 +40,6 @@ router.get('/byUniq',function(req,res,next){
 	}catch(e){
 		return res.send('[]');
 	}
-	console.log([
-			{"sections.C.uniq":{$in:uniq.C.map(parseFloat)}},
-			{"sections.L.uniq":{$in:uniq.L.map(parseFloat)}},
-			{"sections.T.uniq":{$in:uniq.T.map(parseFloat)}}
-	]);
 	mongo.get(req.session.userData.dbName+'Course').find({
 		$or:[
 			{"sections.C.uniq":{$in:uniq.C.map(parseFloat)}},

@@ -5,15 +5,15 @@
 	left:50%;
 	margin-left:-450px;
 	font-family:Open Sans;
-	font-weight:100;
-	font-size:20px;
+	font-weight:300;
+	font-size:16px;
 }
 #box-container{
 	width:800px;
 	margin-left:-400px;
 	left:50%;
 	position:absolute;
-	top:180px;
+	top:200px;
 	text-align:center;
 }
 	.box{
@@ -90,7 +90,7 @@
 			.box-container{
 				height:230px;
 				width:370px;
-				border:1px solid #999;	
+				border:1px solid #DDD;	
 				position:relative;
 				float: left;
 				margin:10px;

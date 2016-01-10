@@ -3,6 +3,7 @@
 
 CORE	=	{
 	raw	:	RAW_COURSE_DATA,
+	crnMap:{},
 	schedules	:	{
 		all:[],
 		current:[]
@@ -260,7 +261,7 @@ CORE.views.schedule  =   (function(CORE){
 					avgRating[1]++;
 				}
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;">'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -565,6 +566,7 @@ CORE.main.show	=	(function(){
 				this.container.appendChild(CORE.views.schedule.gen(CORE.schedules.current[i]));
 			}
 			this.counter+=increment;
+			CORE.socket.render();
 			CORE.views.gear.off();
 		}
 	}
@@ -747,8 +749,44 @@ CORE.main.filter.campus	=	(function(CORE){
 
 
 
-var tempMap = {};
-CORE.schedules.all.map(function(a){
-	var key	=	a.map(function(b){return b.uniq;}).sort().join('.');
-	tempMap[key]=a;
-});
+CORE.socket =   (function(CORE){
+	var socket = io('http://localhost:8080');
+	//save to CRN map
+	CORE.raw.map(function(a){
+		a.sections.C.map(function(a){return (CORE.crnMap[a.uniq]=1);});	
+		a.sections.L.map(function(a){return (CORE.crnMap[a.uniq]=1);});	
+		a.sections.T.map(function(a){return (CORE.crnMap[a.uniq]=1);});	
+	});
+	//send CRNs To Server
+	socket.on('connection',function(){
+		socket.send('uniqArray',Object.keys(CORE.crnMap));
+	});
+	socket.on('sectionSeatData',function(a){
+		CORE.socket.map	=	a;
+		CORE.socket.render();
+	});
+	
+	return {
+		map:{},
+		socket:socket,
+		render:function(){
+			[].map.call(document.getElementsByClassName('availSeats-Lbl'),function(a){
+				var data	=	CORE.socket.map[a.getAttribute('data-availUniq')];
+				if(data==undefined){
+					a.innerHTML	=	'no data'
+				}else{
+					var seats	=	data.m-data.e;
+					if(seats<0){
+						return (a.innerHTML=(data.w+' waitlisted'))
+					}
+					else{
+						return (a.innerHTML=(seats+' spots'))
+					}
+				}
+			});
+		}
+	}
+})(CORE);
+CORE.socket.render();
+
+

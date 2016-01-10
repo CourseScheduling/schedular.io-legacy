@@ -35,12 +35,36 @@ router.get('/show',function(req,res){
 		data.courseData	=	docs;
 		res.render('main/show',data);
 	});
+	
+	
+	
+	req.io.on('connection',function(socket){
+		socket.emit('connection');
+		global.sockets[socket.id]   =   {
+			socket:socket,
+			uniqArray:[]
+		};
+		socket.on('disconnect',function(){
+			console.log('I LEFT!');
+			delete global.sockets[socket.id];
+		});
+		socket.on('uniqArray',function(a){
+			console.log(a);
+			global.sockets[socket.id].uniqArray	=	a;
+					
+			socket.emit(
+				'socketSeatData',
+				a.map(function(a){
+					return global.fillData['crn_'+a];
+				})
+			);
+			
+		});
+	});
+	
+	
+	
 });
-
-
-
-
-
 
 router.get('/getTeacher',function(req,res){
 	res.send('[]');
