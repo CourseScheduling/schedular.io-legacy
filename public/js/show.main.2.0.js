@@ -261,7 +261,7 @@ CORE.views.schedule  =   (function(CORE){
 					avgRating[1]++;
 				}
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;font-size:12px;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;font-size:11px;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -271,7 +271,7 @@ CORE.views.schedule  =   (function(CORE){
 			});	
 			Schedule.getElementsByClassName('s-modifyIcon')[0].setAttribute('data-queryCode',sections.sort().join('.'));
 			Schedule.getElementsByClassName('s-saveIcon')[0].setAttribute('data-queryCode',sections.sort().join('.'));
-			Schedule.getElementsByClassName('r-averageRatingTitle')[0].innerHTML+='<label style="margin-left:10px;color:#333;font-weight:300;">'+(avgRating[0]/avgRating[1]).toFixed(2)+'</label>'	;
+			Schedule.getElementsByClassName('r-averageRatingTitle')[0].innerHTML+='<label style="margin-left:10px;color:#333;font-weight:400;">'+(avgRating[0]/avgRating[1]).toFixed(2)+'</label>'	;
 			return Schedule;
 		},
 		makeBlocks:function(time,section){

@@ -174,7 +174,7 @@ border-width: 1px 0 0;
 .s-saveIcon{
 	padding-left:45px;
 	margin-left:10px;
-	background:url(/images/save.png) #8e44ad center left 5px no-repeat;
+	background:url(/images/save.png) #3498db center left 5px no-repeat;
 	background-size:30px;
 }
 /* Tool Tip Styling */
