@@ -39,26 +39,22 @@ router.get('/show',function(req,res){
 	
 	
 	req.io.on('connection',function(socket){
-		socket.emit('connection');
 		global.sockets[socket.id]   =   {
 			socket:socket,
 			uniqArray:[]
 		};
 		socket.on('disconnect',function(){
-			console.log('I LEFT!');
 			delete global.sockets[socket.id];
 		});
 		socket.on('uniqArray',function(a){
-			console.log(a);
 			global.sockets[socket.id].uniqArray	=	a;
-					
+			var map	=	{};
+			a.map(function(a){
+				map[a]	=	JSON.parse(global.fillData[a]);
+			});
 			socket.emit(
-				'socketSeatData',
-				a.map(function(a){
-					return global.fillData['crn_'+a];
-				})
+				'sectionSeatData',map
 			);
-			
 		});
 	});
 	

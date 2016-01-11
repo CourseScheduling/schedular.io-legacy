@@ -60,10 +60,10 @@ app.pushSockets = function() {
   // Go through all the sockets
   for (var socketId in global.sockets) {
     // Make an array for CRN data
-    crnData = [];
+    crnData = {};
     global.sockets[socketId].crns.forEach(function(crn, index, array) {
       //push all the necessary crn data to the array
-      crnData.push([crn, global.fillData[crn]]);
+      crnData[crn]	=	JSON.parse(global.fillData[crn]);
     });
     //Push that data to the socket
     global.sockets[socketId].socket.emit('sectionSeatData', crnData);

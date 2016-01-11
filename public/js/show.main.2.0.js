@@ -261,7 +261,7 @@ CORE.views.schedule  =   (function(CORE){
 					avgRating[1]++;
 				}
 				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;font-size:12px;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -758,8 +758,8 @@ CORE.socket =   (function(CORE){
 		a.sections.T.map(function(a){return (CORE.crnMap[a.uniq]=1);});	
 	});
 	//send CRNs To Server
-	socket.on('connection',function(){
-		socket.send('uniqArray',Object.keys(CORE.crnMap));
+	socket.on('connect', function (){
+		socket.emit('uniqArray',Object.keys(CORE.crnMap));
 	});
 	socket.on('sectionSeatData',function(a){
 		CORE.socket.map	=	a;
@@ -776,7 +776,7 @@ CORE.socket =   (function(CORE){
 					a.innerHTML	=	'no data'
 				}else{
 					var seats	=	data.m-data.e;
-					if(seats<0){
+					if(seats<=0){
 						return (a.innerHTML=(data.w+' waitlisted'))
 					}
 					else{
