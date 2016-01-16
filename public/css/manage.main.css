@@ -94,6 +94,7 @@
 				position:relative;
 				float: left;
 				margin:10px;
+				box-shadow: 0px 0px 3px #DDD;
 			}
 				.box-image{
 					height:200px;

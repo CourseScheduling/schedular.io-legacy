@@ -52,6 +52,7 @@ border-width: 1px 0 0;
 	box-sizing: border-box;
 }
     .s-scheduleWrap{
+			box-shadow: 0px 0px 3px #DDD;
         border:1px solid #DDD;
         display:inline-block;
         margin-top:10px;
