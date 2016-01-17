@@ -1,0 +1,29 @@
+doctype html
+html
+	head
+		script(src="/js/global.js")
+		link(rel="stylesheet" href="/css/home.css")
+		link(href='https://fonts.googleapis.com/css?family=Raleway:400,100,300' rel='stylesheet')
+		link(href='https://fonts.googleapis.com/css?family=Open Sans:400,100,300' rel='stylesheet')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
+		meta(name="viewport" content="width=device-width,height=device-height,initial-scale=1")
+		title="Schedular.io"
+		block headContent
+	body
+		div(style="width:1000px;position:relative;top:0px;left:50%;margin-left:-500px;margin-top:20px;font-family:Open Sans;font-size:12px;")
+			a(href="/")
+				div(href="/" id="contactButton" style="color:#000;float:left;font-family:Open Sans;font-weight:300;font-size:12px;margin-top:25px;cursor:pointer;") Home
+			a(href="/contact")
+				div(href="/contact" id="donateButton" style="color:#000;float:left;margin-left:40px;font-family:Open Sans;font-weight:300;font-size:12px;margin-top:25px;cursor:pointer;") Contact
+			a(href="/mission")
+				div(href="/mission" id="donateButton" style="color:#000;float:left;margin-left:40px;font-family:Open Sans;font-weight:300;font-size:12px;margin-top:25px;cursor:pointer;") Mission
+			div(href="/u/login" id="loginMain" )
+				div(style="font-family:Open Sans;font-size:12px;font-weight:300;")
+					a(href="/u/login")
+						span(class="subTitle" id="loginText") Login
+			div(href="/u/login" id="loginMain")
+				div(style="font-family:Open Sans;font-size:12px;font-weight:300;")
+					a(href="/u/signup")
+						span(class="subTitle" id="loginText" style="margin-right:10px") Signup
+		div(id="mainContainer" style="display:block;width:1000px;position:absolute;top:200px;left:50%;margin-left:-500px;")
+			block bodyContent

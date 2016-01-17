@@ -169,9 +169,15 @@ ToolTip.init();
 
 
 
+/* Allow iteration over a collection of nodes */
 
-
-
+HTMLCollection.prototype.forEach	=	function(callback){
+	
+	for(var i = 0, node;node = this[i];i++){
+		callback(node,i,this);
+	}
+	
+};
 
 
 
