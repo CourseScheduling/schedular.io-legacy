@@ -17,6 +17,9 @@ router.get('/', function(req, res, next) {
 router.get('/contact',function(req,res,next){
     res.render('contact');
 });
+router.get('/invite',function(req,res,next){
+    res.render('invite');
+});
 
 
 module.exports = router;

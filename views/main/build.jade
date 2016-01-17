@@ -1,7 +1,7 @@
 extends ../MainTemplate
 
 block headContent
-    link(rel="stylesheet",href="/css/builder.main.css")
+    link(rel="stylesheet",href="/css/build.main.css")
     title="Schedule Builder"
     style.
         .date-0{
@@ -21,8 +21,6 @@ block headContent
             box-shadow:0px 0px 3px #999 inset;
           }
 block bodyContent
-    div(style="position:absolute;top:70px;left:0px;text-align:center;width:100%;")
-        label( id="notif" style="box-shadow:0px 0px 3px #999;padding:7px 20px 7px 20px;width:400px;background:#1abc9c;color:#FFF;font-size:12px;font-weight:300;font-family:Open Sans;") auto-saved at 2:05am
     div(id="crnBar-wrap" )
         input(style="width:200px;color:#222;background:#EEE;border:0;padding:7px;outline:0;font-family:Open Sans;font-size:11px;margin-top:10px;" placeholder="Type to find more courses")
         input(style="height:29px;width:29px;border:0;padding:0;float:left;margin-top:10px;background:url(/images/magnifyingGlass.png) #EEE center center no-repeat;background-size:60%;outline:0;" type="button" value="")
@@ -31,11 +29,11 @@ block bodyContent
             br
             br
     div(id="b-builderWrap" style="float:right;margin-left:-200px;position:absolute;top:140px;left:50%;width:704px;")
-        p(style="font-family:Raleway;font-size:25px;text-align:center;font-weight:300;margin-top:0;") Your Schedule
+        p(style="font-family:Open Sans;font-size:23px;text-align:center;font-weight:400;color:#999;margin-top:0;") joseph's Schedule
         div(style="float:right;width:200px;margin-top:-60px;text-align:right;padding-right:20px;")
             //div(class="b-toolIcon" style="background-position:center left" data-toolText="Take a Picture")
-            div(class="b-toolIcon" style="background-position:center center" data-toolText="Save This Schedule")
-            div(class="b-toolIcon" style="background-position:center right" data-toolText="Generate Link")
+            div(class="b-toolIcon gTT-act" style="background-position:center center" data-gTTLbl="Save This Schedule")
+            div(class="b-toolIcon gTT-act" style="background-position:center right" data-gTTLbl="Generate Link")
         input(id="b-crnInput" placeholder="Enter CRNs with a comma inbetween e.g. 10973,10981,10921")
         div(class="b-scheduleWrap" data-crn="" style="float:left;")
             div(class="b-dayLabelWrap")
@@ -49,27 +47,4 @@ block bodyContent
             div(id="b-timeBlockWrap" class="b-timeBlockWrap")
                 div(style="font-family:Open Sans;font-weight:100;font-size:20px;width:200px;position:absolute;left:200px;top:100px;")
                     | You haven't put it in any courses. Use the search bar on the left to search for some.
-    script(src="/js/builder.main.js")
-    script.    
-        [].forEach.call(document.getElementsByClassName('b-toolIcon'),function(v,i,a){
-            v.addEventListener('mouseover',function(){
-                var top =   (v.getBoundingClientRect().top-35)+'px';
-                var toolTip =   document.createElement('div');
-                document.body.appendChild(toolTip);
-                toolTip.className   =   'seasonToolTip';
-                toolTip.innerHTML=v.getAttribute('data-toolText');
-                var left    =   (v.getBoundingClientRect().left-(toolTip.getBoundingClientRect().width-v.getBoundingClientRect().width)/2)+'px';
-                toolTip.style.top   =   top;
-                toolTip.style.left =   left;
-            });
-            v.addEventListener('mouseout',function(){
-                var a = document.getElementsByClassName('seasonToolTip');
-                while(a.length){
-                    a[0].parentNode.removeChild(a[0]);
-                }
-            });
-        });
-        document.getElementById('overlap').addEventListener('click',function(e){
-          CORE.search.findAll=!(CORE.search.findAll);
-          document.getElementById('overlap').classList.toggle('pushed');
-        });
+    script(src="/js/build.main.js")
