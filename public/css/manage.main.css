@@ -149,4 +149,8 @@
 						line-height:30px;
 						height:30px;
 						box-sizing:border-box;
+						cursor: pointer;
 					}
+						.box-actionTab:hover{
+							box-shadow: 0px 0px 4px #DDD;
+						}

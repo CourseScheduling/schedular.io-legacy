@@ -70,10 +70,10 @@ CORE.box	=	(function(CORE){
 		gen:function(section,thumb){
 			var ctx	=	thumb.getContext('2d');
 			var color	=	randomColor({luminosity:"bright",format:"hex",seed:parseInt(section.title,36)});
-			ctx.fillStyle	=	color;
 			console.log(section);
 			section.times.forEach(function(v,i,a){
 				v.days.forEach(function(g,n,l){
+					ctx.fillStyle	=	color;
 					ctx.fillRect(g*26+g+28,(v.start-480)/5,26,(v.end-v.start)/6);
 				});
 			});			

@@ -50,7 +50,7 @@ router.get('/show',function(req,res){
 			global.sockets[socket.id].uniqArray	=	a;
 			var map	=	{};
 			a.map(function(a){
-				map[a]	=	JSON.parse(global.fillData[a]);
+				map[a]	=	global.fillData[a]!==undefined||JSON.parse(global.fillData[a]);
 			});
 			socket.emit(
 				'sectionSeatData',map
