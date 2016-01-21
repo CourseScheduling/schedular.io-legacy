@@ -10,7 +10,7 @@ router.use(function(req,res,next){
 			next();
     else
 			res.send('{comment:"Hah, nice try, this will only work if you are logged in."}');
-    
+
 	return;
 })
 
@@ -45,7 +45,7 @@ router.get('/byUniq',function(req,res,next){
 			{"sections.C.uniq":{$in:uniq.C.map(parseFloat)}},
 			{"sections.L.uniq":{$in:uniq.L.map(parseFloat)}},
 			{"sections.T.uniq":{$in:uniq.T.map(parseFloat)}}
-		]	
+		]
 	},function(err,docs){
 		if(err) throw err;
 		res.send(docs);
@@ -58,10 +58,10 @@ router.get('/instructors',function(req,res,next){
 	}catch(e){
 		return res.send('[]');
 	}
-	
+
 	var sql	=	('SELECT course.&UNI_teacher_rating.teacherName,course.&UNI_teacher_rating.rating,course.&UNI_teacher_rating.votes FROM course.&UNI_teacher_rating WHERE course.&UNI_teacher_rating.teacherName IN ('+(',?'.repeat(req.query.names.length).substr(1))+')').replace(/\&UNI/g,req.session.userData.dbName);
 	console.log(sql);
-	
+
 	DB.query(sql,req.query.names,function(e,r){
 		if(e) throw e;
 		console.log(r.length);

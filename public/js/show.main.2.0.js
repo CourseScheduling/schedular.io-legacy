@@ -14,7 +14,8 @@ CORE	=	{
 		search	:	{}
 	},
 	views	:	{
-		schedule:{},
+		sort:{},
+		schedule:{}
 	}
 }
 
@@ -788,5 +789,27 @@ CORE.socket =   (function(CORE){
 	}
 })(CORE);
 CORE.socket.render();
+
+
+
+
+CORE.views.sort	=	(function(CORE){
+	var button	=	document.getElementById('sort-dropDownButton');
+	var list	=	document.getElementById('sort-dropDownList');
+	
+	button.addEventListener('click',function(){
+		if(list.style.display!=='block')
+			Velocity(list,'slideDown',100);
+		else
+			Velocity(list,'slideUp',100);
+	});
+	
+	
+	
+	
+	
+	
+	
+})(CORE);
 
 

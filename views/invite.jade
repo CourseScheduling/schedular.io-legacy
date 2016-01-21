@@ -4,4 +4,40 @@ block bodyContent
 	br
 	div(style="width:400px;font-size:20px;font-weight:400;font-family:Raleway") If you feel as though one of your buddies could benefit from Schedular. Feel free to put their email below.
 	br
-	input(style="font-size:12px;font-weight:300;padding:10px;border:1px solid #DDD;outline:0;font-family:Open Sans;width:200px" placeholder="Email") 
+	form( onsubmit="return false;")
+		span(id="doneNotification" style="color:#FFF;background-color:#2ecc71;font-size:12px;font-family:Open Sans;padding:10px;display:none;width:300px;") Thanks! We will let them know ASAP!
+		br
+		input( id="nameInput" style="font-size:12px;font-weight:300;padding:10px;border:1px solid #DDD;outline:0;font-family:Open Sans;width:200px;margin-right:10px;width:120px;" placeholder="Your Name (optional)") 
+		input( id="emailInput" style="font-size:12px;font-weight:300;padding:10px;border:1px solid #DDD;outline:0;font-family:Open Sans;width:200px" placeholder="Your Friend's Email") 
+		input( id="emailSubmit" style="height:39px;width:39px;background:url(/images/airplane.png) #3498db center center no-repeat;background-size:70%;border:0;margin-left:10px;border-radius:3px;cursor:pointer;" type="submit" value=" ") 
+	script.
+		var doc	=	document.getElementById('emailInput');
+		document.getElementById('emailSubmit').addEventListener('click',function(e){
+			if(!doc.value.trim())
+				return;
+			console.log(doc.value);
+			$.get({
+				url:'sendEmail?e='+doc.value+'&n='+document.getElementById('nameInput').value,
+				done:function(e){
+					setTimeout(function(){
+						doc.value	=	'';
+						document.getElementById('doneNotification').style.display	=	'block';
+					},1000);
+				}
+			})
+		});
+		$   =   {
+			get:function(e){
+					var request = new XMLHttpRequest();
+					request.open('GET',e.url, true);
+					request.onload = function() {
+						if (request.status >= 200 && request.status < 400) {
+								e.done(JSON.parse(request.responseText));
+						} else {
+
+						}
+					};
+					request.onerror = function() {};
+					request.send();
+			}
+		}
