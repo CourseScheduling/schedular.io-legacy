@@ -11,7 +11,15 @@ body{
 	background:#fff;
 }
 
+/*General Material Style*/
 
+	.material{
+		border:1px solid #DDD;
+		border-radius:3px;
+		box-shadow: 0px 0px 3px #DDD;
+	}
+
+/*Nav stuff*/
     #navbar{
 			position:absolute;
 			top:0px;

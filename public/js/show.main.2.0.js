@@ -797,13 +797,29 @@ CORE.views.sort	=	(function(CORE){
 	var button	=	document.getElementById('sort-dropDownButton');
 	var list	=	document.getElementById('sort-dropDownList');
 	
+	var hideList	=	function(e){
+		//Incase the use clicks on the list button again.
+		if(e.target==button||button.contains(e.target))
+			return;
+		
+		Velocity(list,'slideUp',100);
+		document.removeEventListener('click',hideList);
+	}
+	//To set the button as a trigger to drop down the sort menu
 	button.addEventListener('click',function(){
-		if(list.style.display!=='block')
+		if(list.style.display!=='block'){
 			Velocity(list,'slideDown',100);
-		else
+			document.addEventListener('click',hideList);
+		}else{
 			Velocity(list,'slideUp',100);
+		}
 	});
 	
+	[].forEach.call(document.getElementById('sort-dropDownItem'),function(dropItem){
+		dropItem.addEventListener('click',function(){
+			
+		});
+	})
 	
 	
 	

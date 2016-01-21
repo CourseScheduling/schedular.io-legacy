@@ -283,11 +283,11 @@ border-width: 1px 0 0;
                     left:0;
                     top:48px;
                     width:183px;
-                    border:1px solid #999;
                     border-top:0;
                     margin-left:1px;
                     display: none;
                     z-index: 100000;
+										margin-top:10px;
                 }
                     .sort-dropDownItem{
                         font-family:Open Sans;
@@ -295,11 +295,11 @@ border-width: 1px 0 0;
                         font-weight:400;
                         padding:7px;
                         transition:background-color .1s;
-                        border-top:1px solid #DDD;
                         background-color:#FFF;
+												margin-top:2px;
                     }
                     .sort-dropDownItem:hover{
-                        background-color:#C39DD2;
+                        background-color:#3d566e;
                         transition:background-color .1s;
                         cursor: pointer;
                         color:#FFF;
