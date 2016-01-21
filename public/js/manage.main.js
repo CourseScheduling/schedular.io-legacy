@@ -63,6 +63,7 @@ CORE.box	=	(function(CORE){
 					CORE.box.gen(CORE.crnMap[g],sched);
 				});
 				box.getElementsByClassName('box-infoTitle')[0].innerHTML	=	v.data.name;
+				box.getElementsByClassName('box-createTime')[0].innerHTML	=	(new Date(v.data.timestamp*1000)).toDateString();
 				document.getElementById('box-container').appendChild(box);
 			});
 			CORE.gear.off();
@@ -74,7 +75,8 @@ CORE.box	=	(function(CORE){
 			section.times.forEach(function(v,i,a){
 				v.days.forEach(function(g,n,l){
 					ctx.fillStyle	=	color;
-					ctx.fillRect(g*26+g+28,(v.start-480)/5,26,(v.end-v.start)/6);
+					ctx.strokeStyle	=	color;
+					ctx.roundRect(g*26+g+28,(v.start-480)/5,26,(v.end-v.start)/6,5).fill();
 				});
 			});			
 		}
@@ -151,3 +153,15 @@ CORE.gear	=	(function(){
 
 
 
+CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+  if (w < 2 * r) r = w / 2;
+  if (h < 2 * r) r = h / 2;
+  this.beginPath();
+  this.moveTo(x+r, y);
+  this.arcTo(x+w, y,   x+w, y+h, r);
+  this.arcTo(x+w, y+h, x,   y+h, r);
+  this.arcTo(x,   y+h, x,   y,   r);
+  this.arcTo(x,   y,   x+w, y,   r);
+  this.closePath();
+  return this;
+}

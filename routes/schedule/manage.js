@@ -17,8 +17,8 @@ router.get('/save',function(req,res,next){
 		if(e)	throw e;
 		if(r.length!==undefined&&r.length>0)
 			return res.send(['EXISTS']);
-		DB.query('INSERT INTO user.user_saved_schedules (shortid,sections,public,university,term,year,user,name) VALUES (?,?,?,?,?,?,?,?)',
-						 [id,req.query.codes,0,req.session.userData.universityId,req.session.userData.term,req.session.userData.year,req.session.userData.id,name],
+		DB.query('INSERT INTO user.user_saved_schedules (shortid,sections,public,university,term,year,user,name,timestamp) VALUES (?,?,?,?,?,?,?,?,?)',
+						 [id,req.query.codes,0,req.session.userData.universityId,req.session.userData.term,req.session.userData.year,req.session.userData.id,name,Date.now()/1000	],
 						 function(e,a){
 			if(e) throw e;
 			res.send(['SUCCESS']);
@@ -28,7 +28,7 @@ router.get('/save',function(req,res,next){
 });
 
 router.get('/get',function(req,res,next){
-	DB.query('SELECT sections,name,term,year FROM user.user_saved_schedules WHERE user=?',[req.session.userData.id],function(e,r){
+	DB.query('SELECT sections,name,term,year,timestamp FROM user.user_saved_schedules WHERE user=?',[req.session.userData.id],function(e,r){
 		if(e) throw e;
 		res.send(r);
 	});
