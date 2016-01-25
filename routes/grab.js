@@ -46,6 +46,12 @@ router.get('/byUniq',function(req,res,next){
 			{"sections.L.uniq":{$in:uniq.L.map(parseFloat)}},
 			{"sections.T.uniq":{$in:uniq.T.map(parseFloat)}}
 		]
+	},{
+	$or:[
+			{"sections.C.uniq":{$elemMatch:{$in:uniq.C.map(parseFloat)}}},
+			{"sections.L.uniq":{$elemMatch:{$in:uniq.L.map(parseFloat)}}},
+			{"sections.T.uniq":{$elemMatch:{$in:uniq.T.map(parseFloat)}}}
+		]
 	},function(err,docs){
 		if(err) throw err;
 		res.send(docs);

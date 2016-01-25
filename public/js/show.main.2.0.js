@@ -746,6 +746,7 @@ CORE.main.filter.campus	=	(function(CORE){
 
 
 
+/*
 
 
 
@@ -789,6 +790,7 @@ CORE.socket =   (function(CORE){
 	}
 })(CORE);
 CORE.socket.render();
+*/
 
 
 

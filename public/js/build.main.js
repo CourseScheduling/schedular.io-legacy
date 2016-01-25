@@ -16,7 +16,7 @@ CORE.dropDown	=	 new Searcher({
 
 
 /*
-*	Searcher Contrutor, makes a searcher object
+*	Searcher Construtor, makes a searcher object
 *	@param {Object} options
 *		@param{Node} input
 *		@param{Node} dropDown
@@ -25,6 +25,7 @@ CORE.dropDown	=	 new Searcher({
 
 
 function Searcher(options){
+	var $this	=	this;
 	var lastValue	=	'';
 	input.addEventListener('keypress',function(e){
 		//Incase a non textual key is pressed
@@ -36,8 +37,16 @@ function Searcher(options){
 		//We really don't want to waste time with void inputs
 		if(input.value	==	'')
 			return;
-		console.log(input.value);
 		
+		//Show the user what we are.
+		$this.display($this.find(input.value));
 	});
-	
+	return this;
+}
+
+
+Searcher.prototype.find	=	function(query){
+	$.get({
+		url:'/g/course?term='+TERM+'&year='+YEAR+'&q='+e.target.value,
+	})
 }

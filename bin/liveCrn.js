@@ -1,3 +1,4 @@
+/*
 var Mem = require('memcached');
 //var mem =   new memcached('schedular.luawsd.cfg.usw2.cache.amazonaws.com:11211');
 var memServer = new Mem('127.0.0.1:11211');
@@ -76,3 +77,4 @@ app.pushSockets = function() {
 
 
 module.exports = app;
+*/

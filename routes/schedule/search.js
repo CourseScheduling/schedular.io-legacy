@@ -35,7 +35,7 @@ router.get('/show',function(req,res){
 		data.courseData	=	docs;
 		res.render('main/show',data);
 	});
-	
+	/*
 	
 	
 	req.io.on('connection',function(socket){
@@ -57,7 +57,7 @@ router.get('/show',function(req,res){
 			);
 		});
 	});
-	
+	*/
 	
 	
 });
