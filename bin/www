@@ -8,6 +8,15 @@ var app = require('../app');
 var debug = require('debug')('www:server');
 var http = require('http');
 
+//The amazon module
+
+var amazon	=	require('amazon-product-api');
+global.Searcher = amazon.createClient({
+    awsId:     "AKIAIH5J5OH2K7O5VGAQ",
+    awsSecret: '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',
+    awsTag:    "schedular07-20", 
+});
+
 //The live crn module
 //var liveCrn =   require('./liveCrn');
 

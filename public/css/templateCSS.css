@@ -14,9 +14,9 @@ body{
 /*General Material Style*/
 
 	.material{
-		border:1px solid #DDD;
+		border:0;
 		border-radius:3px;
-		box-shadow: 0px 0px 3px #DDD;
+		box-shadow: 0px 1px 3px #BBB;
 	}
 
 /*Nav stuff*/
@@ -81,11 +81,9 @@ body{
                     top:55px;
                     right:0px;
                     z-index:100;
-                    border:1px solid #DDD;
                     background-color:#FFF;
                     display:none;
                     z-index: 1000000000000000;
-									box-shadow: 0px 0px 3px #DDD;
                 }
                 #menuNub{
                     position:absolute;

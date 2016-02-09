@@ -89,18 +89,14 @@
 
 			.box-container{
 				height:230px;
-				width:370px;
-				border:1px solid #DDD;	
+				width:370px;	
 				position:relative;
 				float: left;
 				margin:10px;
-				box-shadow: 0px 0px 3px #DDD;
 			}
 				.box-image{
 					height:200px;
 					width:200px;
-					border-right:1px solid #DDD;
-					border-bottom:1px solid #DDD;
 					float:left;
 				}
 				.box-infoContainer{
@@ -130,7 +126,7 @@
 					.box-createTime{
 						color:#666;
 						position:absolute;
-						bottom:35px;
+						bottom:10px;
 						right:5px;
 						font-size:10px;
 						font-family:Open Sans;

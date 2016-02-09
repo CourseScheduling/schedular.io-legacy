@@ -69,10 +69,35 @@ router.get('/instructors',function(req,res,next){
 	console.log(sql);
 
 	DB.query(sql,req.query.names,function(e,r){
-		if(e) throw e;
+		if(e) {
+			res.send('[]');
+			return console.log(e);
+		}
 		console.log(r.length);
-		res.send(JSON.stringify(r));
+		res.send(JSON.stringify(r)||[]);
 	});
 });
+
+router.get('/books',function(req,res,next){
+	
+	var uniq;
+	try{
+		uniq	=	JSON.parse(req.query.uniq);
+	}catch(e){
+		return res.send('[]');
+	}
+	var sql	=	'SELECT crn,price,isbn FROM course.&UNI_books_local WHERE crn IN ('(',?'.repeat(req.query.names.length).substr(1))+')'.replace(/\&UNI/g,req.session.userData.dbName);
+	
+	DB.query(sql,uniq,function(){
+	global.Searcher.itemLookup({
+		idType: 'ISBN',
+		itemId: '0495391328',
+	}, function(error, results,response) {
+			if (error) return console.log(JSON.stringify(error));
+			res.send(results);
+	});
+});
+});
+
 
 module.exports = router;

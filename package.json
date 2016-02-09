@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "amazon-product-api": "^0.3.8",
     "apac": "^1.0.0",
     "aws-lib": "^0.3.0",
     "body-parser": "~1.13.2",

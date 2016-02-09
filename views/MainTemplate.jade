@@ -2,7 +2,6 @@ doctype html
 html
 	head
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js')
-		script(src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js')
 		script(src="https://cdn.socket.io/socket.io-1.3.7.js")
 		script(src="/js/global.js")
 		link(href='https://fonts.googleapis.com/css?family=Open Sans:600,400,100,300' rel='stylesheet')
@@ -31,24 +30,21 @@ html
 							div(id="homeIconCover" style="height:26px;width:26px;border:1px solid transparent;border-radius:25px;overflow:hidden;padding:4px 4px 4px 5px;cursor:pointer;box-sizing:border-box;")
 								img(src="/images/homeIcon.png" height="15px")
 					#menuDrop
-				#menuContainer
+				#menuContainer.material
 					#menuNub
 					ul#menuItems-list
 						a(href="/m" title="Manage Schedule")
 							li.menuItems-listItem.clearfix
 								img(src="/images/calendarManage.png" height="30px" style="display:inline;float:left;")
 								span(style="display:inline;padding:5px;margin-left:10px;float:right;") Manage Schedules
-						a(href="/s/builder" title="Schedule Builder")
+						a(href="/build" title="Schedule Builder")
 							li.menuItems-listItem.clearfix(style="margin-bottom:5px;")
 								img(src="/images/calendarWork.png" height="30px" style="display:inline;float:left;")   
 								span(style="display:inline;padding:5px;margin-left:10px;float:right;") Schedule Builder
-						//
-								a(href="/directory" title="Course Directory")
-										li.menuItems-listItem.clearfix
-												img(src="/images/directory.png" height="30px" style="display:inline;float:left;")
-												span(style="display:inline;padding:5px;margin-left:10px;float:right;") Course Directory
-								a(href="/info" title="My Info")
-										li.menuItems-listItem(style="padding-left:20px;") My Info
+						//a(href="/directory" title="Course Directory")
+							li.menuItems-listItem.clearfix
+								img(src="/images/directory.png" height="30px" style="display:inline;float:left;")
+								span(style="display:inline;padding:5px;margin-left:10px;float:right;") Course Directory
 						div(style="width:100%;border:0;height:0;border-top:1px solid #DDD;")
 						a(href="/u/logout" title="Logout")
 							li.menuItems-listItem(style="margin-top:5px;text-align:center;padding-left:20px;") Logout

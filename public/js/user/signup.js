@@ -174,7 +174,7 @@ CORE.signup.load    =   (function(CORE){
         submitValue:'',
         show:function(){
             CORE.elements.signupButton.style.background   =   "url(/images/loginAjax.gif) #3498db center center / 25px no-repeat";
-            this.submitValue    =   CORE.elements.signupButton.value;
+            this.submitValue    =   CORE.elements.signupButton.value||this.submitValue;
             CORE.elements.signupButton.value    =   '';
         },
         hide:function(){

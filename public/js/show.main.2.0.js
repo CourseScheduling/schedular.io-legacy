@@ -55,7 +55,7 @@ CORE	=	{
                    return ((255 - bgDelta) < nThreshold) ? "#222222" : "#ffffff";   
                 },
                 getBackgroundColor:function(code){
-									return randomColor({luminosity:"bright",format:"hex",seed:parseInt(code,36)});           
+									return randomColor({luminosity:"bright",format:"hex",seed:parseInt(code,36)%100000});           
                     return "#"+this.changeTint(
                         ('000000'+(
                             parseInt(
@@ -168,7 +168,7 @@ CORE.main.search	=	(function(CORE){
 				up:
 				while(layerI--){
 					var posI	=	pos.length;
-					if(course[layerI].times[0].days[0]==-1)
+					if(!course[layerI].times[0]||course[layerI].times[0].days[0]==-1)
 						posI=0;
 					while(posI--){
 						var timeP	=	pos[posI].times.length;
@@ -254,15 +254,15 @@ CORE.views.schedule  =   (function(CORE){
 					return;
 				
 				sections.push(section.uniq+section.type);
-				if(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
 					rating	=	('unrated')
+			/*	if(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)]==undefined)
 				else{
 					rating	=	(CORE.main.teachers.map[section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('(')-1)].rating)
 					avgRating[0]+=rating;
 					avgRating[1]++;
 				}
-				Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
-					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;font-size:11px;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))+' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
+			*/	Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML	=	
+					'<li style="margin:0;padding:0;font-family:Open Sans;font-weight:100;"><label style="font-weight:400;color:#FFF;background-color:'+CORE.helper.color.getBackgroundColor(section.title)+';font-family:Open Sans;font-size:10px;padding:0px 5px; 0px 5px;"><label class="availSeats-Lbl" data-availUniq="'+section.uniq+'" style="background:#FFF;font-size:11px;color:#000;padding:0 3px 0 3px;"></label>'+section.title+'</label> '+section.section+' - '+/*section.times[0].instructor.substr(0,section.times[0].instructor.indexOf('('))*/' ('+rating+')</li>'+Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 				section.times.forEach(function(time){
 					Schedule.getElementsByClassName('r-ratingContainer')[0].innerHTML;
 					CORE.views.schedule.makeBlocks(time,section).map(function(a){
@@ -278,11 +278,10 @@ CORE.views.schedule  =   (function(CORE){
 		makeBlocks:function(time,section){
 			var days	=	[];
 			time.days.forEach(function(day){
-				if(day==-1)
+				if(day==-1)	
 					return document.createElement('div');
             //Make a timeblock element
 				var timeBlock   =   CORE.helper.element.createDiv({class:'s-timeBlock'});
-            
             //Adjust its styles.
 				CORE.helper.element.changeStyle(timeBlock,{
 					top     :   [(time.start-480)/2,'px'].join(''),
@@ -292,7 +291,7 @@ CORE.views.schedule  =   (function(CORE){
 					color   :   CORE.helper.color.getTextColor(CORE.helper.color.getBackgroundColor(section.title)),
 					backgroundColor :   CORE.helper.color.getBackgroundColor(section.title)
 				});
-				timeBlock.innerHTML=section.title
+				timeBlock.innerHTML=section.title;
             //return the timeblock
 				days.push(timeBlock);
 			});
@@ -478,6 +477,13 @@ CORE.main.teachers	=	(function(CORE){
 			CORE.raw.map(function(i){
 				return instructors=instructors.concat(i.instructors);
 			});
+			
+			//For uT
+			if(!instructors.length)
+				CORE.raw.map(function(i){
+				
+				})
+			
 			$.get({
 				url:'/g/instructors?names='+JSON.stringify(instructors),
 				json:true,
@@ -816,12 +822,12 @@ CORE.views.sort	=	(function(CORE){
 			Velocity(list,'slideUp',100);
 		}
 	});
-	
+	/*
 	[].forEach.call(document.getElementById('sort-dropDownItem'),function(dropItem){
 		dropItem.addEventListener('click',function(){
 			
 		});
-	})
+	})*/
 	
 	
 	

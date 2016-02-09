@@ -16,11 +16,11 @@ block bodyContent
 			div(id="sort-dropDownContainer")
 				div(id="sort-dropDownButton" class="sort-dropDown-active") Sort By 
 					label(style="font-weight:100") | 
-					label(style="font-weight:300;") Starting Time
+					label(id="sort-dropDownLabel" style="font-weight:300;") Starting Time
 				div(id="sort-dropDownList")
-					div(class="sort-dropDownItem material" data-value="Availability") Availability
-					div(class="sort-dropDownItem material" data-value="Teacher Rating") Teacher Rating
-					div(class="sort-dropDownItem sort-dropDownItem-active material" data-value="Starting Time") Starting Time
+					div(class="sort-dropDownItem material" data-sortType="availability" data-value="Availability") Availability
+					div(class="sort-dropDownItem material" data-sortType="teacherRating" data-value="Teacher Rating") Teacher Rating
+					div(class="sort-dropDownItem sort-dropDownItem-active material" data-sortType="time" data-value="Starting Time") Starting Time
 			div(id="timeSort-wrap")
 				div(id="timeSort-upper")
 				div(id="timeSort-lower")
@@ -187,9 +187,14 @@ block bodyContent
 				div(class="s-timeLabelWrap")
 					each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
 						div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
-
 				div(class="s-timeBlockWrap")
-		script(src='/js/show.main.2.0.js')
+				
+		script(src='/js/show/CORE.js')
+		script(src='/js/show/search.js')
+		script(src='/js/show/sort.js')
+		script(src='/js/show/view.js')
+		script(src='/js/show/main.js')
+		
 		//This is the template for the actual schedule
 		// div(style="height:80%;width:10px;border:1px solid rgba(0,0,0,0.1);margin-left:10px;margin-to:10px;border-radius:10px;")
 			

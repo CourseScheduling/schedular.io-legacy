@@ -4,38 +4,42 @@ block headContent
 	title Manager
 block bodyContent
 
-	div(style="background:rgba(0,0,0,0.8);z-index:1000000;height:100%;width:100%;top:0px;left:0px;position:fixed;")
+	div(style="display:none;background:rgba(0,0,0,0.8);z-index:1000000;height:100%;width:100%;top:0px;left:0px;position:fixed;")
 		div.material(style="height:400px;width:1000px;background:#FFF;position:absolute;top:50%;left:50%;margin-top:-250px;margin-left:-500px;")
 			div(style="float:left;width:350px;text-align:center;border-right:1px solid #DDD;height:100%;position:relative;")
 				div(style="font-size:15px;font-family:Open Sans;font-weight:300;margin-top:60px;width:100%;") Go to your "Add or Drop Classes Menu"
 				br
-				img(src="/images/myUFVScreen1.png" height="250px" style="position:absolute;top:100px;left:50%;margin-left:-125px;")
+				img(src="/images/myUFVScreen1.png" height="200px" style="position:absolute;top:110px;left:50%;margin-left:-125px;")
 			div(style="float:left;width:35s0px;text-align:center;height:100%;position:relative;")
 				div(style="font-size:15px;font-family:Open Sans;font-weight:300;margin-top:60px;margin-left:10%;width:80%;text-align:center;") Select and Copy everything (Ctrl+A and then Ctrl+C)
 				br
-				img(src="/images/myUFVScreen2.png" height="250px" style="position:absolute;top:100px;left:50%;margin-left:-125px;")
+				img(src="/images/myUFVScreen2.png" height="200px" style="position:absolute;top:110px;left:50%;margin-left:-125px;")
 			div(style="float:left;width:250px;text-align:center;border-left:1px solid #DDD;height:100%;position:relative;")
 				div(style="font-size:15px;font-family:Open Sans;font-weight:300;margin-top:60px;margin-left:10%;width:80%;text-align:center;") And paste it below
 				br
-				textarea(placeholder="paste it here!" style="font-family:Open Sans;font-size:12px;outline:0;resize:none;scroll:none;background:#DDD;border:0;height:200px;width:200px;margin-left:40px;box-sizing:border-box;padding:10px;border-radius:10px;margin-top:40px;")
+				textarea(placeholder="paste it here!" style="position:absolute;top:110px;font-family:Open Sans;font-size:12px;outline:0;resize:none;scroll:none;background:#DDD;border:0;height:200px;width:200px;box-sizing:border-box;padding:10px;border-radius:10px;left:40px;")
 				
 	div(id="m-large-name") My Schedules
 		div(style="padding:10px;float:right;font-size:12px;border-radius:3px;background-color:#2c3e50;color:#FFF;cursor:pointer;") Import From myUFV
-	div(id="box-container")
+	div(id="box-container" style="width:810px;")
 	div#main-loadingGear(style="height:100px;width:100px;background:url(/images/gears.gif) center center no-repeat;background-size:100px 100px;z-index:100000;position:absolute;top:50%;margin-top:-50px;left:50%;margin-left:-50px;padding:40px;")
 		p(style="position:absolute;bottom:0px;left:0px;font-family:Open Sans;font-size:12px;font-weight:100;text-align:center;width:100%;") This may take some time...
 
 
 	script(src="/js/manage.main.js")
 	
-	
-	div(class="box-container" id="boxPossibleTemplate")
-		canvas(height="200px" width="200px" class="box-image")
-		div(class="box-infoContainer")
-			div(class="box-infoTitle") A Schedule
+	div.material(class="box-container" id="boxPossibleTemplate" style="padding:5px;height:auto;")
+		canvas(style="box-sizing:border-box;" height="200px" width="200px" class="box-image")
+		div(class="box-infoContainer" style="border-bottom:0;")
+			div(class="box-infoTitle" contenteditable="true" onblur="regexEdit(this)") A Schedule
 			div(class="box-createTime") Thursday, Jan 12
-		div(class="box-actionContainer")
-			div(class="box-actionTab" style="padding:0px 9px 0px 9px") Delete
-			div(class="box-actionTab") Edit
-			div(class="box-actionTab") Books
-			div(class="box-actionTab") Share
+			div(style="text-align:center;width:100%;float:left;")
+				div.material(style="height:20px;width:20px;border-radius:30px;display:inline-block;")
+				div.material(style="height:20px;width:20px;border-radius:30px;display:inline-block;margin-left:10px;")
+				div.material(style="height:20px;width:20px;border-radius:30px;display:inline-block;margin-left:10px;")
+			
+	script.
+		function regexEdit(e){
+			e.innerHTML	=	e.innerHTML.replace(/[^A-Za-z0-9\s]/g,'').substr(0,50);
+			
+		}

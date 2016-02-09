@@ -32,6 +32,7 @@ router.get('/show',function(req,res){
 //	var sqlQuery	=	'SELECT &DB.course.name,&DB.course.code,&DB.course_section.campus,&DB.course_section.sectionUniq,&DB.course_section.type,&DB.course_time.days,&DB.course_time.startTime,&DB.course_time.endTime FROM &DB.course JOIN &DB.course_section JOIN &DB.course_time on (&DB.course.id=&DB.course_section.courseId and &DB.course_section.courseId=&DB.course_time.sectionId) WHERE &DB.course.code IN(?'+(',?'.repeat(courses.length-1))+') AND &DB.course_section.status	=	"Open"';
 	mongo.get(req.session.userData.dbName+'Course').find({title:{$in:courses}},function(err,docs){
 		var data	=	jadeData(req);
+		console.log(req.session.userData,docs);
 		data.courseData	=	docs;
 		res.render('main/show',data);
 	});

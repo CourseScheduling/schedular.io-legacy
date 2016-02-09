@@ -71,7 +71,7 @@ var Login    =   (function(){
     }
     function getUser(userId,cb){
 				//Gotta love joins
-        var searchSQL   =   'SELECT terms.term,terms.year,uni.dbName,user.* FROM general.university_terms terms JOIN general.university uni JOIN user.user user ON uni.id=terms.universityId=user.universityId WHERE user.id=?'
+        var searchSQL   =   'SELECT uni.dbName,user.* FROM general.university uni JOIN user.user user ON uni.id=user.universityId WHERE user.id=?'
         DB.query(searchSQL,userId,function(err,results){
 					if(err) throw err;
             cb&&cb(results[0]);
