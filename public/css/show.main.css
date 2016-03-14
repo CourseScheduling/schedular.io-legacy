@@ -11,12 +11,12 @@ body{
     width:1000px;
     position: relative;
     top:0px;
-    margin-left:-540px;
+    margin-left:-500px;
     left:50%;
     display:inline-block;
-    margin-top:20px;
     padding-top:10px;
     padding:30px;
+	box-sizing: border-box;
 }
 
 
@@ -49,8 +49,10 @@ border-width: 1px 0 0;
     width:100%;
     float:left;
     padding:10px;
+	box-sizing: border-box;
 }
     .s-scheduleWrap{
+			box-shadow: 0px 0px 3px #DDD;
         border:1px solid #DDD;
         display:inline-block;
         margin-top:10px;
@@ -69,7 +71,6 @@ border-width: 1px 0 0;
                 padding-left:0px;
                 padding-right:0px;
                 font-size:12px;
-                border-left:1px solid #eee;
                 width:70px;
                 text-align:center;
             }
@@ -81,18 +82,19 @@ border-width: 1px 0 0;
             border-top:0;
             border-right:0;
             display:inline-block;
+					background-position:-1px -1px;
         }
             .s-timeBlock{
                 position:absolute;
                 background-color:#EEE;
                 width:70px;
-                font-size:12px;
+                font-size:11px;
                 text-align:center;
                 font-family:Open Sans;
                 color:#000;
                 cursor:pointer;
                 border-radius:3px;
-                border:2px solid rgba(0,0,0,.05);
+                border:1px solid rgba(0,0,0,.05);
                 box-sizing: border-box;
                 font-weight:100;
             }
@@ -111,9 +113,10 @@ border-width: 1px 0 0;
                 color:#000;
                 font-size:12px;
                 font-weight:100;
-                border-top:1px solid #DDD;
+                border-top:1px solid #f9f9f9;
                 left:0px;
                 padding:2px;
+								padding-top: 5px;
             }
 
 .r-ratingWrap{
@@ -125,6 +128,10 @@ border-width: 1px 0 0;
     line-height: 30px;
     width:300px;
 }
+	.r-ratingContainer{
+		padding:0;	
+		list-style-type:none;
+	}
     .r-averageRatingTitle{
         font-size:20px;
         font-weight:100;
@@ -138,7 +145,25 @@ border-width: 1px 0 0;
         font-weight:400;
         padding-bottom:10px;
     }
-
+		.r-rating{
+			margin:0;
+			padding:0;
+			font-family:Open Sans;
+			font-weight:100;
+		}
+		.r-ratingCourse{
+			font-weight:400;
+			color:#FFF;
+			font-family:Open Sans;
+			font-size:10px;
+			padding:0px 5px; 0px 5px;
+		}
+		.r-rating-availSeats{
+			background:#FFF;
+			font-size:11px;
+			color:#000;
+			padding:0 3px 0 3px;
+		}
 .s-useMeButton{
     outline:0;
     cursor:pointer;
@@ -146,7 +171,7 @@ border-width: 1px 0 0;
     font-size:12px;
     font-weight:300;
     padding:10px;
-    background-color:#2ecc71;
+    background-color:#3ABCD5;
     color:#FFF;
     border:0;
     border-radius:2px;
@@ -157,8 +182,20 @@ border-width: 1px 0 0;
         box-shadow:0px 0px 0px transparent;
     }
     .s-useMeButton:active{
-        box-shadow: 0px 0px 10px #999 inset;
+        box-shadow: 0px 0px 10px #000 inset;
     }
+
+.s-modifyIcon{
+	padding-left:45px;
+	background:url(/images/wrench.png) #2c3e50 center left 5px no-repeat;
+	background-size:30px;
+}
+.s-saveIcon{
+	padding-left:45px;
+	margin-left:10px;
+	background:url(/images/save.png) #3498db center left 5px no-repeat;
+	background-size:30px;
+}
 /* Tool Tip Styling */
 
 #t-toolTipWrap{
@@ -227,18 +264,19 @@ border-width: 1px 0 0;
                 display:inline-block;
                 float:left;
                 position:relative;
+                background-color:#FFF;
             }
                 #sort-dropDownButton{
                     font-family:Open Sans;
                     font-weight:400;
                     font-size:12px;
-                    border:1px solid #999;
+                    border:1px solid transparent;
                     padding:5px;
                     width:150px;
                     border-radius: 2px;
                     cursor: pointer;
                     padding-left: 30px;
-                    background:url(/images/downArrow.png) center left 5px no-repeat;
+                    background:url(/images/downArrow.png) #DDD center left 5px no-repeat;
                     background-size:20px;
                     cursor: pointer;
                     float:left;
@@ -263,10 +301,11 @@ border-width: 1px 0 0;
                     left:0;
                     top:48px;
                     width:183px;
-                    border:1px solid #999;
                     border-top:0;
                     margin-left:1px;
-                        display: none;
+                    display: none;
+                    z-index: 100000;
+										margin-top:10px;
                 }
                     .sort-dropDownItem{
                         font-family:Open Sans;
@@ -274,10 +313,11 @@ border-width: 1px 0 0;
                         font-weight:400;
                         padding:7px;
                         transition:background-color .1s;
-                        border-top:1px solid #DDD;
+                        background-color:#FFF;
+												margin-top:2px;
                     }
                     .sort-dropDownItem:hover{
-                        background-color:#C39DD2;
+                        background-color:#3d566e;
                         transition:background-color .1s;
                         cursor: pointer;
                         color:#FFF;
@@ -305,23 +345,32 @@ border-width: 1px 0 0;
                         transition: background-color .5s;
                         float:left;
                         box-sizing: border-box;
-                        background:url(/images/radioCircle.png) center center no-repeat;
+                        background: #3498db;
                     }
                         .timeSort-ball:hover{
                             background-color:#ecf0f1;
-                            transition: background-color .5s;
+                            transition: background-color .2s;
                         }
-                        #timeSort-ball-active{
-                            background:url(/images/whiteDot.png) #ACEAC5 center center no-repeat;
-                            background-size:100%;
-                            transition: background-image 1s;
-                        }
+												.timeSort-ball-inner{
+													height: 14px;
+													width: 14px;
+													margin: 2px;
+													border-radius:10px;
+													background:#FFF;
+													border: 0;
+												}
+												.timeSort-ball:hover :nth-child(1){
+													display:none;
+												}
+												#timeSort-ball-active :nth-child(1){
+													display: none;
+												}
                     .timeSort-connector{
                         float:left;
                         width:50px;
                         height:2px;
-                        border-top:1px solid #BBB;
-                        border-bottom:1px solid #BBB;
+                        border-top:1px solid #DDD;
+                        border-bottom:1px solid #DDD;
                         margin-top:8px;
                     }
                 #timeSort-upper{
@@ -357,11 +406,20 @@ border-width: 1px 0 0;
 
                 -o-user-select: none;
                 user-select: none;
+                transition:border-radius .5s;
             }
+						.customCheck:not(.customCheckbox-checked):hover {
+							background:rgba(26,190,238,0.2);
+                border-radius:3px;
+                transition:border-radius .5s;
+                border-color:transparent;
+						}
             .customCheckbox-checked{
-                border-color:#3498db;
-                background:url(/images/checkBoxX.png) center center no-repeat;
-                background-size:100%;
+                border-color:transparent;
+                background:url(/images/checkBoxX.png) #3498db center center no-repeat;
+                background-size:60%;
+                border-radius:3px;
+                transition:border-radius .5s;
             }
             
             
@@ -387,8 +445,60 @@ border-width: 1px 0 0;
                 float:left;
                 margin-top:18px;
             }
+/* sliders for controlling individual days */
 
 
+				.sliderContainer{
+					height:70px;
+					width:10px;
+					margin-left:20px;
+					margin-right:20px;
+					margin-top:14px;
+					text-align: center;
+					position: relative;
+					float: left;
+				}
+
+				.sliderBlock{
+					height:84px;
+					width:2px;
+					background-color:#2ecc71;
+					margin-left:6px;
+				}
+				.sliderCircle{
+					height:14px;
+					width:14px;
+					border-radius:14px;
+					box-shadow: 0px 0px 3px #999;
+					background-color:#FFF;
+					position:absolute;
+					cursor: pointer;
+				}
+
+				.arrow-left {
+					width: 0; 
+					height: 0; 
+					border-top: 10px solid transparent;
+					border-bottom: 10px solid transparent; 
+					border-right:10px solid #34495e; 
+					position:absolute;
+					top:0px;
+					left:-5px;
+				}
+
+#advancedButton{
+	padding:5px;
+	border-radius:20px;
+	margin-top:15px;
+	background-color:#FFF;
+	border:1px solid #DDD;
+	color:#000;
+	cursor:pointer;
+	font-family:Open Sans;
+	font-size:12px;
+	font-weight:100;
+	float:right;
+}
 
 /* Template CSS */
 #scheduleWrapTemplate{

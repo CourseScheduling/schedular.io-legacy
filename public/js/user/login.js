@@ -61,6 +61,9 @@ var NotificationMod =   {
             case    'WRONG_PASSWORD':
                 _this.show('Sorry, that password is incorrect');
             break;
+						case		'ACTIVATION_NEEDED':
+							_this.show("Bro, you haven't activated this account. Check your student email to do so");
+						break;
             case    'SUCCESS':
                 _this.show('Correcto!');
                 setTimeout(function(){

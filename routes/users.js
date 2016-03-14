@@ -17,11 +17,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/signup', function(req, res, next) {
-  res.render('user/signup');
+  res.render('auth/signup');
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('user/login');
+  res.render('auth/login');
 });
 
 router.get('/logout',function(req,res,next){
@@ -30,11 +30,11 @@ router.get('/logout',function(req,res,next){
 });
 
 router.get('/forgot', function(req, res, next) {
-  res.render('user/forgot');
+  res.render('auth/forgot');
 });
 
 router.get('/forgotContinue', function(req, res, next) {
-    res.render('user/forgotContinue');
+    res.render('auth/forgotContinue');
 });
 
 module.exports = router;

@@ -1,0 +1,32 @@
+extends ../MainTemplate
+block headContent
+	link(rel="stylesheet" href="/css/profile.main.css")
+block bodyContent
+	div(id="contentContainer")
+		div(id="p-nameContainer") Barack Obama
+			div(id="p-nameCallToAction") (Click here to add your real name)
+		//button(id="p-passChange") Change My Password
+		//button(id="p-passChange") Change My Privacy 
+		div(id="p-infoContainer")
+			div(id="p-infoPofilePhoto")
+				img(src="/images/gf.jpg" width="150px" height="150px")
+			p(id="p-infoTitle") Additional Info
+			p(class="p-infoSection") 
+				label(class="p-infoSectionHead") email: 
+				label(class="p-infoSectionBody") vicky@blah.com
+			p(class="p-infoSection") 
+				label(class="p-infoSectionHead") username:
+				label(class="p-infoSectionBody") vicky
+			p(class="p-infoSection") 
+				label(class="p-infoSectionHead") favourite colour:
+				label(class="p-infoSectionBody") blue
+			p(class="p-infoSection") 
+				label(class="p-infoSectionHead") courses enrolled:
+				label(class="p-infoSectionBody") CHEM113, PHYS112, ENGR151, COMP125, ENGR122
+			p(class="p-infoSection") 
+				label(class="p-infoSectionHead") major:
+				label(class="p-infoSectionBody") Political Science
+			div(style="font-size:12px;font-weight:100;font-family:Open Sans;padding:10px;border:1px solid #DDD;float:left;margin:10px;cursor:pointer;") Change Privacy
+			div(style="font-size:12px;font-weight:100;font-family:Open Sans;padding:10px;border:1px solid #DDD;float:left;margin:10px;cursor:pointer;") Add More Info
+		p(id="p-currentScheduleTitle") My Current Course Schedule
+		div(id="p-scheduleContainer")

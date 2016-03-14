@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+			<div id="3" style="position:absolute;top:100px;left:100px;width:100px;height:100px;background:#DDD;"></div>
+			<div id="2" style="position:absolute;top:100px;left:100px;width:100px;height:100px;background:#DDD;"></div>
+			<div id="1" style="position:absolute;top:100px;left:100px;width:100px;height:100px;background:#DDD;"></div>
+		
+		<script>
+			var t	=	0;
+			document.onmousemove	=	function(e){
+				clearTimeout(t);
+				t = setTimeout(function(){
+					console.log(elementsFromPoint(e.clientX,e.clientY));
+				},100);
+			}
+			
+			
+			
+			function elementsFromPoint(x,y) {
+				var elements = [], previousPointerEvents = [], current, i, d;
+
+							// get all elements via elementFromPoint, and remove them from hit-testing in order
+				while ((current = document.elementFromPoint(x,y)) && elements.indexOf(current)===-1 && current != null) {
+
+									// push the element and its current style
+					elements.push(current);
+					previousPointerEvents.push({
+											value: current.style.getPropertyValue('pointer-events'),
+											priority: current.style.getPropertyPriority('pointer-events')
+									});
+
+									// add "pointer-events: none", to get to the underlying element
+					current.style.setProperty('pointer-events', 'none', 'important'); 
+				}
+
+							// restore the previous pointer-events values
+				for(i = previousPointerEvents.length; d=previousPointerEvents[--i]; ) {
+					elements[i].style.setProperty('pointer-events', d.value?d.value:'', d.priority); 
+				}
+
+							// return our results
+				return elements;
+			}
+
+		</script>
+  </body>
+</html>

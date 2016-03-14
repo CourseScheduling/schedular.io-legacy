@@ -1,12 +1,219 @@
 <html>
     <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
         <style>
+            #b-toolTip-wrap{
+                border:1px solid #AAA;
+                min-height: 186px;
+                min-width: 300px;
+                position:absolute;
+                top:100px;
+                left:100px;
+                border-radius:5px;
+                box-shadow: 0px 0px 3px #DDD;
+                overflow: hidden;
+            }          
+            #c-toolTip-wrap{
+                height:100px;
+                width:100px;
+                border:1px solid #DDD;
+                border-radius: 5px;
+                background-color:#fff;
+                box-shadow: 0px 0px 3px #DDD;
+                position:absolute;
+                top:100px;
+                left:100px;
+                padding:10px;
+            }
+                #c-toolTip-header{
+                    width:100%;
+                    float: left;
+                    box-sizing: border-box;
+                    font-family:Raleway;
+                    font-size:15px;
+                    font-weight: 300;
+                    margin-bottom: 10px;
+                }
+                    #c-toolTip-title{
+                        float:left;
+                    }
+                #c-toolTip-body{
+                    font-family: Open Sans;
+                    font-size:13px;
+                    font-weight:300;
+                }
+                    #c-toolTip-description{
+                        margin-bottom: 20px;
+                    }
+                #c-toolTip-footer{
+                    margin-top:20px;
+                }
+                .c-toolTip-footerButton{
+                    font-family: Open Sans;
+                    font-size:12px;
+                    padding:10px;
+                    background:#FFF;
+                    border:1px solid #EEE;
+                    cursor: pointer;
+                    outline: 0;
+                    box-shadow: 0px 0px 2px #EEE;
+                }
+                .c-toolTip-footerButton:hover{
+                    border:1px solid #DDD;
+                    box-shadow: 0;
+                }
+                .c-toolTip-footerButton:active{
+                    background:rgba(0,0,0,0.2);
+                }
+                .c-toolTip-nub{
+                    width: 0; 
+                    height: 0; 
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-top: 10px solid #eee;
+                    position: absolute;
+                    bottom:-10px;
+                    left:50px;
+                }
+                .c-expandBorder{
+                    z-index: 100000;
+                    height:20px;
+                    width:100px;
+                    position: absolute;
+                    bottom: -20px;
+                    left:100px;
+                }
+
         </style>
     </head>
     <body>
-        <script>
-
+        <div id="c-toolTip-wrap" style="display:none;">
+            <div id="loader" style="background:url(./balls.gif) center center no-repeat; background-size:100%;height:100%;width:100%;"></div>
+            <div class="c-toolTip-nub"></div>
+        </div>
         
+        <div id="c-toolTip-innerTemplate" style="display:none">
+            <div id="c-toolTip-header">
+                <span class="c-toolTip-title">Chem 113</span>
+                <div style="height:20px;width:20px;float:right;background-color:#1abc9c"></div>
+            </div>
+            <div id="c-toolTip-body">
+                <div id="c-toolTip-description">
+                    An introduction to principles of chemistry with the emphasis on theory of atomic and molecular structure and bonding. Work performed in the laboratory complements lecture material. Along with CHEM 114, this course will satisfy requirements for students wishing to pursue an honours or majors program in science.
+                </div>
+                <div id="c-toolTip-prereq">
+                    <strong style="font-weight:400;">Prerequisites:</strong>
+                    CHEM 12, CHEM 093, or CHEM 110; and one of the following: Principles of Mathematics 12, Pre-calculus 12, MATH 094/095, or MATH 096.
+                </div>
+            </div>
+            <!--
+            <div id="c-toolTip-footer">
+                <input type="button" class="c-toolTip-footerButton" style="float:right" value="View Textbooks">
+            </div>
+-->
+        </div>
+        <div style="height:175px;width:282px;border:1px solid #DDD;border-radius:5px;">
+            <div style="height:30px;border-bottom:1px solid#DDD;"
+        
+        </div>
+        <script>
+            function grow(){
+                document.getElementById("c-toolTip-wrap").innerHTML='';
+            }
+            CORE    =   {
+                view:{
+                    tooltips:{
+                        course:{}
+                    }
+                }
+            };
+        
+
+            CORE.view.tooltips.course   =   (function(CORE){
+                var container   =   document.getElementById("c-toolTip-wrap");
+                return {
+                    animating:false,
+                    shown:false,
+                    container:container,
+                    add:function(element){
+                        var top =   (element.getBoundingClientRect().top-parseInt(window.getComputedStyle(container).height)-30)+'px';
+                        var left    =   element.getBoundingClientRect().left-(parseInt(window.getComputedStyle(container).width)/2)+'px';
+                        var showMain    =   function(){
+                            if(CORE.view.tooltips.animating||CORE.view.tooltips.shown)
+                                return;
+                            container.style.top =   top;
+                            container.style.left =   left;
+                            Velocity(container,'fadeIn',{complete:function(){
+                                setTimeout(function(){
+                                    CORE.view.tooltips.course.expandData(element);
+                                },100);
+                            }});
+                        }
+                        element.addEventListener('mouseover',showMain);
+                        document.addEventListener('mouseover',function(e){
+                            if(element.contains(e.target)||container.contains(e.target))
+                                return;
+                            container.style.display =   'none';
+                            container.style.top='';
+                            container.style.left='';
+                            container.style.minHeight='';
+                            container.style.minWidth='';
+                            container.innerHTML='';
+                            CORE.view.tooltips.animating    =   false;
+                            CORE.view.tooltips.shown    =   false;
+                        });
+                    },
+                    expandData:function(element){
+                        
+                        
+                            var top =   (element.getBoundingClientRect().top-250-20)+'px';
+                            var left    =   element.getBoundingClientRect().left-(300/2)+'px';
+                        var inner=document.getElementById('c-toolTip-innerTemplate').cloneNode(true);
+                        inner.style.display =   'block';
+                        Velocity(document.getElementById("c-toolTip-wrap"),{minHeight:'250px',minWidth:'300px',top:top,left:left},{complete:function(e){
+                            document.getElementById('c-toolTip-wrap').innerHTML='';
+                            document.getElementById('c-toolTip-wrap').appendChild(inner);
+                            document.getElementById('c-toolTip-wrap').innerHTML+='<div class="c-expandBorder"></div>';
+                            CORE.view.tooltips.animating    =   false;
+                            CORE.view.tooltips.shown=true;
+                        }},100);
+                        Velocity(document.getElementsByClassName("c-toolTip-nub")[0],{left:'150px'});
+                    }
+                }
+            })(CORE);
+
+
+
+
+
+
+        </script>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="hey" style="margin-left:300px;padding-top:10px;">CHEM 113</div>
+        <script>
+            CORE.view.tooltips.course.add(document.getElementById('hey'));
         </script>
     </body>
 </html>

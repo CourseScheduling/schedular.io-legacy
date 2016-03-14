@@ -1,70 +1,95 @@
-var express = require('express');
-var router = express.Router();
-var crypto  =   require('crypto');
-var mysql      = require('mysql');
+var express =   require('express');
+var router  =   express.Router();
 
-var connection = mysql.createConnection({
-  host     : 'schedule.cpfi2ocm03x0.us-west-2.rds.amazonaws.com',
-  user     : 'joseph',
-  password : 'joseph123',
-  database : 'ufv'
+var crypto  =   require('crypto');
+var mysql   =   require('mysql');
+
+var DB      =   require('../../bin/db.js');
+
+var Login;
+
+
+
+router.post('/',function(req,res,next){
+    //convert username to lowercase
+    req.body.u  =   req.body.u.toLowerCase();
+    Login.validate(req.body.u,req.body.p,function(good,data){
+        //If the function called the callback with a false first parameter tell the user the reason.
+        if(!good){
+            res.send([data]);
+            return;   
+        }
+        
+        //Get the userdata
+        Login.getUser(data.userId,function(data){
+            //add username to the data
+						console.log(data);
+            data.username   = req.body.u;
+            Login.setUser(req,data,function(){
+                res.send('["SUCCESS"]');
+            });
+        }); 
+    });
 });
 
-connection.connect();
 
-ValidateMod =   {
-    validate:function(u,p,cb){
-        console.log('SEARCHING FOR USER '+u);
-        connection.query('SELECT userId,password FROM userlogin WHERE( username=? AND active="1")',[u],function(e,r,v){
-            if (e) throw e;
-            if(r.length==0){
-                console.log('USER '+u+' Not found');
-                cb&&cb(false,'BAD_USERNAME');
-                return;
-            }
-            var passwordSalt    =   r[0].password.slice(0,10);
-            var hashedPassword  =   crypto.createHash('sha512').update(passwordSalt+p).digest('base64');
-            if(hashedPassword===r[0].password.substr(10))
-                cb&&cb(true,r[0]);
-            else
+
+var Login    =   (function(){
+    /*
+        Validate, anything that involves validating inputs    
+    */
+    function validate(username,password,cb){
+			
+        var searchSQL   =   'SELECT userId,active,password FROM user.userlogin WHERE(username=?)';   
+        DB.query(searchSQL,[username],function(err,result){
+					if(err) throw err;
+            //return if user does not exist 
+            if(result.length==0)
+                return cb&&cb(false,'BAD_USERNAME');
+            //get the hash of the inputted password
+            var hash    =   crypto.createHash('sha512').update(result[0].password.slice(0,10)+password).digest('base64');
+            //compare the newhash to the dbhash
+            if(hash===result[0].password.substr(10)){
+
+                //See how active the account is.             
+                switch(result[0].active){
+                    case -1:
+                    case 0:
+                        cb&&cb(false,'ACTIVATION_NEEDED');
+                    break;
+                    case 1:
+                        result[0].username = username;
+                        cb&&cb(true,result[0]);
+                    break;
+                }
+
+            }else{
                 cb&&cb(false,'WRONG_PASSWORD');
+            }
+
         });
     }
-}
-
-UserMod =   {
-    grabUser:function(uId,cb){
-        connection.query('SELECT * FROM user WHERE id=?',[uId],function(e,r,v){
-            cb&&cb(r[0]);
+    function getUser(userId,cb){
+				//Gotta love joins
+        var searchSQL   =   'SELECT uni.dbName,user.* FROM general.university uni JOIN user.user user ON uni.id=user.universityId WHERE user.id=?'
+        DB.query(searchSQL,userId,function(err,results){
+					if(err) throw err;
+            cb&&cb(results[0]);
         });
     }
-}
-
-SessionMod  =   {
-    addData:function(req,data,cb){
+    function setSession(req,data,cb){
         req.session.userData    =   data;
         req.session.loggedIn    =   true;
         req.session.save(function(e){
             cb&&cb();
         });
     }
-}
-
-router.post('/',function(req,res,next){
-    req.body.u  =   req.body.u.toLowerCase();
-    ValidateMod.validate(req.body.u,req.body.p,function(good,reason){
-        if(!good){
-            res.send([reason]);
-            return;
-        }
-        
-        UserMod.grabUser(reason.userId,function(data){
-            SessionMod.addData(req,data,function(){
-                res.send(['SUCCESS']);
-            });
-        });
-    });
-});
+    return {
+        validate:validate,
+        getUser:getUser,
+        setUser:setSession
+    }
+})();
 
 
 

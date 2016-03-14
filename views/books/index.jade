@@ -1,0 +1,123 @@
+extends ../MainTemplate
+
+block bodyContent
+	style.
+		#body-container{
+			width:1030px;margin:auto;margin-top:100px;
+		}
+			#container-titleText{
+				font-size:14px;
+				font-weight:400;
+				font-family:Raleway;
+			}
+			#courses-foundContainer{
+				margin-bottom:50px;
+				margin-right:50px;
+			}
+			#resultContainer{
+				width:100%;
+			}
+				.courses-previewBlock{
+					font-family:Open Sans;
+					font-size:12px;
+					font-weight:400;
+					color:#FFF;
+					padding:10px;
+					float:left;
+					margin-left:10px;
+					background-color:#DDD;
+				}
+			
+			.book-result{
+				height:200px;
+				width:322px;
+				float:left;
+				margin:10px;
+				position:relative;
+				overflow:hidden;
+				font-family:Raleway;
+			}
+				.result-colorBar{
+					width:100%;
+					background-color:#9B59B6;
+					height:100px;
+					position:absolute;
+					height:4px;
+					top:0px;
+					left:0px;
+				}
+				.result-courseName{
+					font-weight:600;
+					font-size:12px;
+					margin-top:10px;
+					max-width:90%;
+					margin-left:5%;
+				}
+				.result-bookTitle{
+					font-weight:400;
+					font-size:12px;
+					font-family:Open Sans;
+					margin-left:5%;
+					width:90%;
+				}
+				.result-thumbnail{
+					width:100%;
+					text-align:left;
+					margin-left:5%;
+					margin-top:20px;
+					cursor:pointer;
+				}
+				.result-priceData{
+					position:absolute;
+					top:80px;
+					right:5%;
+					font-size:12px;
+					font-family:Open Sans;
+				}
+					.price-bookstore{
+						margin-right:10px;
+					}
+					.price-bookstore-amount{
+						float:right;
+						font-weight:600;
+						color:#e74c3c;
+					}
+					.price-amazon{
+						color:#43a0de;
+						text-decoration:underline;
+						font-weight:300;
+					}
+					.price-amazon-amount{
+						color:#43a0de;
+						float:right;
+						font-weight:600;
+					}
+	script.
+		var RAW_COURSE_DATA = !{JSON.stringify(data.data)}
+		
+	div#body-container
+		div#container-titleText 
+			span(style="margin-right:40px;") Book Results for:
+			br
+		div#courses-foundContainer
+		
+		div#resultContainer
+	div(style="display:none")
+		div#bookTemplate.book-result.material
+			div.result-colorBar
+			div.result-courseName
+				|CHEM114
+				div(style="float:right") AB3
+			div.result-bookTitle University Physics 14th Edition
+			div.result-thumbnail
+				a(target="_blank")
+					img.material(height="100px" src="http://ecx.images-amazon.com/images/I/51Y2Uuy-mrL._SX388_BO1,204,203,200_.jpg")
+			div.result-priceData
+				span.price-bookstore Bookstore 
+				span.price-bookstore-amount $140
+				br
+				a(target="_blank")
+					span.price-amazon Amazon
+					span.price-amazon-amount $110
+	script(src="/js/books/CORE.js")
+	script(src="/js/books/fetch.js")

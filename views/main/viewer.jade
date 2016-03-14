@@ -1,0 +1,119 @@
+doctype html
+html
+	head
+		script.
+			var sections = "!{schedule[0].sections}";
+		style.
+			#v-scheduleTitle{
+			font-family:Raleway;
+			font-size:18px;
+			font-weight:400;
+			width:100%;
+			text-align:center;
+			margin-top:100px;
+			}
+
+			#innerNavbar{
+			position:absolute;
+			width:1000px;
+			height:45px;
+			left:50%;
+			top:20px;
+			margin-left:-500px;
+			}
+			#logoWrap{
+			width:200px;
+			display:inline-block;
+			}
+			#logo{
+			background:url(/images/mainLogo-25px.png) center center no-repeat;
+			width:50px;
+			height:45px;
+			float:left;
+			background-size:25px;
+			}
+
+
+			.v-dayLabelWrap{
+			display:inline-block;
+			width:600px;
+			border-bottom:1px solid #eee;
+			}
+			.v-dayLabel{
+			font-family:Open Sans;
+			font-weight:300;
+			display:inline-block;
+			padding:10px;
+			padding-left:0px;
+			padding-right:0px;
+			font-size:12px;
+			border-left:1px solid #eee;
+			width:73px;
+			text-align:center;
+			}
+			.v-timeBlockWrap{
+			height:560px;
+			width:613px;
+			position:relative;
+			border:1px solid #EEE;
+			border-top:0;
+			border-right:0;
+			display:inline-block;
+			}
+			.v-timeBlock{
+			overflow: hidden;
+			position:absolute;
+			background-color:#EEE;
+			width:73px;
+			font-size:11px;
+			text-align:center;
+			font-family:Open Sans;
+			color:#000;
+			cursor:pointer;
+			border-radius:3px;
+			border:1px solid rgba(0,0,0,.05);
+			box-sizing: border-box;
+			font-weight:100;
+			-webkit-user-select: none; /* Chrome/Safari */        
+			-moz-user-select: none; /* Firefox */
+			-ms-user-select: none; /* IE10+ */
+
+			-o-user-select: none;
+			user-select: none;
+			}
+			.v-timeLabelWrap{
+			width:74px;
+			height:600px;
+			display:inline-block;
+			float:left;
+			position:relative;
+			}
+			.v-timeLabel{
+			position:absolute;
+			width:73px;
+			font-family:Open Sans;
+			text-align:center;
+			color:#000;
+			font-size:12px;
+			font-weight:100;
+			border-top:1px solid #DDD;
+			left:0px;
+			padding:10px 2px 10px 2px;
+			box-sizing: border-box;
+			}
+
+	body
+		#innerNavbar
+			a(href="/")
+				#logoWrap
+					#logo
+					span(style="height:45px;line-height:45px;font-size:14px;font-family:Raleway;font-weight:300;color:#444;") Schedular
+		p#v-scheduleTitle=schedule[0].name
+			div(style="border:1px solid #DDD;height:600px;width:600px;position:relative;left:50%;margin-left:-300px;")
+				div(class="v-dayLabelWrap")
+						each day,index in ['','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+								div(class="v-dayLabel date-"+index)=day
+				br
+				div(class="v-timeLabelWrap")
+						each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
+								div(class="v-timeLabel" style="top:"+((index*40)-1)+'px')=time

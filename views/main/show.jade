@@ -1,98 +1,115 @@
 extends ../MainTemplate
 
 block headContent
-    script.
-        var RAW_COURSE_DATA = !{JSON.stringify(courseData)}
-    link(rel="stylesheet",href="/css/show.main.css")
-    title="Possible Schedules"
+	link(href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"	)
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js")
+	script.
+		var RAW_COURSE_DATA = !{JSON.stringify(data)}
+	link(rel="stylesheet",href="/css/show.main.css")
+	title="Possible Schedules"
 block bodyContent
-    //Gear 
-    div#main-loadingGear(style="height:100px;width:100px;background:url(/images/gears.gif) center center no-repeat;background-size:100px 100px;z-index:100000;position:absolute;top:50%;margin-top:-50px;left:50%;margin-left:-50px;padding:40px;")
-        p(style="position:absolute;bottom:0px;left:0px;font-family:Open Sans;font-size:12px;font-weight:100;text-align:center;width:100%;") This may take some time...
-    // tool tip styling
-    div#t-toolTipWrap(style="display:none;")
-        div#t-toolTipImage
-        div#t-toolTipCourseInfo
-            div#t-toolTipCourseName 
-                | CHEM 114
-                label(style="float:right") CH4
-            br
-            div.t-toolTipText#t-toolTipCRN(style="font-weight:600;") CRN: 128398
-            div.t-toolTipText#t-toolTipRating(style="font-weight:400;") Rating: 4.4
-            div.t-toolTipText#t-toolTipInstructor Peter Mulhern
-        div#t-toolTipTimes.t-toolTipText(style="margin-top:10px;margin-left:10px;position:relative;left:0px;")
-        br(clear="all")
-    
-    //  Controls for filtering
-    div#c-controlBlock(style="z-index:100000000")
-        // Control Course Filter
-        
-        div(id="sort-dropDownContainer")
-            div(id="sort-dropDownButton" class="sort-dropDown-active") Sort By 
-                label(style="font-weight:100") | 
-                label(style="font-weight:300;") Starting Time
-            div(id="sort-dropDownList")
-                div(class="sort-dropDownItem" data-value="Availability") Availability
-                div(class="sort-dropDownItem" data-value="Teacher Rating") Teacher Rating
-                div(class="sort-dropDownItem sort-dropDownItem-active" data-value="Starting Time") Starting Time
-        //Control Course Start Time
-        div(id="timeSort-wrap")
-            div(id="timeSort-upper")
-            div(id="timeSort-lower")
-                div(class="timeSort-ball" data-value="Mornings")
-                div(class="timeSort-connector")
-                div(class="timeSort-ball" data-value="Noon")
-                div(class="timeSort-connector")
-                div(class="timeSort-ball" data-value="Evenings")
-                
-        //Filter by Campus
-        table(id="campusList" style="float:right")
-            tr
-                td(class="campusFilter-box") Abby
-                td(class="campusFilter-box") Chilliwack
-                td(class="campusFilter-box") Hope
-                td(class="campusFilter-box") Clearbrook
-                td(class="campusFilter-box") Mission
-                td(class="campusFilter-box") Online
-            tr
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box") 
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box")
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
-                td(class="campusFilter-box") 
-                    input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
-                    
-                    
-    //  Main part
-    div#main-scheduleContainer
-    div#yo
-    //Okay, if you're reading this HTML looking for hacks or something I suggest you look at the file below.
-    script(src='/js/show.main.js')
-    //Yea, I'm talking about ^ that file. It contains all the scripts for the page you see in front of you.
-    
-    //--Templates--
-    div(class="possibleContainer" id="scheduleWrapTemplate" )
-        //This below is the template for ratings
-        div(class="r-ratingWrap")
-            div(class="r-averageRatingTitle") Average Rating:
-            div(class="r-ratingContainer")
-            button(data-crn="11257" class="s-useMeButton" title="Use This Schedule") Use This Schedule
+	//Gear 
+	div#main-loadingGear(style="height:100px;width:100px;background:url(/images/gears.gif) center center no-repeat;background-size:100px 100px;z-index:100000;position:absolute;top:50%;margin-top:-50px;left:50%;margin-left:-50px;padding:40px;")
+		p(style="position:absolute;bottom:0px;left:0px;font-family:Open Sans;font-size:12px;font-weight:100;text-align:center;width:100%;") This may take some time...
+	//Controls for filtering
+	div#c-controlBlock(style="z-index:10;display:table;")
+		// Control Course Filter
+		div#upperControls(style="margin-top:20px;")
+			div#sort-dropDownContainer
+				div#sort-dropDownButton.sort-dropDown-active Sort By 
+					label(style="font-weight:100") | 
+					label#sort-dropDownLabel(style="font-weight:300;") Starting Time
+				div#sort-dropDownList
+					div.sort-dropDownItem.material(data-sortType="teacherRating" data-value="Teacher Rating") Teacher Rating
+					div.sort-dropDownItem.sort-dropDownItem-active.material(data-sortType="time" data-value="Starting Time") Starting Time
+			div#timeSort-wrap
+				div#timeSort-upper
+				div#timeSort-lower
+					div.timeSort-ball.gTT-act(data-gTTLbl="Mornings" data-sortType="mornings")
+						div.timeSort-ball-inner
+					div.timeSort-connector
+					div.timeSort-ball.gTT-act#timeSort-ball-active(data-gTTLbl="Noon" data-sortType="noon")
+						div.timeSort-ball-inner
+					div.timeSort-connector
+					div.timeSort-ball.gTT-act(data-gTTLbl="Evenings" data-sortType="evenings")
+						div.timeSort-ball-inner
+			div#advancedButton
+				div(style="margin-right:0px;background:url(/images/downArrow.png) #FFF center center no-repeat;background-size:50%;height:20px;width:20px;border-radius:20px;float:right;") 
+				span(style="font-weight:400;float:left;margin-right:20px;margin-top:1px;margin-left:10px;") Advanced
+		br
+		br
+		br
+		br
+		div.material(id="lowerControls" style="float:right;overflow:hidden;display:none;width:100%;background-color:#fff;padding-top:20px;height:150px;")
+			div(id="sliderControls" style="float:left;position:relative;padding-right:100px;")
+				div(id="toolTip" style="z-index:10000;top:0px;left:0px;display:none;padding:3px 5px 3px 5px;background:#34495e;float:left;position:absolute;color:#FFF;font-weight:300;font-family:Open Sans;font-size:11px;")
+					div(class="arrow-left")
+					span(id="toolTip-time" style="padding-left:5px") 10:00
+				div(class="no_s" style="width:100%;font-family:Open Sans;font-weight:300;height:20px;font-size:12px;")
+					div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Mon
+					div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Tue
+					div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Wed
+					div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Thu
+					div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Fri
+					div(style="width:20px;margin-left:15px;margin-right:16px;float:left;") Sat
+				each day in ['mon','tue','wed','thu','fri','sat']         
+					div(class="sliderContainer" data-day=""+day)
+						div(class="sliderCircle" style="top:-7px;left:0px;" data-loc="0")
+						div(class="sliderBlock")
+						div(class="sliderCircle" style="top:77px;left:0px;" data-loc="84")
+			table(id="campusList" style="float:right;margin-top:25px;margin-right:20px;")
+				tr.no_s
+					td.campusFilter-box Abby
+					td.campusFilter-box Chilliwack
+					td.campusFilter-box Hope
+					td.campusFilter-box Clearbrook
+					td.campusFilter-box Mission
+					td.campusFilter-box Online
+				tr
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box 
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box 
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
+		
+		//--Templates--
+		div#main-scheduleContainer
+		div#templateContainer(style="display:none")
+			div(class="possibleContainer" style="float:right;margin-top:20px;" id="scheduleWrapTemplate" )
+				//This below is the template for ratings
+				div(class="r-ratingWrap")
+					div(class="r-averageRatingTitle") Average Rating:
+					ul(class="r-ratingContainer")
+						button(data-crn="11257" class="s-useMeButton s-modifyIcon" title="Modify This Schedule") Class Numbers
+						button(data-crn="11257" class="s-useMeButton s-saveIcon" onclick="CORE.save.send(this)" title="Save This Schedule") Save
+				div(class="s-scheduleWrap" data-crn="")
+					div(class="s-dayLabelWrap")
+						each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+							div(class="s-dayLabel")=day
+					br
+					div(class="s-timeLabelWrap")
+						each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
+							div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
+					div(class="s-timeBlockWrap")
 
-        //This is the template for the actual schedule
-        div(class="s-scheduleWrap" data-crn="")
-            div(class="s-dayLabelWrap")
-                each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-                    div(class="s-dayLabel")=day
-            br
-            div(class="s-timeLabelWrap")
-                each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
-                    div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
-
-            div(class="s-timeBlockWrap")
-        
+			li(id="ratingWrapTemplate" class="r-rating")
+				label(class="r-ratingCourse")
+					label(class="r-rating-availSeats" data-availUniq="")
+					lable(class="r-rating-course")
+		
+		script(src='/js/show/CORE.js')
+		script(src='/js/show/profs.js')
+		script(src='/js/show/search.js')
+		script(src='/js/show/sort.js')
+		script(src='/js/show/view.js')
+		script(src='/js/show/save.js')
+		script(src='/js/show/main.js')
+		script(src='/js/show/term.js')
+		

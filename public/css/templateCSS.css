@@ -1,17 +1,38 @@
+/* don't select */
+.no_s{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
 
+body{
+	background:#fff;
+}
+
+/*General Material Style*/
+
+	.material{
+		border:0;
+		border-radius:3px;
+		box-shadow: 0px 1px 3px #BBB;
+	}
+
+/*Nav stuff*/
     #navbar{
-        position:absolute;
-        top:0px;
-        left:0px;
-        width:100%;
-        height:50px;
-        border-bottom:1px solid #eee;
-        z-index:1000;
+			position:absolute;
+			top:0px;
+			left:0px;
+			width:100%;
+			height:45px;
+			margin-top:10px;
+			z-index:1000;
     }
     #innerNavbar{
         position:absolute;
         width:1000px;
-        height:50px;
+        height:45px;
         left:50%;
         top:0px;
         margin-left:-500px;
@@ -21,11 +42,11 @@
             display:inline-block;
         }
             #logo{
-                background:url(/images/mainLogo.png) center center no-repeat;
+                background:url(/images/mainLogo-25px.png) center center no-repeat;
                 width:50px;
-                height:50px;
+                height:45px;
                 float:left;
-                background-size:30px;
+                background-size:25px;
             }
         #accountWrap{
             float:right;
@@ -33,16 +54,16 @@
         }
             #accountName{
                 font-family:Open Sans;
-                font-size:12px;
+                font-size:13px;
                 font-weight:100;
-                padding-top:15px;
+                padding-top:12.5px;
                 float:left;
             }
             #menuDrop{
                 background:url(/images/menuIcon.png) center center no-repeat;
-                margin:15px;
-                height:20px;
-                width:20px;
+                margin:13.5px;
+                height:18px;
+                width:18px;
                 float:right;
                 background-size:100%;
                 cursor:pointer;
@@ -50,8 +71,8 @@
             }
             .menuDrop-active{
                 transition:transform .25s;
-                -ms-transform: rotate(180deg); /* IE 9 */
-                -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+                -ms-transform: rotate(180deg); 
+                -webkit-transform: rotate(180deg); 
                 transform: rotate(180deg);
                 cursor:pointer;
             }
@@ -60,9 +81,9 @@
                     top:55px;
                     right:0px;
                     z-index:100;
-                    border:1px solid #DDD;
                     background-color:#FFF;
                     display:none;
+                    z-index: 1000000000000000;
                 }
                 #menuNub{
                     position:absolute;
@@ -100,3 +121,22 @@
                 outline:0;
                 text-decoration:none;
             }
+
+
+
+
+
+
+
+/* Tool tip styles */
+
+	.gTT-pop{
+			font-family:Open Sans;
+			font-size:12px;
+			font-weight:100;
+			color:#FFF;
+			background-color:#2c3e50;
+			padding:5px;
+			border-radius:3px;
+			position:fixed;
+	}

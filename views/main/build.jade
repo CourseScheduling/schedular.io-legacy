@@ -1,0 +1,47 @@
+extends ../MainTemplate
+
+block headContent
+	link(rel="stylesheet",href="/css/build.main.css")
+	title="Schedule Builder"
+block bodyContent
+	div#crnBar-wrap
+		input#instantInput.material(placeholder="Type to find more courses")
+		input#instantButton.material(type="button" value="")
+		br
+		br
+		div#instantDrop.material(style="display:none")
+		ul#crnBar
+	br
+	br
+	div#b-builderWrap
+		p#b-scheduleTitle joseph's Schedule
+		div#b-toolWrap
+			div.b-toolIcon.gTT-act(style="background-position:center center" data-gTTLbl="Save This Schedule")
+			div.b-toolIcon.gTT-act(style="background-position:center right" data-gTTLbl="Generate Link")
+		input#b-crnInput(placeholder="Enter CRNs with a comma inbetween e.g. 10973,10981,10921")
+		div.b-scheduleWrap
+			div.b-dayLabelWrap
+				each day,index in ['','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+					div(class="b-dayLabel date-"+index)=day
+			br
+			div.b-timeLabelWrap
+				each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
+					div(class="b-timeLabel" style="top:"+((index*40)-1)+'px')=time
+			div#b-timeBlockWrap.b-timeBlockWrap
+		div#courseDescription
+		
+		div(style="display:none")
+			div#instantLoader.r-loading
+			div.r-instantContainer#instantTemplate(onclick="CORE.coursePop.show(this)")
+				div.r-instantCourse
+				div.r-instantName
+				div.r-instant-infoWrap
+					div.r-instant-description.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+		
+		script(src="/js/build/CORE.js")
+		script(src="/js/build/term.js")
+		script(src="/js/build/searcher.js")
+		script(src="/js/build/coursepop.js")
+		script(src="/js/build/builder.js")

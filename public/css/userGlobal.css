@@ -20,27 +20,32 @@
 }
 
     .u-signInput{
-        padding:10px;
+        padding:12px;
         font-family:Open Sans;
         font-size:12px;
         outline:none;
         border-radius:3px;
         border:1px solid #ccc;
         font-weight:100;
-        margin:5px;
-        width:100%;
+        margin:7px 3% 7px 3%;
+        width:94%;
         box-sizing:border-box;
+        
     }
         #u-signSubmit{
-            color:#FFF;
-            background-color:#3498db;
+            background-color:#FFF;
+            border:1px solid #3498db;
+            color:#3498db;
             cursor:pointer;
             padding:10px;
             width:80%;
             margin-left: 10%;
+						transition: background-color .25s;
         }
             #u-signSubmit:hover{
-                border-color:transparent;
+							background-color:#3498db;
+							color:#FFF;
+							transition: background-color .25s;
             }
             #u-signSubmit:active{
                 box-shadow: 0px 0px 10px #777 inset;
@@ -52,6 +57,7 @@
                 font-family:Open sans;
                 font-weight:300;
                 font-size:12px;
+                margin-right:5%;
             }
     .u-largeLogoContainer{
         height:100px;
@@ -59,9 +65,10 @@
     }
         span.u-largeLogoText{
             font-family:Raleway;
-            font-size:40px;
+            font-size:30px;
             float:right;
-            font-weight:100;
+            font-weight:300;
+            color:#444;
         }
         img.u-largeLogoImage{
             height:40px;
@@ -69,15 +76,16 @@
         }
 
     #notificationContainer{
-        font-family:Open Sans;
-        font-size:12px;
-        width:100%;
-        padding:10px;
-        box-sizing: border-box;
-        margin:0 5px 20px 5px ;
-        color:#FFF;
-        background-color:#1abc9c;
-        display: none;
+			font-family:Open Sans;
+			font-size:12px;
+			width:100%;
+			padding:10px;
+			box-sizing: border-box;
+			margin-top:0px;
+			color:#FFF;
+			background-color:#1ABEEE;
+			display: none;
+			margin-bottom:10px;
     }
 
 

@@ -8,14 +8,7 @@ var sesClient   =   ses.createClient({
     secret:'wDr9oC7aROM5gVftYaRJiXpw9MZ3vFnvlkBvA7nr',
     amazon:'https://email.us-west-2.amazonaws.com'
 });
-
-var connection = mysql.createConnection({
-  host     : 'schedule.cpfi2ocm03x0.us-west-2.rds.amazonaws.com',
-  user     : 'joseph',
-  password : 'joseph123',
-  database : 'ufv'
-});
-connection.connect();
+var DB	=	require('../../bin/db.js');
 
 router.get('/continue',function(req,res,next){
 
@@ -29,7 +22,7 @@ router.post('/', function(req,res,next){
         res.send(['INVALID_STUDENT']);
         return;
     }
-    connection.query('SELECT id FROM user WHERE studentNumber=?',[student],function(e,r,v){
+    DB.query('SELECT id FROM user WHERE studentNumber=?',[student],function(e,r,v){
         if(r.length>0){
             ConfirmMod.send(student,function(){
                 res.send(['SUCCESS']);
@@ -50,7 +43,7 @@ var ConfirmMod  =   {
         });
         
         
-        connection.query('UPDATE user SET uniqString=?,uniqExpire=? WHERE studentNumber=?',[uniqString,Date.now()+172800000,s],function(e,r,v){
+        DB.query('UPDATE user SET uniqString=?,uniqExpire=? WHERE studentNumber=?',[uniqString,Date.now()+172800000,s],function(e,r,v){
             if(e)
                 throw e;
             EmailMod.send(uniqString,s,cb);

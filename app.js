@@ -9,14 +9,22 @@ var crypto  =   require('crypto');
 var MemcachedStore = require('connect-memcached')(session);
 var nodalytics = require('nodalytics')
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var search = require('./routes/search');
+var routes	= require('./routes/index');
+
+var search	= require('./routes/schedule/search');
+var manager		= require('./routes/schedule/manage');
+var build		= require('./routes/schedule/build');
+
+var users		= require('./routes/users');
+var grab		= require('./routes/grab');
+var profile		= require('./routes/profile');
+var books		=	require('./routes/books/books');
 
 var signupAuth = require('./routes/auth/signup');
 var loginAuth = require('./routes/auth/login');
 var continueAuth = require('./routes/auth/continue');
 var forgotAuth = require('./routes/auth/forgot');
+var DB = require('./bin/db.js');
 
 var app = express();
 
@@ -69,8 +77,13 @@ app.use('/forgotAuth', forgotAuth);
 app.use('/signupAuth', signupAuth);
 app.use('/loginAuth', loginAuth);
 app.use('/continue', continueAuth);
+app.use('/g', grab);
 app.use('/s', search);
+app.use('/m', manager);
+app.use('/build', build);
 app.use('/u', users);
+app.use('/p', profile);
+app.use('/books',books);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
