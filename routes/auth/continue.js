@@ -12,10 +12,10 @@ router.get('/', function(req,res,next){
         //res.redirect('/');
         return;
     }
-    DB.query('SELECT id FROM user WHERE uniqString=?',[req.query.code],function(e,r,v){
+    DB.query('SELECT id FROM user.user WHERE uniqString=?',[req.query.code],function(e,r,v){
         if(e) throw e;
         if(r.length>0){
-            DB.query('UPDATE userlogin SET active=1 WHERE userId=?',[r[0].id],function(e,r,v){
+            DB.query('UPDATE user.userlogin SET active=1 WHERE userId=?',[r[0].id],function(e,r,v){
         if(e) throw e;
             });
         }else{

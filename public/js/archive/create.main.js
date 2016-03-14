@@ -63,8 +63,8 @@ CORE.main.sort	=	(function(CORE){
 
 
 CORE.main.input	=	(function(CORE){
-	var input =	document.getElementById('instantInput');
-	var instantContainer	=	document.getElementById('instantDrop');
+	var input =	document.getElementById('courseInput');
+	var instantContainer	=	document.getElementById('instantDropDown');
 	input.addEventListener('keyup',function(e){
 
 		//when someone types into the input ajax and get all the possible course codes
@@ -90,9 +90,9 @@ CORE.main.input	=	(function(CORE){
 				a.every(function(v,i,a){
 					if(i>=5)
 						return false;
-					var instant	=	make('div',{style:'font-family:Raleway;font-size:11px;font-weight:600;padding:7px;'});
-					instant.appendChild(make('div',{style:'width:100px;text-align:right;font-weight:400;font-size:10px;color:#999;float:right;',html:v.code}));
-					instant.appendChild(make('div',{html:v.name}));
+					var instant	=	make('div',{class:'instant-resultContainer'});
+					instant.appendChild(make('strong',{class:'instant-resultCourseName',html:v.name}));
+					instant.appendChild(make('span',{class:'instant-resultCourseCode',html:v.code}));
 					instantContainer.appendChild(instant);
 					instant.addEventListener('click',function(){
 						CORE.main.chosen.add(v.code);
@@ -111,7 +111,7 @@ CORE.main.input	=	(function(CORE){
 	return {
 		flush:function(){
 			//Remove all the courses in the dropdown and hide the dropdown
-			var instantContainer	=	document.getElementById('instantDrop');
+			var instantContainer	=	document.getElementById('instantDropDown');
 			Velocity(instantContainer,'slideUp',50);
 		}
 	};
@@ -141,7 +141,7 @@ CORE.main.chosen	=	(function(CORE){
 				var name	=	make('div',{class:'courseChoice',html:a});
 					var kill	=	make('div',{class:'courseKill'});
 			CORE.helper.element.changeStyle(name,{
-				backgroundColor:randomColor({luminosity:"bright",format:"hex",seed:parseInt(a,36)}),
+				backgroundColor:randomColor({luminosity:"bright",format:"hex",seed:parseInt(a,36)%100000}),
 			})
 			kill.addEventListener('click',function(){
 				CORE.main.chosen.killButton(a);
@@ -163,6 +163,22 @@ CORE.main.chosen	=	(function(CORE){
 			return list.join('|');
 		}
 	};
+})(CORE);
+	
+
+CORE.main.init	=	(function(CORE){
+	var button	=	document.getElementById('scheduleCreate')
+	button.addEventListener('click',function(){	
+		localStorage['courseCache']	=	CORE.main.chosen.genQuery();
+		document.location	=	"/s/show?c="+CORE.main.chosen.genQuery();
+	});
+	
+	if(!(localStorage.courseCache==undefined||localStorage.courseCache.split('|')[0]=="")){
+		localStorage.courseCache.split('|').map(function(course){
+			CORE.main.chosen.add(course);
+		});
+	}
+		
 })(CORE);
 
 

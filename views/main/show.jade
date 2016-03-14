@@ -1,8 +1,10 @@
 extends ../MainTemplate
 
 block headContent
+	link(href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"	)
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js")
 	script.
-		var RAW_COURSE_DATA = !{JSON.stringify(courseData)}
+		var RAW_COURSE_DATA = !{JSON.stringify(data)}
 	link(rel="stylesheet",href="/css/show.main.css")
 	title="Possible Schedules"
 block bodyContent
@@ -12,27 +14,26 @@ block bodyContent
 	//Controls for filtering
 	div#c-controlBlock(style="z-index:10;display:table;")
 		// Control Course Filter
-		div(id="upperControls" style="margin-top:20px;")
-			div(id="sort-dropDownContainer")
-				div(id="sort-dropDownButton" class="sort-dropDown-active") Sort By 
+		div#upperControls(style="margin-top:20px;")
+			div#sort-dropDownContainer
+				div#sort-dropDownButton.sort-dropDown-active Sort By 
 					label(style="font-weight:100") | 
-					label(id="sort-dropDownLabel" style="font-weight:300;") Starting Time
-				div(id="sort-dropDownList")
-					div(class="sort-dropDownItem material" data-sortType="availability" data-value="Availability") Availability
-					div(class="sort-dropDownItem material" data-sortType="teacherRating" data-value="Teacher Rating") Teacher Rating
-					div(class="sort-dropDownItem sort-dropDownItem-active material" data-sortType="time" data-value="Starting Time") Starting Time
-			div(id="timeSort-wrap")
-				div(id="timeSort-upper")
-				div(id="timeSort-lower")
-					div(class="timeSort-ball gTT-act" data-gTTLbl="Mornings")
-						div(class="timeSort-ball-inner")
-					div(class="timeSort-connector")
-					div(class="timeSort-ball gTT-act"  id="timeSort-ball-active" data-gTTLbl="Noon")
-						div(class="timeSort-ball-inner")
-					div(class="timeSort-connector")
-					div(class="timeSort-ball gTT-act" data-gTTLbl="Evenings")
-						div(class="timeSort-ball-inner")
-			div(id="advancedButton" style="padding:5px;border-radius:20px;margin-top:15px;background-color:#FFF;border:1px solid #DDD;color:#000;cursor:pointer;font-family:Open Sans;font-size:12px;font-weight:100;float:right;")
+					label#sort-dropDownLabel(style="font-weight:300;") Starting Time
+				div#sort-dropDownList
+					div.sort-dropDownItem.material(data-sortType="teacherRating" data-value="Teacher Rating") Teacher Rating
+					div.sort-dropDownItem.sort-dropDownItem-active.material(data-sortType="time" data-value="Starting Time") Starting Time
+			div#timeSort-wrap
+				div#timeSort-upper
+				div#timeSort-lower
+					div.timeSort-ball.gTT-act(data-gTTLbl="Mornings" data-sortType="mornings")
+						div.timeSort-ball-inner
+					div.timeSort-connector
+					div.timeSort-ball.gTT-act#timeSort-ball-active(data-gTTLbl="Noon" data-sortType="noon")
+						div.timeSort-ball-inner
+					div.timeSort-connector
+					div.timeSort-ball.gTT-act(data-gTTLbl="Evenings" data-sortType="evenings")
+						div.timeSort-ball-inner
+			div#advancedButton
 				div(style="margin-right:0px;background:url(/images/downArrow.png) #FFF center center no-repeat;background-size:50%;height:20px;width:20px;border-radius:20px;float:right;") 
 				span(style="font-weight:400;float:left;margin-right:20px;margin-top:1px;margin-left:10px;") Advanced
 		br
@@ -58,154 +59,57 @@ block bodyContent
 						div(class="sliderCircle" style="top:77px;left:0px;" data-loc="84")
 			table(id="campusList" style="float:right;margin-top:25px;margin-right:20px;")
 				tr.no_s
-					td(class="campusFilter-box") Abby
-					td(class="campusFilter-box") Chilliwack
-					td(class="campusFilter-box") Hope
-					td(class="campusFilter-box") Clearbrook
-					td(class="campusFilter-box") Mission
-					td(class="campusFilter-box") Online
+					td.campusFilter-box Abby
+					td.campusFilter-box Chilliwack
+					td.campusFilter-box Hope
+					td.campusFilter-box Clearbrook
+					td.campusFilter-box Mission
+					td.campusFilter-box Online
 				tr
-					td(class="campusFilter-box")
-						input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
-					td(class="campusFilter-box")
-						input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
-					td(class="campusFilter-box") 
-						input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
-					td(class="campusFilter-box")
-						input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
-					td(class="campusFilter-box")
-						input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
-					td(class="campusFilter-box") 
-						input(type="checkbox" class="customCheck customCheckbox-checked" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
-		
-		script.
-			(function(){
-			var times   =   ['8:00 am','8:30 am','9:00 am','9:30 am','10:00 am','10:30 am','11:00 am','11:30 am','12:00 am','12:30 am','1:00 pm','1:30 pm','2:00 pm','2:30 pm','3:00 pm','3:30 pm','4:00 pm','4:30 pm','5:00 pm','5:30 pm','6:00 pm','6:30 pm','7:00 pm','7:30 pm','8:00 pm','8:30 pm','9:00 pm','9:30 pm','10:00 pm'];
-			Node.prototype.listen	=	function(listeners){
-				for(var types in listeners){
-					this.addEventListener(types,listeners[types]);
-				}
-			}
-			TOOLTIP	=	{
-				circleClass:'sliderCircle',
-				clicked:false,
-				listeners:{},
-			}
-			
-			TOOLTIP.listeners	=	{
-				mouseover:function(e){toolTip.style.display	=	'block'},
-				mouseout:function(e){toolTip.style.display	=	'none'},
-				mousemove:function(e){
-					toolTip.style.top=e.target.offsetTop+30+'px';
-					toolTip.style.left=e.target.parentNode.offsetLeft+20+'px';
-					document.getElementById('toolTip-time').innerHTML   =   times[parseInt(e.target.getAttribute('data-loc'))/3];
-					
-					if(TOOLTIP.clicked){
-						var newTop  =   ((e.clientY - e.target.parentNode.getBoundingClientRect().top-e.target.getBoundingClientRect().height/2));
-						if(newTop<-7)
-							newTop   =   -7;
-						else if(newTop>77)
-							newTop   =   77;
-						e.target.style.top   =   newTop+'px';
-						e.target.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
-					}
-				},
-				mousedown:function(e){
-					e.target.style.zIndex="1000";
-					TOOLTIP.clicked =   1;
-				},
-				touchmove:function(e){
-					toolTip.style.top=e.target.offsetTop+30+'px';
-					toolTip.style.left=e.target.parentNode.offsetLeft+20+'px';
-					e.preventDefault();
-				},
-				touchmove:function(e){
-					var touch = e.targetTouches[0];
-					var newTop  =   ((touch.pageY - e.target.parentNode.getBoundingClientRect().top-e.target.getBoundingClientRect().height/2));
-					if(newTop<-7)
-						newTop   =   -7;
-					else if(newTop>77)
-						newTop   =   77;
-					e.target.style.top   =   newTop+'px';
-					e.target.setAttribute('data-loc',Math.ceil(newTop/3)*3+6)
-					e.preventDefault();
-				},
-				mouseup:function(e){
-					e.target.style.zIndex="0";
-					if(TOOLTIP.clicked){
-						//Do all the filtering and sorting here.
-					}
-					TOOLTIP.clicked =   0;
-				},
-				touchStart:function(e){toolTip.style.display	=	'block';},
-				touchEnd:function(e){toolTip.style.display   =   'none';}
-			};
-			
-			
-			[].forEach.call(document.getElementsByClassName(TOOLTIP.circleClass),function(a){
-				a.listen(TOOLTIP.listeners);
-				
-			function getValues(){
-			var json    =   {
-			days:[],
-			times:{}
-			};
-
-			for(var day in CORE.view.daySlider.elements){
-			var start   =   parseInt(CORE.view.daySlider.elements[day][0].getAttribute('data-loc'));
-			var end     =   parseInt(CORE.view.daySlider.elements[day][1].getAttribute('data-loc'));
-			if(start==end){
-			json.days.push(['mon','tue','wed','thu','fri','sat'].indexOf(day));
-			}
-
-			if(start<end)
-			json.times[['mon','tue','wed','thu','fri','sat'].indexOf(day)]  =   {start:start*10+480,end:end*10+480};
-			else
-			json.times[['mon','tue','wed','thu','fri','sat'].indexOf(day)]  =   {end:start*10+480,start:end*10+480};                                
-			}
-			return json;
-			}
-				
-			});
-		
-			})();
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="ABBY" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="CHIL" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box 
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="HOPE" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="MIS" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="CLEAR" data-keep="class data-uniqID checked" checked="true")
+					td.campusFilter-box 
+						input.customCheck.customCheckbox-checked(type="checkbox" data-uniqID="ONL" data-keep="class data-uniqID checked" checked="true")
 		
 		//--Templates--
 		div#main-scheduleContainer
-		div(class="possibleContainer" style="float:right;margin-top:20px;" id="scheduleWrapTemplate" )
-			//This below is the template for ratings
-			div(class="r-ratingWrap")
-				div(class="r-averageRatingTitle") Average Rating:
-				ul(class="r-ratingContainer")
-					button(data-crn="11257" class="s-useMeButton s-modifyIcon" title="Modify This Schedule") Modify
-					button(data-crn="11257" class="s-useMeButton s-saveIcon" onclick="CORE.views.save(this)" title="Save This Schedule") Save
-			div(class="s-scheduleWrap" data-crn="")
-				div(class="s-dayLabelWrap")
-					each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-						div(class="s-dayLabel")=day
-				br
-				div(class="s-timeLabelWrap")
-					each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
-						div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
-				div(class="s-timeBlockWrap")
-				
+		div#templateContainer(style="display:none")
+			div(class="possibleContainer" style="float:right;margin-top:20px;" id="scheduleWrapTemplate" )
+				//This below is the template for ratings
+				div(class="r-ratingWrap")
+					div(class="r-averageRatingTitle") Average Rating:
+					ul(class="r-ratingContainer")
+						button(data-crn="11257" class="s-useMeButton s-modifyIcon" title="Modify This Schedule") Class Numbers
+						button(data-crn="11257" class="s-useMeButton s-saveIcon" onclick="CORE.save.send(this)" title="Save This Schedule") Save
+				div(class="s-scheduleWrap" data-crn="")
+					div(class="s-dayLabelWrap")
+						each day in [' ','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+							div(class="s-dayLabel")=day
+					br
+					div(class="s-timeLabelWrap")
+						each time, index in ['8:00 am','9:00 am','10:00 am','11:00 am','12:00 am','1:00 pm','2:00 pm','3:00 pm','4:00 pm','5:00 pm','6:00 pm','7:00 pm','8:00 pm','9:00 pm']
+							div(class="s-timeLabel" style="top:"+((index*30)-1)+'px')=time
+					div(class="s-timeBlockWrap")
+
+			li(id="ratingWrapTemplate" class="r-rating")
+				label(class="r-ratingCourse")
+					label(class="r-rating-availSeats" data-availUniq="")
+					lable(class="r-rating-course")
+		
 		script(src='/js/show/CORE.js')
+		script(src='/js/show/profs.js')
 		script(src='/js/show/search.js')
 		script(src='/js/show/sort.js')
 		script(src='/js/show/view.js')
+		script(src='/js/show/save.js')
 		script(src='/js/show/main.js')
+		script(src='/js/show/term.js')
 		
-		//This is the template for the actual schedule
-		// div(style="height:80%;width:10px;border:1px solid rgba(0,0,0,0.1);margin-left:10px;margin-to:10px;border-radius:10px;")
-			
-	//Control Course Start Time
-		//Filter by Campus
-
-
-
-
-
-		//  Main part
-		div#yo
-		//Okay, if you're reading this HTML looking for hacks or something I suggest you look at the file below.
-		//Yea, I'm talking about ^ that file. It contains all the scripts for the page you see in front of you.

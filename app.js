@@ -18,6 +18,7 @@ var build		= require('./routes/schedule/build');
 var users		= require('./routes/users');
 var grab		= require('./routes/grab');
 var profile		= require('./routes/profile');
+var books		=	require('./routes/books/books');
 
 var signupAuth = require('./routes/auth/signup');
 var loginAuth = require('./routes/auth/login');
@@ -82,6 +83,7 @@ app.use('/m', manager);
 app.use('/build', build);
 app.use('/u', users);
 app.use('/p', profile);
+app.use('/books',books);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

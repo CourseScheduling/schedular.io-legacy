@@ -7,11 +7,11 @@ block bodyContent
 	section#mainContent
 		#termContainer
 			div(style="float:left;background:#FFF;")
-				.seasonIcon.material(data-termId="15" data-gTTLbl="winter 2016 (available)" class="gTT-act")
+				.seasonIcon.material(data-termId="0" data-gTTLbl="(coming soon)" class="gTT-act")
 					img(src="/images/snowflake.png" width="30px")
-				.seasonIcon.material(data-termId="2" data-gTTLbl="summer 2016 (coming soon)" class="gTT-act")
+				.seasonIcon.material(data-termId="1" data-gTTLbl="(coming soon)" class="gTT-act")
 					img(src="/images/sun.png" width="30px")
-				.seasonIcon.material(data-termId="13" data-gTTLbl="fall 2016 (coming later)" class="gTT-act")
+				.seasonIcon.material(data-termId="2" data-gTTLbl="(coming soon)" class="gTT-act")
 					img(src="/images/leafIcon.png" width="30px")
 		#centerContainer
 			p#mainTitle Your Courses
@@ -23,6 +23,11 @@ block bodyContent
 			ul#courseChoiceContainer(style="margin-left:100px;width:550px;padding-right:50px;float:left;")
 			br
 			div(style="width:100%;text-align:center")
-				button#scheduleCreate(type="submit") Create Schedule
-			//button#scheduleCreate(type="submit" style="margin-left:20px;background:#2ecc71") Show Reviews
-		script(src="/js/create.main.js")
+				button.createButton#scheduleCreate(type="submit") Create Schedule
+				button.createButton#booksGrab(type="submit") Find TextBooks (βeta)	
+				
+		script(src="/js/create/CORE.js")
+		script(src="/js/create/term.js")
+		script(src="/js/create/drop.js")
+		script(src="/js/create/block.js")
+		script(src="/js/create/main.js")

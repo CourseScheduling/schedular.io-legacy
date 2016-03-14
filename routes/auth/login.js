@@ -55,7 +55,7 @@ var Login    =   (function(){
                 switch(result[0].active){
                     case -1:
                     case 0:
-                        cb&&cb(false,'ACTIVATION_NEEDED |'+username);
+                        cb&&cb(false,'ACTIVATION_NEEDED');
                     break;
                     case 1:
                         result[0].username = username;

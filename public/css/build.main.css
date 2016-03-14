@@ -10,12 +10,15 @@
     top:70px;
 }
     #crnBar{
-        font-family:Open Sans;
-        font-weight:100;
-        text-align:left;
-        font-size:13px;
-        list-style-type:none;
-        float:left;
+			font-family:Open Sans;
+			font-weight:100;
+			text-align:left;
+			font-size:13px;
+			list-style-type:none;
+			float:left;
+			margin-top:-20px;
+			float:left;
+			padding-left:0;
     }
         #b-crnAddButton{
             border:1px solid #999;
@@ -42,6 +45,30 @@
     float:left;
     padding:10px;
 }
+
+#b-builderWrap{
+	float:right;
+	margin-left:-200px;
+	position:absolute;
+	top:140px;
+	left:50%;
+	width:704px;
+}
+		#b-scheduleTitle{
+			font-family:Open Sans;
+			font-size:23px;
+			text-align:center;
+			font-weight:400;
+			color:#999;
+			margin-top:0;
+		}
+		#b-toolWrap{
+			float:right;
+			width:200px;
+			margin-top:-60px;
+			text-align:right;
+			padding-right:20px;
+		}
     #b-crnInput{
         margin-top:10px;
         font-family:Open Sans;
@@ -61,7 +88,7 @@
 			box-shadow: 0px 0px 3px #DDD;
         display:inline-block;
         margin-top:10px;
-        float:right;
+        float:left;
     }
         .b-dayLabelWrap{
             display:inline-block;
@@ -78,6 +105,7 @@
                 font-size:12px;
                 width:85px;
                 text-align:center;
+							border-left: 1px solid transparent;
             }
         .b-timeBlockWrap{
             height:560px;
@@ -141,8 +169,10 @@
 
 
 
-
-
+.b-instantCourseWrap:hover{
+	background:#22A7F0;
+	cursor: pointer;
+}
 
 
 
@@ -168,3 +198,94 @@
     margin-left:15px;
     cursor: pointer;
 }
+
+
+
+/* Styling for the instant box thingy, also includes course POP */
+
+#instantInput{
+	width:200px;
+	color:#222;
+	background:#EEE;
+	border:0;
+	padding:7px;
+	outline:0;
+	font-family:Open Sans;
+	font-size:11px;
+	margin-top:10px;
+}
+
+#instantButton{
+	height:29px;
+	width:29px;
+	border:0;
+	padding:0;
+	float:left;
+	margin-top:10px;
+	background:url(/images/magnifyingGlass.png) #EEE center center no-repeat;
+	background-size:60%;
+	outline:0;
+}
+
+#instantDrop{
+	width:242px;
+	border-radius:3px;
+	margin-left:1px;
+	overflow: hidden;
+	float:left;
+}
+
+	.r-instantContainer{
+		width:100%;
+		margin-top:5px;
+		padding:5px;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+	.r-instantContainer:hover{
+		background-color:#E4F1FE;
+	}
+		.r-instantName{
+			font-size:12px;
+			font-family:Raleway;
+			font-weight:600;
+		}
+		.r-instantCourse{
+			font-size:11px;
+			font-weight:300;
+			color:#999;
+			font-family:Open Sans;
+		}
+			.r-loading{
+				width:100%;
+				height:60px;
+				display:none;
+				background:url(../images/balls.gif) center center no-repeat;
+			}
+			.r-instant-infoWrap{
+				display: none;
+				padding-top:10px;
+			}
+				.r-instant-description{
+					font-weight:300;
+					font-size:12px;
+					font-family:Open Sans;
+				}
+				.r-instant-uniqDescriptor{
+					font-family:Raleway;
+					font-size:12px;
+					font-weight:600;
+					margin-top:5px;
+					margin-bottom:5px;
+				}
+				.r-instant-uniqCover{
+					background:#34495e;
+					color:#FFF;
+					font-family:Open Sans;
+					display:inline-block;
+					font-weight:300;
+					margin-left:5px;
+					font-size:11px;
+					padding:4px;
+					margin-bottom: 5px;
+				}

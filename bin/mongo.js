@@ -1,4 +1,3 @@
-//var mongo	=	require('monk')('mongodb://jo:jo@ds033915.mongolab.com:33915/schedular');
-var mongo	=	require('monk')('localhost/schedular');
+var mongo	=	require('monk')('52.35.59.22:27017/schedular');
 
 module.exports = mongo;

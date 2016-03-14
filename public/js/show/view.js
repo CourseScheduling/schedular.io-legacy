@@ -85,6 +85,8 @@ CORE.view.sort	=	(function(CORE){
 			//Go through each button
 			[].forEach.call(document.getElementsByClassName('sort-dropDownItem'),function(el){
 					el.addEventListener('click',function(){
+						var _sortString;
+						var _ballValue	=	document.getElementById('timeSort-ball-active').getAttribute('data-sortType');
 						//Grab the currently active sort
 						var _currentActive	=	document.getElementsByClassName('sort-dropDownItem-active')[0];
 						//Make it unactive now
@@ -95,9 +97,34 @@ CORE.view.sort	=	(function(CORE){
 						_sortLabel.innerHTML	=	el.getAttribute('data-value');
 						//Hide the menu.
 						Velocity(_menu,'slideUp',100);
+						//Well, generate a dot notation sort string
+						if(el.getAttribute('data-sortType')=='time')
+							_sortString	=	[el.getAttribute('data-sortType'),_ballValue].join('.');
+						else
+							_sortString	=	el.getAttribute('data-sortType');
+						//Sort the schedule by the sortType
+						CORE.sort.go(_sortString);
 						//Regenerate the scheduls
 						CORE.render(-1);
 					});
+			});
+			
+			//Attach all the time balls
+			[].forEach.call(document.getElementsByClassName('timeSort-ball'),function(el){
+				el.addEventListener('click',function(){
+					console.log('click');
+					
+					var _activeBall	=	document.getElementById('timeSort-ball-active');
+					_activeBall.id='';
+					
+					//Get rid of the current active and make it this one
+					el.id	=	'timeSort-ball-active';
+					//Sort
+					CORE.sort.go('time.'+el.getAttribute('data-sortType'));
+					//Re-render
+					CORE.render(-1);
+					
+				});
 			});
 		}
 	}
@@ -134,6 +161,27 @@ CORE.view.filter	=	(function(CORE){
 })(CORE);
 
 
+
+/*
+*	CORE scroll	-> Just initializes infinite scrolling
+*/
+
+
+CORE.view.scroll	=	(function(CORE){
+	return {
+		init:function(){
+		
+			window.onscroll = function(ev) {
+				if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-100) {
+					CORE.render();
+				}
+			};
+		}
+	};
+})(CORE);
+
+
+
 /*
 *	CORE render	->	Renders the schedules for the students
 *
@@ -145,28 +193,68 @@ CORE.render	=	(function(CORE){
 	
 	var _schCounter	=	0;
 	var	_container	=	document.getElementById('main-scheduleContainer');
+	var	_gear				=	document.getElementById("main-loadingGear")
 	
 	var _gen	=	{
+		addTeacher:function(Schedule,Options){
+			//Adds the teacher data to the schedule
+			//Put it as  callback because the teachers may not have been loaded yet
+			CORE.profs.stitch(Schedule,Options,function(_Schedule,_Options,ProfMap){
+				
+				var _avgCon	=	Schedule.getElementsByClassName('r-averageRatingTitle')[0];
+				var _ratingWrap	=	Schedule.getElementsByClassName('r-ratingContainer')[0];
+				
+				var avgCount	=	0;
+				var avgSum		=	0;
+				_Options.forEach(function(_Section){
+					_Section.profs.forEach(function(name){
+						var _ratingCon	=	document.getElementById('ratingWrapTemplate').cloneNode(true);
+						_ratingCon.id='';
+						_ratingCon.getElementsByClassName('r-rating-course')[0].innerHTML=_Section.title+' '+_Section.section;
+						_ratingCon.getElementsByClassName('r-ratingCourse')[0].style.color	=	CORE.helper.color.bgColor(_Section.title);
+						_ratingCon.innerHTML+='&nbsp;&nbsp;&nbsp;&nbsp;'+name+'&nbsp;&nbsp;&nbsp;&nbsp;';
+						var	_prof	=	ProfMap[name];
+						if(_prof){
+							avgCount++;
+							avgSum+=_prof.rating;
+							_ratingCon.innerHTML+='<strong>'+_prof.rating+'</strong>'
+						}
+						_ratingWrap.insertBefore(_ratingCon,_ratingWrap.firstChild);
+					});
+				});
+				_avgCon.innerHTML+='<strong style="margin-left:10px;color:#000">'+(avgSum/avgCount).toFixed(2)+'<strong>';
+				
+			});
+			
+		},
 		gen:function(options){
 			var _this	=	this;
 			var Schedule	=	document.getElementById('scheduleWrapTemplate').cloneNode(true);
-			var _container	=	Schedule.getElementsByClassName('s-timeBlockWrap')[0];
 			
+			var _container	=	Schedule.getElementsByClassName('s-timeBlockWrap')[0];
+			var _uniqs	=	[];
 			//We don't want this showing
 			Schedule.id	='';
-			
-			console.log(options);
+			if(!options)
+				return
 			options.forEach(function(section){
 				section.times.forEach(function(timeBlock){
+					
 					var blocks	=	[];
 					blocks	=	_this.makeBlocks(timeBlock,section);
 					blocks.forEach(function(block){
-						console.log(_container);
-						_container.appendChild(block)});
+						_container.appendChild(block)
+					});
 					
 				});
+				_uniqs.push(section.uniq+section.type);
 			});	
 			
+			//Attach query codes
+			[].forEach.call(Schedule.getElementsByClassName('s-useMeButton'),function(button){
+				button.setAttribute('data-queryCode',_uniqs.sort().join('&'))
+			});
+			_this.addTeacher(Schedule,options);
 			return Schedule;
 		},
 		makeBlocks:function(time,section){
@@ -200,6 +288,19 @@ CORE.render	=	(function(CORE){
 		start	=	start||_schCounter;
 		num		=	num||10;
 		
+		//So if we restart , do it from 0
+		if(start==-1){
+			while(_container.children.length)
+				_container.removeChild(_container.children[0]);
+			start=0;
+		}
+		//make sure it's not too much
+		if((num+start)>CORE.schedules.current.length)
+			num=CORE.schedules.current.length-start;
+		
+		
+		//Tell the user what's going on
+		_gear.style.display	=	'block';
 		//If the counter is restarting, clear the innerHTML
 		if(start===-1){
 			//Remove all the children
@@ -216,6 +317,9 @@ CORE.render	=	(function(CORE){
 				_gen.gen(CORE.schedules.current[i])
 			);
 		}
+		_gear.style.display	=	'none';
+		//Render the saved
+		CORE.save.reRender();
 		
 		//Set the schedulecCounter to new starting place
 		_schCounter	=	start+num;

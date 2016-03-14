@@ -145,7 +145,25 @@ border-width: 1px 0 0;
         font-weight:400;
         padding-bottom:10px;
     }
-
+		.r-rating{
+			margin:0;
+			padding:0;
+			font-family:Open Sans;
+			font-weight:100;
+		}
+		.r-ratingCourse{
+			font-weight:400;
+			color:#FFF;
+			font-family:Open Sans;
+			font-size:10px;
+			padding:0px 5px; 0px 5px;
+		}
+		.r-rating-availSeats{
+			background:#FFF;
+			font-size:11px;
+			color:#000;
+			padding:0 3px 0 3px;
+		}
 .s-useMeButton{
     outline:0;
     cursor:pointer;
@@ -164,7 +182,7 @@ border-width: 1px 0 0;
         box-shadow:0px 0px 0px transparent;
     }
     .s-useMeButton:active{
-        box-shadow: 0px 0px 10px #999 inset;
+        box-shadow: 0px 0px 10px #000 inset;
     }
 
 .s-modifyIcon{
@@ -344,6 +362,9 @@ border-width: 1px 0 0;
 												.timeSort-ball:hover :nth-child(1){
 													display:none;
 												}
+												#timeSort-ball-active :nth-child(1){
+													display: none;
+												}
                     .timeSort-connector{
                         float:left;
                         width:50px;
@@ -465,6 +486,19 @@ border-width: 1px 0 0;
 					left:-5px;
 				}
 
+#advancedButton{
+	padding:5px;
+	border-radius:20px;
+	margin-top:15px;
+	background-color:#FFF;
+	border:1px solid #DDD;
+	color:#000;
+	cursor:pointer;
+	font-family:Open Sans;
+	font-size:12px;
+	font-weight:100;
+	float:right;
+}
 
 /* Template CSS */
 #scheduleWrapTemplate{

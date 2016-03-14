@@ -134,7 +134,7 @@ var Validate  =	(function(){
 			if(uniId==undefined||uniId.length==0)
 				return cb&&cb([false,'BAD_DOMAIN']);
 			//Okay, this is a valid thingy, 
-			var sql	=	"SELECT username FROM user.userLogin WHERE username=?"+
+			var sql	=	"SELECT username FROM user.userlogin WHERE username=?"+
 					"UNION"+
 					" SELECT emailUser FROM user.user WHERE universityId=? AND user.user.emailUser=?";
 			//The values needed are the username, uni Id, and emailId

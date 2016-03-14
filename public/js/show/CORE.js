@@ -7,6 +7,8 @@
 CORE	=	{
 	raw	:	RAW_COURSE_DATA,
 	crnMap	:	{},
+	sort	:	{},
+	profs	:	{},
 	schedules	:	{
 		all			:	[],
 		current	:	[]
@@ -41,7 +43,7 @@ CORE	=	{
 CORE.helper.color   =   (function(CORE){
 		return {
 			bgColor:function(seed){
-				return randomColor({luminosity:"bright",format:"hex",seed:parseInt(seed,36)%100000});           
+				return randomColor({luminosity:"bright",format:"hex",seed:parseInt(seed,36)});
 			}
 		};
 })(CORE);
@@ -120,20 +122,93 @@ CORE.helper.time	=	(function(CORE){
 *	Core Helper Array	:	Module used to help with array manipulation
 *	
 *		@method	hasFieldValue	->	searches an array of json objects for a field with a certain value
-															returns false if not found, or the json element if found
+*															returns false if not found, or the json element if found
 *			@param	{Array}	array		//	the array of JSON Objects
 *			@param	{String}	field	//	the name of the json field
 *			@param	{Mixed}	value		//	the value of the field
+*
+*		@method uniq	->	removes any duplicates in an array
+*
+*			@param	{Array}	array	//the array that needs uniqifying
+*
 */
 
 CORE.helper.array	=(function(CORE){
 	return {
 		hasFieldValue:function(array,field,value){
+			if(!array||!array.length)
+				return false;
 			for(var i = 0;i<array.length;i++){
 				if(array[i][field]==value)
 					return array[i];
 			}
 			return false;
+		},
+		uniq:function(array){
+		
+		 var u = {}, a = [];
+		 for(var i = 0, l = array.length; i < l; ++i){
+				if(u.hasOwnProperty(array[i])) {
+					 continue;
+				}
+				a.push(array[i]);
+				u[array[i]] = 1;
+		 }
+		 return a;
 		}
 	};
 })(CORE);
+
+
+
+
+/*
+*	Core Helper LocalStorage	:	Module used to help with localStorage TTL
+*
+*		@method	get	->	gets a non-expired value from key, returns false if expired or Non-existent
+*			@param	{String}	key	//	the key of the object
+*
+*		@method set	->	sets a value to a certain key as well as establishing a time to live
+*			@param	{String}	key	//	the key used to look this up
+*			@param	{Mixed}		value	//the value being stored
+*			@param	{Number}	ttl		//the time to live in ms
+*/
+CORE.helper.localStorage	=	(function(window) {
+  return {
+    set: function(key, value	,	ttl) {
+			//If no ttl is set, do it infinitely, i.e. 32 years
+			ttl	=	ttl||1E15
+			//Store the value into the localStorage
+      window.localStorage[key] = JSON.stringify(value);
+			//Append the max future expiry date so we don't have to check it again
+			
+			window.localStorage[key]	+= (Date.now()+ttl);
+			
+    },
+    get: function(key) {
+			
+			var _value	=	window.localStorage[key];
+
+			//incase the key is bad
+			if(!_value)
+				return 0;
+			
+			//grab the timestamp, the following code is only good for another 200ish years
+			var _expiryDate	=	parseInt(_value.substr(-13));
+			//This returns false if data expired
+			if(_expiryDate<=Date.now())
+				return !(delete window.localStorage[key]);
+			
+			//This is to get rid of the get and set object methods
+			try{
+				return JSON.parse(_value.slice(0,-13));
+			}catch(e){
+				//So this isn't json...
+				//Ahh, just pass it
+				return _value.slice(0,-13);
+			}
+			
+			
+    }
+  }
+})(window);

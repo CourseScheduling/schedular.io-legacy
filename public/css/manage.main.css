@@ -60,8 +60,7 @@
 				height: 21px;
 				width: 30px;
 				background-color:#FFF;
-				border-radius:20px;
-				border: 1px solid rgba(0,0,0,0.3);
+				border-radius:2px;
 				margin-left: 3px;
 			}
 				.box-chiclet:hover{
@@ -87,8 +86,11 @@
 
 /* Box template styling*/
 
-			.box-container{
-				height:230px;
+
+
+
+			.box-container{	
+				padding:5px;
 				width:370px;	
 				position:relative;
 				float: left;

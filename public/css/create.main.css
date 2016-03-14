@@ -17,10 +17,12 @@ body{
 				margin-left:100px;
 		}
 				#mainTitle{
-						font-size:50px;
+						font-size:40px;
 						font-family:Raleway;
-						font-weight:100;
+						font-weight:400;
 						text-align:center;
+					color:#999;
+					margin-bottom:70px;
 				}
 				#courseInput{
 						width:600px;
@@ -35,19 +37,26 @@ body{
 						font-size:13px;
 					z-index:100;
 				}
-				#scheduleCreate{
+				.createButton{
 						padding:5px;
 						border:3px solid rgba(255,255,255,0.1);
 						color:#FFF;
 						font-size:12px;
 						font-family:Open Sans;
 						width:150px;
-						background:#3498db;
-						margin-top:50px;
+						margin-top:10px;
 						font-weight:400;
 						border-radius:2px;
 						cursor:pointer;
 				}
+
+					#scheduleCreate{
+						background:#3498db;
+					}
+					#booksGrab {
+						margin-left:20px;
+						background:#2ecc71;
+					}
 				.clearfix:after {
 					 content: " "; /* Older browser do not support empty content */
 					 visibility: hidden;
@@ -133,15 +142,17 @@ body{
 	margin-left:-400px;
 }
 .seasonIcon{
-	height:42px;
+	height:41px;
 	width:42px;
 	padding:5px;
 	box-sizing:border-box;
 	float:left;
 	cursor:pointer;
 	margin-left:2px;
-	opacity:0.3;
+	opacity:0.12;
+	border:1px solid transparent;
 }
-	.activeTermIcon{
+	#termIcon-active{
 		opacity: 1;
 	}
+	.termIcon-available{}
